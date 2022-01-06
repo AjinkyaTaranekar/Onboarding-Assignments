@@ -5,6 +5,8 @@ import entity.Item;
 import enums.ItemType;
 import exception.CustomException;
 
+import java.util.ArrayList;
+import java.util.Locale;
 import java.util.Scanner;
 
 /**
@@ -25,19 +27,27 @@ public class ItemAdderImpl implements ItemAdder {
         }
 
         String addMoreToItems;
+        ArrayList<Item> items = new ArrayList<>();
         do {
             System.out.println("Insert Item Details:");
             try{
                 String input = scanner.next();
                 Item item = createItem(input);
-                System.out.printf("%s Item %s with price %.2f and quantity %.2f at tax %.2f => final price as %.2f\n", item.getType(), item.getName(), item.getPrice(), item.getQuantity(), item.getSalesTax(), item.getFinalPrice());
+                items.add(item);
             } catch (Exception exception){
                 System.out.println(exception.getMessage());
             } finally {
                 System.out.println("Do you want to enter details of any other item (y/n):");
-                addMoreToItems = scanner.next();
+                addMoreToItems = scanner.next().toLowerCase();
             }
         } while (addMoreToItems.equals("y"));
+
+        System.out.println("Here is the list of items:");
+        int itemCount = 0;
+        for (Item item : items){
+            itemCount += 1;
+            System.out.printf("%s Item %d %s with price %.2f and quantity %.2f at tax %.2f => final price as %.2f\n", item.getType(), itemCount, item.getName(), item.getPrice(), item.getQuantity(), item.getSalesTax(), item.getFinalPrice());
+        }
 
         scanner.close();
     }
@@ -80,7 +90,7 @@ public class ItemAdderImpl implements ItemAdder {
 
         ItemType itemType;
         try {
-            itemType = ItemType.valueOf(itemProperties[3]);
+            itemType = ItemType.valueOf(itemProperties[3].toUpperCase());
         } catch (Exception exception){
             throw new CustomException(ExceptionsConstants.INVALID_TYPE);
         }
