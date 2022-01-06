@@ -1,54 +1,57 @@
 package service.tax;
 
 import constants.ExceptionsConstants;
+import constants.ItemTaxConstants;
 import exception.CustomException;
 
 /**
- * Item Tax interface for different types of Item Type
+ * Item Tax interface for different types of Item Type.
  * **/
 public class ItemTaxImpl implements ItemTax {
-
-    static double taxPercentage = 12.5 / 100;
-    static double additionalTaxPercentage = 2.0 / 100;
-    static double importDutyTaxPercentage = 10.0 / 100;
-    static double surchargeTaxPercentageWhenExceedTwoHundred = 5.0 / 100;
-
-    @Override
-    // Calculation of tax for ItemType.RAW
-    public double rawItemTaxCalculation(Double itemPrice) throws CustomException {
-        checkItemPrice(itemPrice);
-        return taxPercentage * itemPrice;
+  public ItemTaxImpl() {}
+  
+  @Override
+  // Calculation of tax for ItemType.RAW
+  public double getTaxForRawItem(Double itemPrice) throws CustomException {
+    checkItemPrice(itemPrice);
+    return ItemTaxConstants.TAX_PERCENTAGE * itemPrice;
+  }
+  
+  @Override
+  // Calculation of tax for ItemType.MANUFACTURED
+  public double getTaxForManufacturedItem(Double itemPrice)
+      throws CustomException {
+    checkItemPrice(itemPrice);
+    final double initialItemTax = ItemTaxConstants.TAX_PERCENTAGE * itemPrice;
+    return initialItemTax + ItemTaxConstants.ADDITIONAL_TAX_PERCENTAGE
+      * (itemPrice + initialItemTax);
+  }
+  
+  @Override
+  // Calculation of tax for ItemType.IMPORTED
+  public double getTaxForImportedItem(Double itemPrice) throws CustomException {
+    checkItemPrice(itemPrice);
+    final double initialItemTax =
+        ItemTaxConstants.IMPORT_DUTY_TAX_PERCENTAGE * itemPrice;
+    final double finalCost = itemPrice + initialItemTax;
+    final double surcharge = calculateSurchargeBasedOnFinalCost(finalCost);
+    return initialItemTax + surcharge;
+  }
+  
+  private double calculateSurchargeBasedOnFinalCost(Double finalCost) {
+    double surcharge = ItemTaxConstants.SURCHARGE_BELOW_LOWER_LIMIT;
+    if (finalCost > ItemTaxConstants.UPPER_LIMIT) {
+      surcharge =
+        ItemTaxConstants.SURCHARGE_TAX_PERCENTAGE_WHEN_UPPER_LIMIT_REACHED * finalCost;
+    } else if (finalCost > ItemTaxConstants.LOWER_LIMIT) {
+      surcharge = ItemTaxConstants.SURCHARGE_BETWEEN_LOWER_AND_UPPER_LIMIT;
     }
-
-    @Override
-    // Calculation of tax for ItemType.MANUFACTURED
-    public double manufacturedItemTaxCalculation(Double itemPrice) throws CustomException {
-        checkItemPrice(itemPrice);
-        double initialItemTax = taxPercentage * itemPrice;
-        return initialItemTax + additionalTaxPercentage * (itemPrice + initialItemTax);
+    return surcharge;
+  }
+  
+  private void checkItemPrice(Double itemPrice) throws CustomException {
+    if (itemPrice < 0) {
+      throw new CustomException(ExceptionsConstants.INVALID_PRICE);
     }
-
-    @Override
-    // Calculation of tax for ItemType.IMPORTED
-    public double importedItemTaxCalculation(Double itemPrice) throws CustomException {
-        checkItemPrice(itemPrice);
-        double initialItemTax = importDutyTaxPercentage * itemPrice;
-        double finalCost = itemPrice + initialItemTax;
-        double surcharge = calculateSurchargeBasedOnFinalCost(finalCost);
-        return initialItemTax + surcharge;
-    }
-
-    private double calculateSurchargeBasedOnFinalCost(Double finalCost) {
-        if (finalCost > 200) {
-            return surchargeTaxPercentageWhenExceedTwoHundred * finalCost;
-        } else if ( finalCost > 100) {
-            return 10;
-        }
-        return 5;
-    }
-
-    private void checkItemPrice(Double itemPrice) throws CustomException {
-        if (itemPrice < 0)
-            throw new CustomException(ExceptionsConstants.INVALID_PRICE);
-    }
+  }
 }

@@ -1,10 +1,10 @@
 package enums;
 
 /**
- * Item Types
+ * Item Types.
  * **/
 public enum ItemType {
-    RAW,
-    MANUFACTURED,
-    IMPORTED
+  RAW,
+  MANUFACTURED,
+  IMPORTED
 }

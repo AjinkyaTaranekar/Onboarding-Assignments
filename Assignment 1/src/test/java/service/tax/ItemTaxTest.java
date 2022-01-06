@@ -12,60 +12,61 @@ import static org.junit.jupiter.api.Assertions.assertTrue;
  * Item Tax Tester to test business logic
  * **/
 public class ItemTaxTest {
+  public ItemTaxTest() {}
+  
+  @Test
+  public void checkTaxForRawItemWhenItemPriceIsNegative() {
+    final Exception exception = assertThrows(CustomException.class, () -> new ItemTaxImpl().getTaxForRawItem(-12d));
     
-    @Test
-    public void rawItemTaxCalculationWhenItemPriceIsNegative() {
-        Exception exception = assertThrows(CustomException.class, () -> new ItemTaxImpl().rawItemTaxCalculation(-12d));
-
-        String expectedMessage = ExceptionsConstants.INVALID_PRICE;
-        String actualMessage = exception.getMessage();
-
-        assertTrue(actualMessage.contains(expectedMessage));
-    }
-
+    final String expectedMessage = ExceptionsConstants.INVALID_PRICE;
+    final String actualMessage = exception.getMessage();
     
-    @Test
-    public void rawItemTaxCalculationWhenItemPriceIsPositive() throws CustomException {
-        double actualRawItemTax = new ItemTaxImpl().rawItemTaxCalculation(12d);
-        double expectedRawItemTax = 1.5;
-        Assertions.assertEquals(actualRawItemTax, expectedRawItemTax);
-    }
-
+    assertTrue(actualMessage.contains(expectedMessage));
+  }
+  
+  
+  @Test
+  public void checkTaxForRawItemWhenItemPriceIsPositive() throws CustomException {
+    double actualRawItemTax = new ItemTaxImpl().getTaxForRawItem(12d);
+    double expectedRawItemTax = 1.5;
+    Assertions.assertEquals(actualRawItemTax, expectedRawItemTax);
+  }
+  
+  
+  @Test
+  public void checkTaxForManufacturedItemWhenItemPriceIsNegative() {
+    final Exception exception = assertThrows(CustomException.class, () -> new ItemTaxImpl().getTaxForManufacturedItem(-12d));
     
-    @Test
-    public void manufacturedItemTaxCalculationWhenItemPriceIsNegative() {
-        Exception exception = assertThrows(CustomException.class, () -> new ItemTaxImpl().manufacturedItemTaxCalculation(-12d));
-
-        String expectedMessage = ExceptionsConstants.INVALID_PRICE;
-        String actualMessage = exception.getMessage();
-
-        assertTrue(actualMessage.contains(expectedMessage));
-    }
-
+    final String expectedMessage = ExceptionsConstants.INVALID_PRICE;
+    final String actualMessage = exception.getMessage();
     
-    @Test
-    public void manufacturedItemTaxCalculationWhenItemPriceIsPositive() throws CustomException {
-        double actualManufacturedItemTax = new ItemTaxImpl().manufacturedItemTaxCalculation(12d);
-        double expectedManufacturedItemTax = 1.77;
-        Assertions.assertEquals(actualManufacturedItemTax, expectedManufacturedItemTax);
-    }
-
+    assertTrue(actualMessage.contains(expectedMessage));
+  }
+  
+  
+  @Test
+  public void checkTaxForManufacturedItemWhenItemPriceIsPositive() throws CustomException {
+    double actualManufacturedItemTax = new ItemTaxImpl().getTaxForManufacturedItem(12d);
+    double expectedManufacturedItemTax = 1.77;
+    Assertions.assertEquals(actualManufacturedItemTax, expectedManufacturedItemTax);
+  }
+  
+  
+  @Test
+  public void checkTaxForImportedItemWhenItemPriceIsNegative() {
+    final Exception exception = assertThrows(CustomException.class, () -> new ItemTaxImpl().getTaxForImportedItem(-12d));
     
-    @Test
-    public void importedItemTaxCalculationWhenItemPriceIsNegative() {
-        Exception exception = assertThrows(CustomException.class, () -> new ItemTaxImpl().importedItemTaxCalculation(-12d));
-
-        String expectedMessage = ExceptionsConstants.INVALID_PRICE;
-        String actualMessage = exception.getMessage();
-
-        assertTrue(actualMessage.contains(expectedMessage));
-    }
-
+    final String expectedMessage = ExceptionsConstants.INVALID_PRICE;
+    final String actualMessage = exception.getMessage();
     
-    @Test
-    public void importedItemTaxCalculationWhenItemPriceIsPositive() throws CustomException {
-        double actualImportedItemTax = new ItemTaxImpl().importedItemTaxCalculation(12d);
-        double expectedImportedItemTax = 6.2;
-        Assertions.assertEquals(actualImportedItemTax, expectedImportedItemTax);
-    }
+    assertTrue(actualMessage.contains(expectedMessage));
+  }
+  
+  
+  @Test
+  public void checkTaxForImportedItemWhenItemPriceIsPositive() throws CustomException {
+    double actualImportedItemTax = new ItemTaxImpl().getTaxForImportedItem(12d);
+    double expectedImportedItemTax = 6.2;
+    Assertions.assertEquals(actualImportedItemTax, expectedImportedItemTax);
+  }
 }

@@ -1,12 +1,11 @@
 package exception;
 
 /**
- * Custom Exception
+ * Custom Exception.
  * **/
-public class CustomException extends Exception{
-    public CustomException (String str)
-    {
-        // calling the constructor of parent Exception
-        super(str);
-    }
+public class CustomException extends Exception {
+  public CustomException(final String str) {
+    // calling the constructor of parent Exception
+    super(str);
+  }
 }
