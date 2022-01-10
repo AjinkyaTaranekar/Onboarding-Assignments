@@ -5,6 +5,11 @@ import static org.junit.jupiter.api.Assertions.assertTrue;
 
 import com.nuclei.assignment.constants.ExceptionsConstantsUtils;
 import com.nuclei.assignment.constants.SuccessConstantsUtils;
+import com.nuclei.assignment.entity.UserEntity;
+import com.nuclei.assignment.enums.Courses;
+import com.nuclei.assignment.enums.SortingOrder;
+import com.nuclei.assignment.service.useroperations.UserOperations;
+import com.nuclei.assignment.service.useroperations.UserOperationsImpl;
 import java.io.ByteArrayInputStream;
 import java.io.ByteArrayOutputStream;
 import java.io.InputStream;
@@ -12,12 +17,6 @@ import java.io.PrintStream;
 import java.util.Arrays;
 import java.util.HashSet;
 import java.util.List;
-
-import com.nuclei.assignment.entity.UserEntity;
-import com.nuclei.assignment.enums.Courses;
-import com.nuclei.assignment.enums.SortingOrder;
-import com.nuclei.assignment.service.useroperations.UserOperations;
-import com.nuclei.assignment.service.useroperations.UserOperationsImpl;
 import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
@@ -118,14 +117,14 @@ public class ApplicationTest {
   public void addingTwoUsersWithDifferentNameCheckIfTheyAreSorted() {
     UserOperations userOperations = new UserOperationsImpl();
     userOperations.addUser(
-      new UserEntity("Ajinkya", 21, "85, Sch 114",
-        1, new HashSet<>(Arrays.asList(Courses.A, Courses.B, Courses.C,
-        Courses.D)))
+        new UserEntity("Ajinkya", 21, "85, Sch 114",
+          1, new HashSet<>(Arrays.asList(Courses.A, Courses.B, Courses.C,
+          Courses.D)))
     );
     userOperations.addUser(
-      new UserEntity("Aditya", 15, "84, Sch 114",
-        2, new HashSet<>(Arrays.asList(Courses.A, Courses.D, Courses.C,
-        Courses.E)))
+        new UserEntity("Aditya", 15, "84, Sch 114",
+          2, new HashSet<>(Arrays.asList(Courses.A, Courses.D, Courses.C,
+          Courses.E)))
     );
     List<UserEntity> users = userOperations.getUsers();
     
@@ -140,14 +139,14 @@ public class ApplicationTest {
   public void addingTwoUsersWithSameNameCheckIfTheyAreSorted() {
     UserOperations userOperations = new UserOperationsImpl();
     userOperations.addUser(
-      new UserEntity("Ajinkya", 21, "85, Sch 114",
-        1, new HashSet<>(Arrays.asList(Courses.A, Courses.B, Courses.C,
-        Courses.D)))
+        new UserEntity("Ajinkya", 21, "85, Sch 114",
+          1, new HashSet<>(Arrays.asList(Courses.A, Courses.B, Courses.C,
+          Courses.D)))
     );
     userOperations.addUser(
-      new UserEntity("Ajinkya", 15, "84, Sch 114",
-        2, new HashSet<>(Arrays.asList(Courses.A, Courses.D, Courses.C,
-        Courses.E)))
+        new UserEntity("Ajinkya", 15, "84, Sch 114",
+          2, new HashSet<>(Arrays.asList(Courses.A, Courses.D, Courses.C,
+          Courses.E)))
     );
     List<UserEntity> users = userOperations.getUsers();
     
@@ -423,21 +422,21 @@ public class ApplicationTest {
   public void displayingUsersSortingBasedOnNameInDesc() {
     UserOperations userOperations = new UserOperationsImpl();
     userOperations.addUser(
-      new UserEntity("Ajinkya", 21, "85, Sch 114",
-        1, new HashSet<>(Arrays.asList(Courses.A, Courses.B, Courses.C,
-        Courses.D)))
+        new UserEntity("Ajinkya", 21, "85, Sch 114",
+          1, new HashSet<>(Arrays.asList(Courses.A, Courses.B, Courses.C,
+          Courses.D)))
     );
     userOperations.addUser(
-      new UserEntity("Aditya", 15, "84, Sch 114",
-        2, new HashSet<>(Arrays.asList(Courses.A, Courses.D, Courses.C,
-        Courses.E)))
+        new UserEntity("Aditya", 15, "84, Sch 114",
+          2, new HashSet<>(Arrays.asList(Courses.A, Courses.D, Courses.C,
+          Courses.E)))
     );
     
     // columnNumber 1 is for Name
     int columnNumber = 1;
     SortingOrder sortingOrder = SortingOrder.DESC;
     List<UserEntity> users =
-      userOperations.sortUsersBasedOnParameters(columnNumber, sortingOrder);
+        userOperations.sortUsersBasedOnParameters(columnNumber, sortingOrder);
   
     assertEquals("Ajinkya", users.get(0).getName());
   }
@@ -449,21 +448,21 @@ public class ApplicationTest {
   public void displayingUsersSortingBasedOnNameInAsc() {
     UserOperations userOperations = new UserOperationsImpl();
     userOperations.addUser(
-      new UserEntity("Ajinkya", 21, "85, Sch 114",
-        1, new HashSet<>(Arrays.asList(Courses.A, Courses.B, Courses.C,
-        Courses.D)))
+        new UserEntity("Ajinkya", 21, "85, Sch 114",
+          1, new HashSet<>(Arrays.asList(Courses.A, Courses.B, Courses.C,
+          Courses.D)))
     );
     userOperations.addUser(
-      new UserEntity("Aditya", 15, "84, Sch 114",
-        2, new HashSet<>(Arrays.asList(Courses.A, Courses.D, Courses.C,
-        Courses.E)))
+        new UserEntity("Aditya", 15, "84, Sch 114",
+          2, new HashSet<>(Arrays.asList(Courses.A, Courses.D, Courses.C,
+          Courses.E)))
     );
   
     // columnNumber 1 is for Name
     int columnNumber = 1;
     SortingOrder sortingOrder = SortingOrder.ASC;
     List<UserEntity> users =
-      userOperations.sortUsersBasedOnParameters(columnNumber, sortingOrder);
+        userOperations.sortUsersBasedOnParameters(columnNumber, sortingOrder);
   
     assertEquals("Ajinkya", users.get(1).getName());
   }
@@ -475,21 +474,21 @@ public class ApplicationTest {
   public void displayingUsersSortingBasedOnAge() {
     UserOperations userOperations = new UserOperationsImpl();
     userOperations.addUser(
-      new UserEntity("Ajinkya", 21, "85, Sch 114",
-        1, new HashSet<>(Arrays.asList(Courses.A, Courses.B, Courses.C,
-        Courses.D)))
+        new UserEntity("Ajinkya", 21, "85, Sch 114",
+          1, new HashSet<>(Arrays.asList(Courses.A, Courses.B, Courses.C,
+          Courses.D)))
     );
     userOperations.addUser(
-      new UserEntity("Aditya", 15, "84, Sch 114",
-        2, new HashSet<>(Arrays.asList(Courses.A, Courses.D, Courses.C,
-        Courses.E)))
+        new UserEntity("Aditya", 15, "84, Sch 114",
+          2, new HashSet<>(Arrays.asList(Courses.A, Courses.D, Courses.C,
+          Courses.E)))
     );
   
     // columnNumber 3 is for Age
     int columnNumber = 3;
     SortingOrder sortingOrder = SortingOrder.ASC;
     List<UserEntity> users =
-      userOperations.sortUsersBasedOnParameters(columnNumber, sortingOrder);
+        userOperations.sortUsersBasedOnParameters(columnNumber, sortingOrder);
   
     assertEquals("Ajinkya", users.get(1).getName());
   }
@@ -501,21 +500,21 @@ public class ApplicationTest {
   public void displayingUsersSortingBasedOnRollNumber() {
     UserOperations userOperations = new UserOperationsImpl();
     userOperations.addUser(
-      new UserEntity("Ajinkya", 21, "85, Sch 114",
-        1, new HashSet<>(Arrays.asList(Courses.A, Courses.B, Courses.C,
-        Courses.D)))
+        new UserEntity("Ajinkya", 21, "85, Sch 114",
+          1, new HashSet<>(Arrays.asList(Courses.A, Courses.B, Courses.C,
+          Courses.D)))
     );
     userOperations.addUser(
-      new UserEntity("Aditya", 15, "84, Sch 114",
-        2, new HashSet<>(Arrays.asList(Courses.A, Courses.D, Courses.C,
-        Courses.E)))
+        new UserEntity("Aditya", 15, "84, Sch 114",
+          2, new HashSet<>(Arrays.asList(Courses.A, Courses.D, Courses.C,
+          Courses.E)))
     );
     
     // columnNumber 2 is for RollNumber
     int columnNumber = 2;
     SortingOrder sortingOrder = SortingOrder.ASC;
     List<UserEntity> users =
-      userOperations.sortUsersBasedOnParameters(columnNumber, sortingOrder);
+        userOperations.sortUsersBasedOnParameters(columnNumber, sortingOrder);
     
     assertEquals("Ajinkya", users.get(0).getName());
   }
@@ -527,21 +526,21 @@ public class ApplicationTest {
   public void displayingUsersSortingBasedOnAddress() {
     UserOperations userOperations = new UserOperationsImpl();
     userOperations.addUser(
-      new UserEntity("Ajinkya", 21, "85, Sch 114",
-        1, new HashSet<>(Arrays.asList(Courses.A, Courses.B, Courses.C,
-        Courses.D)))
+        new UserEntity("Ajinkya", 21, "85, Sch 114",
+          1, new HashSet<>(Arrays.asList(Courses.A, Courses.B, Courses.C,
+          Courses.D)))
     );
     userOperations.addUser(
-      new UserEntity("Aditya", 15, "84, Sch 114",
-        2, new HashSet<>(Arrays.asList(Courses.A, Courses.D, Courses.C,
-        Courses.E)))
+        new UserEntity("Aditya", 15, "84, Sch 114",
+          2, new HashSet<>(Arrays.asList(Courses.A, Courses.D, Courses.C,
+          Courses.E)))
     );
     
     // columnNumber 4 is for Address
     int columnNumber = 4;
     SortingOrder sortingOrder = SortingOrder.ASC;
     List<UserEntity> users =
-      userOperations.sortUsersBasedOnParameters(columnNumber, sortingOrder);
+        userOperations.sortUsersBasedOnParameters(columnNumber, sortingOrder);
     
     assertEquals("Ajinkya", users.get(1).getName());
   }
