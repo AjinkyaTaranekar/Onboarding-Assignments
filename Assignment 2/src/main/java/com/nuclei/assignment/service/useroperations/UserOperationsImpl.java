@@ -23,6 +23,7 @@ public class UserOperationsImpl implements UserOperations {
    * The Users.
    */
   public List<UserEntity> users;
+  
   /**
    * The Disk storage operation.
    */
@@ -34,6 +35,10 @@ public class UserOperationsImpl implements UserOperations {
   public UserOperationsImpl() {
     diskStorageOperation = new DiskStorageOperationImpl();
     users = getUsersFromDisk();
+  }
+  
+  public List<UserEntity> getUsers(){
+    return users;
   }
   
   private List<UserEntity> getUsersFromDisk() {
@@ -96,8 +101,7 @@ public class UserOperationsImpl implements UserOperations {
       int result = 0;
       switch (columnNumber) {
         case 1:
-          result = user.getName().toLowerCase(Locale.ROOT)
-              .compareTo(anotherUser.getName().toLowerCase(Locale.ROOT));
+          result = user.getName().compareTo(anotherUser.getName());
           break;
         case 2:
           result = user.getRollNumber() - anotherUser.getRollNumber();
@@ -106,9 +110,7 @@ public class UserOperationsImpl implements UserOperations {
           result = user.getAge() - anotherUser.getAge();
           break;
         case 4:
-          result =
-            user.getAddress().toLowerCase(Locale.ROOT)
-                .compareTo(anotherUser.getAddress().toLowerCase(Locale.ROOT));
+          result = user.getAddress().compareTo(anotherUser.getAddress());
           break;
         default: break;
       }

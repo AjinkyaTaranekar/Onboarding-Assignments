@@ -4,7 +4,11 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="16633065-a2f2-40fb-877f-c7b7f85bf479" name="Changes" comment="- checkstyle.xml updated&#10;- checkstyle toolVersion upgrade&#10;- refactor based on recent checks" />
+    <list default="true" id="16633065-a2f2-40fb-877f-c7b7f85bf479" name="Changes" comment="- Assignment 2 Implementation">
+      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Assignment 2/src/main/java/com/nuclei/assignment/service/useroperations/UserOperations.java" beforeDir="false" afterPath="$PROJECT_DIR$/Assignment 2/src/main/java/com/nuclei/assignment/service/useroperations/UserOperations.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Assignment 2/src/main/java/com/nuclei/assignment/service/useroperations/UserOperationsImpl.java" beforeDir="false" afterPath="$PROJECT_DIR$/Assignment 2/src/main/java/com/nuclei/assignment/service/useroperations/UserOperationsImpl.java" afterDir="false" />
+    </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
     <option name="HIGHLIGHT_NON_ACTIVE_CHANGELIST" value="false" />
@@ -49,6 +53,17 @@
     </option>
     <option name="RECENT_GIT_ROOT_PATH" value="$PROJECT_DIR$" />
   </component>
+  <component name="HighlightingSettingsPerFile">
+    <setting file="file://$PROJECT_DIR$/Assignment 2/build.gradle" root0="FORCE_HIGHLIGHTING" />
+    <setting file="file://$PROJECT_DIR$/Assignment 2/src/main/java/com/nuclei/assignment/service/useroperations/UserOperationsImpl.java" root0="FORCE_HIGHLIGHTING" />
+    <setting file="file://$PROJECT_DIR$/Assignment 2/src/main/java/com/nuclei/assignment/service/menuoptions/MenuOptions.java" root0="FORCE_HIGHLIGHTING" />
+    <setting file="file://$PROJECT_DIR$/Assignment 2/src/main/java/com/nuclei/assignment/service/menuoptions/MenuOptionsImpl.java" root0="FORCE_HIGHLIGHTING" />
+    <setting file="file://$PROJECT_DIR$/Assignment 2/src/main/java/com/nuclei/assignment/constants/ExceptionsConstantsUtils.java" root0="FORCE_HIGHLIGHTING" />
+    <setting file="file://$PROJECT_DIR$/Assignment 2/src/main/java/com/nuclei/assignment/Application.java" root0="FORCE_HIGHLIGHTING" />
+    <setting file="file://$PROJECT_DIR$/Assignment 2/src/main/java/com/nuclei/assignment/constants/SuccessConstantsUtils.java" root0="FORCE_HIGHLIGHTING" />
+    <setting file="file://$PROJECT_DIR$/Assignment 2/src/test/java/com/nuclei/assignment/ApplicationTest.java" root0="FORCE_HIGHLIGHTING" />
+    <setting file="file://$PROJECT_DIR$/Assignment 2/src/main/java/com/nuclei/assignment/service/inputvalidation/InputValidationImpl.java" root0="FORCE_HIGHLIGHTING" />
+  </component>
   <component name="MarkdownSettingsMigration">
     <option name="stateVersion" value="1" />
   </component>
@@ -66,20 +81,7 @@
     <property name="project.structure.side.proportion" value="0.32413793" />
     <property name="settings.editor.selected.configurable" value="reference.settingsdialog.project.gradle" />
   </component>
-  <component name="RunManager" selected="Gradle.Assignment 2">
-    <configuration name="Application" type="Application" factoryName="Application" temporary="true" nameIsGenerated="true">
-      <option name="MAIN_CLASS_NAME" value="com.nuclei.assignment.Application" />
-      <module name="Assignment_1.main" />
-      <extension name="coverage">
-        <pattern>
-          <option name="PATTERN" value="com.nuclei.assignment.*" />
-          <option name="ENABLED" value="true" />
-        </pattern>
-      </extension>
-      <method v="2">
-        <option name="Make" enabled="true" />
-      </method>
-    </configuration>
+  <component name="RunManager" selected="Gradle.ApplicationTest.addingTwoUsersWithSameNameCheckIfTheyAreSorted">
     <configuration name="ApplicationTest (1)" type="GradleRunConfiguration" factoryName="Gradle" temporary="true">
       <ExternalSystemSettings>
         <option name="executionName" />
@@ -126,21 +128,48 @@
       <DebugAllEnabled>false</DebugAllEnabled>
       <method v="2" />
     </configuration>
-    <configuration name="Assignment 1" type="GradleRunConfiguration" factoryName="Gradle" temporary="true">
+    <configuration name="ApplicationTest.addingTwoUsersWithDifferentNameCheckIfTheyAreSorted" type="GradleRunConfiguration" factoryName="Gradle" temporary="true">
       <ExternalSystemSettings>
         <option name="executionName" />
-        <option name="externalProjectPath" value="$PROJECT_DIR$/Assignment 1" />
+        <option name="externalProjectPath" value="$PROJECT_DIR$/Assignment 2" />
         <option name="externalSystemIdString" value="GRADLE" />
-        <option name="scriptParameters" />
+        <option name="scriptParameters" value="" />
         <option name="taskDescriptions">
           <list />
         </option>
         <option name="taskNames">
-          <list />
+          <list>
+            <option value=":test" />
+            <option value="--tests" />
+            <option value="&quot;com.nuclei.assignment.ApplicationTest.addingTwoUsersWithDifferentNameCheckIfTheyAreSorted&quot;" />
+          </list>
         </option>
         <option name="vmOptions" />
       </ExternalSystemSettings>
-      <ExternalSystemDebugServerProcess>true</ExternalSystemDebugServerProcess>
+      <ExternalSystemDebugServerProcess>false</ExternalSystemDebugServerProcess>
+      <ExternalSystemReattachDebugProcess>true</ExternalSystemReattachDebugProcess>
+      <DebugAllEnabled>false</DebugAllEnabled>
+      <method v="2" />
+    </configuration>
+    <configuration name="ApplicationTest.addingTwoUsersWithSameNameCheckIfTheyAreSorted" type="GradleRunConfiguration" factoryName="Gradle" temporary="true">
+      <ExternalSystemSettings>
+        <option name="executionName" />
+        <option name="externalProjectPath" value="$PROJECT_DIR$/Assignment 2" />
+        <option name="externalSystemIdString" value="GRADLE" />
+        <option name="scriptParameters" value="" />
+        <option name="taskDescriptions">
+          <list />
+        </option>
+        <option name="taskNames">
+          <list>
+            <option value=":test" />
+            <option value="--tests" />
+            <option value="&quot;com.nuclei.assignment.ApplicationTest.addingTwoUsersWithSameNameCheckIfTheyAreSorted&quot;" />
+          </list>
+        </option>
+        <option name="vmOptions" />
+      </ExternalSystemSettings>
+      <ExternalSystemDebugServerProcess>false</ExternalSystemDebugServerProcess>
       <ExternalSystemReattachDebugProcess>true</ExternalSystemReattachDebugProcess>
       <DebugAllEnabled>false</DebugAllEnabled>
       <method v="2" />
@@ -166,11 +195,11 @@
     </configuration>
     <recent_temporary>
       <list>
-        <item itemvalue="Gradle.Assignment 2" />
+        <item itemvalue="Gradle.ApplicationTest.addingTwoUsersWithSameNameCheckIfTheyAreSorted" />
+        <item itemvalue="Gradle.ApplicationTest.addingTwoUsersWithDifferentNameCheckIfTheyAreSorted" />
         <item itemvalue="Gradle.ApplicationTest (1)" />
+        <item itemvalue="Gradle.Assignment 2" />
         <item itemvalue="Gradle.ApplicationTest" />
-        <item itemvalue="Gradle.Assignment 1" />
-        <item itemvalue="Application.Application" />
       </list>
     </recent_temporary>
   </component>
@@ -190,7 +219,14 @@
       <option name="project" value="LOCAL" />
       <updated>1641803033859</updated>
     </task>
-    <option name="localTasksCounter" value="2" />
+    <task id="LOCAL-00002" summary="- Assignment 2 Implementation">
+      <created>1641833776355</created>
+      <option name="number" value="00002" />
+      <option name="presentableId" value="LOCAL-00002" />
+      <option name="project" value="LOCAL" />
+      <updated>1641833776355</updated>
+    </task>
+    <option name="localTasksCounter" value="3" />
     <servers />
   </component>
   <component name="Vcs.Log.Tabs.Properties">
@@ -206,7 +242,8 @@
   </component>
   <component name="VcsManagerConfiguration">
     <MESSAGE value="- checkstyle.xml updated&#10;- checkstyle toolVersion upgrade&#10;- refactor based on recent checks" />
-    <option name="LAST_COMMIT_MESSAGE" value="- checkstyle.xml updated&#10;- checkstyle toolVersion upgrade&#10;- refactor based on recent checks" />
+    <MESSAGE value="- Assignment 2 Implementation" />
+    <option name="LAST_COMMIT_MESSAGE" value="- Assignment 2 Implementation" />
   </component>
   <component name="XSLT-Support.FileAssociations.UIState">
     <expand />
@@ -214,6 +251,6 @@
   </component>
   <component name="com.intellij.coverage.CoverageDataManagerImpl">
     <SUITE FILE_PATH="coverage/Onboarding_Assignments$ApplicationTest.ic" NAME="ApplicationTest Coverage Results" MODIFIED="1641803046845" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="idea" COVERAGE_BY_TEST_ENABLED="false" COVERAGE_TRACING_ENABLED="false" />
-    <SUITE FILE_PATH="coverage/Onboarding_Assignments$ApplicationTest__1_.ic" NAME="ApplicationTest (1) Coverage Results" MODIFIED="1641819447555" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="idea" COVERAGE_BY_TEST_ENABLED="false" COVERAGE_TRACING_ENABLED="false" />
+    <SUITE FILE_PATH="coverage/Onboarding_Assignments$ApplicationTest__1_.ic" NAME="ApplicationTest (1) Coverage Results" MODIFIED="1641834783983" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="idea" COVERAGE_BY_TEST_ENABLED="false" COVERAGE_TRACING_ENABLED="false" />
   </component>
 </project>
