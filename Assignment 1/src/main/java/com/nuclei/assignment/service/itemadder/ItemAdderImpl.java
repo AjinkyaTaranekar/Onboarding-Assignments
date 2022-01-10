@@ -84,14 +84,7 @@ public class ItemAdderImpl implements ItemAdder {
     return items;
   }
   
-  /**
-   * Create Item method converting raw data to Item.
-   *
-   * @param itemProperties the item properties
-   * @return the item
-   * @throws CustomException the custom exception
-   */
-  public ItemEntity createItem(final String... itemProperties) throws CustomException {
+  private ItemEntity createItem(final String... itemProperties) throws CustomException {
   
     validateItemProperties(itemProperties);
   
