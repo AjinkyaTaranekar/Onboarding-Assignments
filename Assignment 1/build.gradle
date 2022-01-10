@@ -36,7 +36,10 @@ tasks.withType(Checkstyle) {
 
 checkstyle {
     toolVersion '8.11'
-    sourceSets = [project.sourceSets.main]
+}
+
+checkstyleMain {
+    source ='src/main/java'
 }
 
 tasks.withType(Checkstyle).each { checkstyleTask ->

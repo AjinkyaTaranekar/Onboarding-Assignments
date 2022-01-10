@@ -1,6 +1,6 @@
 package com.nuclei.assignment.service.itemparser;
 
-import com.nuclei.assignment.constants.ExceptionsConstants;
+import com.nuclei.assignment.constants.ExceptionsConstantsUtils;
 import com.nuclei.assignment.enums.ItemType;
 import com.nuclei.assignment.exception.CustomException;
 
@@ -8,13 +8,13 @@ import java.util.Locale;
 
 /**
  * Item Parser Implementation containing method to parse different properties.
- * **/
+ */
 public class ItemParserImpl implements ItemParser {
   
   @Override
   public String parseName(final String name) throws CustomException {
     if (name.isEmpty()) {
-      throw new CustomException(ExceptionsConstants.INVALID_NAME);
+      throw new CustomException(ExceptionsConstantsUtils.INVALID_NAME);
     }
     return name;
   }
@@ -25,10 +25,10 @@ public class ItemParserImpl implements ItemParser {
     try {
       parsedPrice = Double.parseDouble(price);
       if (parsedPrice < 0) {
-        throw new CustomException(ExceptionsConstants.INVALID_PRICE);
+        throw new CustomException(ExceptionsConstantsUtils.INVALID_PRICE);
       }
     } catch (Exception exception) {
-      throw new CustomException(ExceptionsConstants.INVALID_PRICE, exception);
+      throw new CustomException(ExceptionsConstantsUtils.INVALID_PRICE, exception);
     }
     return parsedPrice;
   }
@@ -39,7 +39,7 @@ public class ItemParserImpl implements ItemParser {
     try {
       parsedItemType = ItemType.valueOf(type.toUpperCase(Locale.ROOT));
     } catch (Exception exception) {
-      throw new CustomException(ExceptionsConstants.INVALID_TYPE, exception);
+      throw new CustomException(ExceptionsConstantsUtils.INVALID_TYPE, exception);
     }
     return parsedItemType;
   }
@@ -50,10 +50,10 @@ public class ItemParserImpl implements ItemParser {
     try {
       parsedQuantity = Double.parseDouble(quantity);
       if (parsedQuantity < 0) {
-        throw new CustomException(ExceptionsConstants.INVALID_QUANTITY);
+        throw new CustomException(ExceptionsConstantsUtils.INVALID_QUANTITY);
       }
     } catch (Exception exception) {
-      throw new CustomException(ExceptionsConstants.INVALID_QUANTITY, exception);
+      throw new CustomException(ExceptionsConstantsUtils.INVALID_QUANTITY, exception);
     }
     return parsedQuantity;
   }

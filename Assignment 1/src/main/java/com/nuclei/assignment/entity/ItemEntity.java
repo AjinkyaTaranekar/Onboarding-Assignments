@@ -6,23 +6,50 @@ import lombok.Setter;
 
 /**
  * Item Entity class.
- * **/
+ */
 @Getter
 @Setter
-public class Item {
-  private String name;
+public class ItemEntity {
   
+  /**
+   * The Name.
+   */
+  public String name;
+  
+  /**
+   * The Price.
+   */
   private Double price;
+  
+  /**
+   * The Sales tax.
+   */
   private Double salesTax;
+  
+  /**
+   * The Final price.
+   */
   private Double finalPrice;
   
+  /**
+   * The Quantity.
+   */
   private Double quantity;
+  
+  /**
+   * The Type.
+   */
   private ItemType type;
   
   /**
    * Item Constructor.
-   * **/
-  public Item(final String name, final Double price, final Double quantity,
+   *
+   * @param name     the name
+   * @param price    the price
+   * @param quantity the quantity
+   * @param type     the type
+   */
+  public ItemEntity(final String name, final Double price, final Double quantity,
               final ItemType type) {
     this.name = name;
     this.price = price;

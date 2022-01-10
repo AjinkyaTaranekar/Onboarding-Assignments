@@ -2,7 +2,7 @@ package com.nuclei.assignment;
 
 import static org.junit.jupiter.api.Assertions.assertTrue;
 
-import com.nuclei.assignment.constants.ExceptionsConstants;
+import com.nuclei.assignment.constants.ExceptionsConstantsUtils;
 import com.nuclei.assignment.exception.CustomException;
 import java.io.ByteArrayInputStream;
 import java.io.ByteArrayOutputStream;
@@ -13,10 +13,9 @@ import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
 
-
 /**
  * Testing whole Application.
- * **/
+ */
 public class ApplicationTest {
   private final InputStream systemIn = System.in;
   private final PrintStream systemOut = System.out;
@@ -24,6 +23,9 @@ public class ApplicationTest {
   private ByteArrayInputStream testIn;
   private ByteArrayOutputStream testOut;
   
+  /**
+   * Sets up output.
+   */
   @BeforeEach
   public void setUpOutput() {
     testOut = new ByteArrayOutputStream();
@@ -39,6 +41,9 @@ public class ApplicationTest {
     return testOut.toString();
   }
   
+  /**
+   * Restore system input output.
+   */
   @AfterEach
   public void restoreSystemInputOutput() {
     System.setIn(systemIn);
@@ -46,6 +51,9 @@ public class ApplicationTest {
   }
   
   
+  /**
+   * Adding item without name flag.
+   */
   @Test
   public void addingItemWithoutNameFlag() {
     final String[] item = {"-price", "12", "-type", "raw"};
@@ -53,11 +61,14 @@ public class ApplicationTest {
     provideInput(addMoreItems);
     
     Application.main(item);
-    final String expectedMessage = ExceptionsConstants.INVALID_INPUT;
+    final String expectedMessage = ExceptionsConstantsUtils.INVALID_INPUT;
     assertTrue(getOutput().contains(expectedMessage));
   }
   
   
+  /**
+   * Adding item without type flag.
+   */
   @Test
   public void addingItemWithoutTypeFlag() {
     final String[] item = {"-name", "apple"};
@@ -65,10 +76,13 @@ public class ApplicationTest {
     provideInput(addMoreItems);
   
     Application.main(item);
-    final String expectedMessage = ExceptionsConstants.INVALID_INPUT;
+    final String expectedMessage = ExceptionsConstantsUtils.INVALID_INPUT;
     assertTrue(getOutput().contains(expectedMessage));
   }
   
+  /**
+   * Adding item with two flag consecutively.
+   */
   @Test
   public void addingItemWithTwoFlagConsecutively() {
     final String[] item = {"-name", "-type", "apple", "RAW"};
@@ -76,11 +90,14 @@ public class ApplicationTest {
     provideInput(addMoreItems);
     
     Application.main(item);
-    final String expectedMessage = ExceptionsConstants.INVALID_INPUT;
+    final String expectedMessage = ExceptionsConstantsUtils.INVALID_INPUT;
     assertTrue(getOutput().contains(expectedMessage));
   }
   
   
+  /**
+   * Adding item with multiple name entries.
+   */
   @Test
   public void addingItemWithMultipleNameEntries() {
     final String[] item = {"-name", "apple", "-name", "mango"};
@@ -88,10 +105,13 @@ public class ApplicationTest {
     provideInput(addMoreItems);
   
     Application.main(item);
-    final String expectedMessage = ExceptionsConstants.INVALID_INPUT;
+    final String expectedMessage = ExceptionsConstantsUtils.INVALID_INPUT;
     assertTrue(getOutput().contains(expectedMessage));
   }
   
+  /**
+   * Adding item with empty name entry.
+   */
   @Test
   public void addingItemWithEmptyNameEntry() {
     final String[] item = {"-name", "", "-type", "RAW"};
@@ -99,10 +119,13 @@ public class ApplicationTest {
     provideInput(addMoreItems);
   
     Application.main(item);
-    final String expectedMessage = ExceptionsConstants.INVALID_NAME;
+    final String expectedMessage = ExceptionsConstantsUtils.INVALID_NAME;
     assertTrue(getOutput().contains(expectedMessage));
   }
   
+  /**
+   * Adding item with negative price.
+   */
   @Test
   public void addingItemWithNegativePrice() {
     final String[] item = {"-name", "apple", "-price", "-12", "-type", "raw"};
@@ -110,10 +133,13 @@ public class ApplicationTest {
     provideInput(addMoreItems);
   
     Application.main(item);
-    final String expectedMessage = ExceptionsConstants.INVALID_PRICE;
+    final String expectedMessage = ExceptionsConstantsUtils.INVALID_PRICE;
     assertTrue(getOutput().contains(expectedMessage));
   }
   
+  /**
+   * Adding item with character price.
+   */
   @Test
   public void addingItemWithCharacterPrice() {
     final String[] item = {"-name", "apple", "-price", "abc", "-type", "raw"};
@@ -121,10 +147,13 @@ public class ApplicationTest {
     provideInput(addMoreItems);
   
     Application.main(item);
-    final String expectedMessage = ExceptionsConstants.INVALID_PRICE;
+    final String expectedMessage = ExceptionsConstantsUtils.INVALID_PRICE;
     assertTrue(getOutput().contains(expectedMessage));
   }
   
+  /**
+   * Adding item with negative quantity.
+   */
   @Test
   public void addingItemWithNegativeQuantity() {
     final String[] item = {"-name", "apple", "-quantity", "-12", "-type", "raw"};
@@ -132,10 +161,13 @@ public class ApplicationTest {
     provideInput(addMoreItems);
   
     Application.main(item);
-    final String expectedMessage = ExceptionsConstants.INVALID_QUANTITY;
+    final String expectedMessage = ExceptionsConstantsUtils.INVALID_QUANTITY;
     assertTrue(getOutput().contains(expectedMessage));
   }
   
+  /**
+   * Adding item with character quantity.
+   */
   @Test
   public void addingItemWithCharacterQuantity() {
     final String[] item = {"-name", "apple", "-quantity", "ab2", "-type", "raw"};
@@ -143,10 +175,13 @@ public class ApplicationTest {
     provideInput(addMoreItems);
   
     Application.main(item);
-    final String expectedMessage = ExceptionsConstants.INVALID_QUANTITY;
+    final String expectedMessage = ExceptionsConstantsUtils.INVALID_QUANTITY;
     assertTrue(getOutput().contains(expectedMessage));
   }
   
+  /**
+   * Adding item with wrong type.
+   */
   @Test
   public void addingItemWithWrongType() {
     final String[] item = {"-name", "apple", "-type", "market"};
@@ -154,10 +189,13 @@ public class ApplicationTest {
     provideInput(addMoreItems);
   
     Application.main(item);
-    final String expectedMessage = ExceptionsConstants.INVALID_TYPE;
+    final String expectedMessage = ExceptionsConstantsUtils.INVALID_TYPE;
     assertTrue(getOutput().contains(expectedMessage));
   }
   
+  /**
+   * Check tax for raw item when item price is negative.
+   */
   @Test
   public void checkTaxForRawItemWhenItemPriceIsNegative() {
     final String[] item = {"-name", "apple", "-type", "RAW", "-price",
@@ -166,10 +204,13 @@ public class ApplicationTest {
     provideInput(addMoreItems);
   
     Application.main(item);
-    final String expectedMessage = ExceptionsConstants.INVALID_PRICE;
+    final String expectedMessage = ExceptionsConstantsUtils.INVALID_PRICE;
     assertTrue(getOutput().contains(expectedMessage));
   }
   
+  /**
+   * Check tax for raw item when item price is positive.
+   */
   @Test
   public void checkTaxForRawItemWhenItemPriceIsPositive() {
     final String[] item = {"-name", "apple", "-price", "12", "-type", "raw",
@@ -184,6 +225,9 @@ public class ApplicationTest {
   }
   
   
+  /**
+   * Check tax for manufactured item when item price is positive.
+   */
   @Test
   public void checkTaxForManufacturedItemWhenItemPriceIsPositive() {
     final String[] item = {"-name", "apple", "-price", "12", "-type", "manufactured"};
@@ -197,6 +241,9 @@ public class ApplicationTest {
   }
   
   
+  /**
+   * Check tax for imported item when item price is positive and under 100.
+   */
   @Test
   public void checkTaxForImportedItemWhenItemPriceIsPositiveAndUnder100() {
     final String[] item = {"-name", "apple", "-price", "12", "-type", "imported"};
@@ -209,8 +256,12 @@ public class ApplicationTest {
     assertTrue(getOutput().contains(expectedMessage));
   }
   
+  /**
+   * Check tax for imported item when item price is positive and above 100.
+   *
+   */
   @Test
-  public void checkTaxForImportedItemWhenItemPriceIsPositiveAndAbove100() throws CustomException {
+  public void checkTaxForImportedItemWhenItemPriceIsPositiveAndAbove100() {
     final String[] item = {"-name", "apple", "-price", "100", "-type",
       "imported"};
     final String addMoreItems = "n";
@@ -222,6 +273,9 @@ public class ApplicationTest {
     assertTrue(getOutput().contains(expectedMessage));
   }
   
+  /**
+   * Check tax for imported item when item price is positive and above 1000.
+   */
   @Test
   public void checkTaxForImportedItemWhenItemPriceIsPositiveAndAbove1000()  {
     final String[] item = {"-name", "apple", "-price", "1000", "-type",
