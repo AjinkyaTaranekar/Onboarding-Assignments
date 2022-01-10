@@ -1,5 +1,8 @@
 package com.nuclei.assignment.constants;
 
+/**
+ * The type Flags constants.
+ */
 public class FlagsConstants {
   public static final String NAME_FLAG = "-name";
   public static final String TYPE_FLAG = "-type";
