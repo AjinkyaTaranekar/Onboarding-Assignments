@@ -95,25 +95,27 @@ public class ItemAdderImpl implements ItemAdder {
     ItemType itemType = ItemType.RAW;
     
     for (int index = 0; index < itemProperties.length; index += 2) {
-      if (index + 1 > itemProperties.length) {
-        throw new CustomException(ExceptionsConstantsUtils.INVALID_INPUT);
+      try {
+        switch (itemProperties[index]) {
+          case FlagsConstantsUtils.NAME_FLAG:
+            itemName = parser.parseName(itemProperties[index + 1]);
+            break;
+          case FlagsConstantsUtils.PRICE_FLAG:
+            itemPrice = parser.parsePrice(itemProperties[index + 1]);
+            break;
+          case FlagsConstantsUtils.QUANTITY_FLAG:
+            itemQuantity = parser.parseQuantity(itemProperties[index + 1]);
+            break;
+          case FlagsConstantsUtils.TYPE_FLAG:
+            itemType = parser.parseType(itemProperties[index + 1]);
+            break;
+          default:
+            throw new CustomException(ExceptionsConstantsUtils.INVALID_INPUT);
+        }
+      } catch (IndexOutOfBoundsException exception) {
+        throw new CustomException(ExceptionsConstantsUtils.INVALID_INPUT, exception);
       }
-      switch (itemProperties[index]) {
-        case FlagsConstantsUtils.NAME_FLAG:
-          itemName = parser.parseName(itemProperties[index + 1]);
-          break;
-        case FlagsConstantsUtils.PRICE_FLAG:
-          itemPrice = parser.parsePrice(itemProperties[index + 1]);
-          break;
-        case FlagsConstantsUtils.QUANTITY_FLAG:
-          itemQuantity = parser.parseQuantity(itemProperties[index + 1]);
-          break;
-        case FlagsConstantsUtils.TYPE_FLAG:
-          itemType = parser.parseType(itemProperties[index + 1]);
-          break;
-        default:
-          throw new CustomException(ExceptionsConstantsUtils.INVALID_INPUT);
-      }
+      
     }
     final ItemEntity item = new ItemEntity(itemName, itemPrice, itemQuantity, itemType);
     

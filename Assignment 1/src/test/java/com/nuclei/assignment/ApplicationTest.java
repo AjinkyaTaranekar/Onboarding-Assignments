@@ -103,7 +103,21 @@ public class ApplicationTest {
     final String[] item = {"-name", "apple", "-name", "mango"};
     final String addMoreItems = "n";
     provideInput(addMoreItems);
+    
+    Application.main(item);
+    final String expectedMessage = ExceptionsConstantsUtils.INVALID_INPUT;
+    assertTrue(getOutput().contains(expectedMessage));
+  }
   
+  /**
+   * Adding item with but tag has no data.
+   */
+  @Test
+  public void addingItemButTagHasNoData() {
+    final String[] item = {"-name", "apple", "-type", "raw", "-price"};
+    final String addMoreItems = "n";
+    provideInput(addMoreItems);
+    
     Application.main(item);
     final String expectedMessage = ExceptionsConstantsUtils.INVALID_INPUT;
     assertTrue(getOutput().contains(expectedMessage));
@@ -124,6 +138,29 @@ public class ApplicationTest {
   }
   
   /**
+   * Adding Two items.
+   */
+  @Test
+  public void addingTwoItems() {
+    final String[] item1 = {"-name", "apple", "-price", "12", "-type", "raw"};
+    final String[] item2 = {"-name", "mango", "-price", "12", "-type", "raw"};
+    final String[] input = {
+      "y",
+      String.join(" ", item2),
+      "n"
+    };
+    provideInput(String.join("\n", input));
+    
+    Application.main(item1);
+    final String expectedMessage1 = "RAW Item 1 apple with price 12.00 and "
+        + "quantity 0.00 at tax 1.50 => final price as 13.50";
+    assertTrue(getOutput().contains(expectedMessage1));
+    final String expectedMessage2 = "RAW Item 2 mango with price 12.00 and "
+        + "quantity 0.00 at tax 1.50 => final price as 13.50";
+    assertTrue(getOutput().contains(expectedMessage2));
+  }
+  
+  /**
    * Adding item with negative price.
    */
   @Test
@@ -131,7 +168,7 @@ public class ApplicationTest {
     final String[] item = {"-name", "apple", "-price", "-12", "-type", "raw"};
     final String addMoreItems = "n";
     provideInput(addMoreItems);
-  
+    
     Application.main(item);
     final String expectedMessage = ExceptionsConstantsUtils.INVALID_PRICE;
     assertTrue(getOutput().contains(expectedMessage));
