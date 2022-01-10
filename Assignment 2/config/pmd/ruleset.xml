@@ -1,0 +1,80 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<ruleset name="Custom ruleset">
+    <description>This ruleset detects bad practices in code</description>
+
+    <!-- exclude generated classes -->
+    <exclude-pattern>.*/proto/.*</exclude-pattern>
+    <exclude-pattern>.*/test/.*</exclude-pattern>
+    <!-- Place to add your rules -->
+    <rule ref="category/java/bestpractices.xml">
+        <exclude name="JUnitTestsShouldIncludeAssert"/>
+        <exclude name="GuardLogStatement"/>
+        <exclude name="SystemPrintln" />
+    </rule>
+
+    <rule ref="category/java/codestyle.xml">
+        <exclude name="AtLeastOneConstructor"/>
+        <exclude name="OnlyOneReturn"/>
+        <exclude name="MethodArgumentCouldBeFinal"/>
+        <exclude name="LinguisticNaming"/>
+    </rule>
+
+    <rule ref="category/java/design.xml">
+        <exclude name="LawOfDemeter"/>
+        <exclude name="ExcessiveParameterList"/>
+        <exclude name="DataClass"/>
+        <exclude name="TooManyFields"/>
+        <exclude name="TooManyMethods"/>
+        <exclude name="AvoidCatchingGenericException"/>
+        <exclude name="ExcessiveImports"/>
+    </rule>
+
+    <rule ref="category/java/documentation.xml">
+        <exclude name="CommentSize"/>
+    </rule>
+
+    <rule ref="category/java/errorprone.xml">
+        <exclude name="BeanMembersShouldSerialize"/>
+        <exclude name="MissingSerialVersionUID"/>
+    </rule>
+
+    <rule ref="category/java/multithreading.xml">
+        <exclude name="DoNotUseThreads"/>
+    </rule>
+
+    <rule ref="category/java/performance.xml"/>
+
+    <rule ref="category/java/security.xml"/>
+
+    <rule ref="category/java/codestyle.xml/LongVariable">
+        <properties>
+            <property name="minimum" value="55"/>
+            <property name="xpath">
+                <value>
+                    <![CDATA[//VariableDeclaratorId[string-length(@Image) > $minimum]]]>
+                </value>
+            </property>
+        </properties>
+    </rule>
+    <rule ref="category/java/codestyle.xml/ShortVariable">
+        <properties>
+            <property name="minimum" value="2" />
+            <property name="xpath">
+                <value>
+                    <![CDATA[//VariableDeclaratorId[string-length(@Image) < $minimum]]]>
+                </value>
+            </property>
+        </properties>
+    </rule>
+    <rule ref="category/java/errorprone.xml/DataflowAnomalyAnalysis">
+        <properties>
+            <property name="violationSuppressRegex" value=".*-anomaly.*"/>
+        </properties>
+    </rule>
+
+    <rule ref="category/java/codestyle.xml/TooManyStaticImports">
+        <properties>
+            <property name="maximumStaticImports" value="10"/>
+        </properties>
+    </rule>
+</ruleset>
