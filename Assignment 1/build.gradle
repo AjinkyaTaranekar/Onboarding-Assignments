@@ -30,14 +30,22 @@ pmd {
     ruleSets = ["config/pmd/ruleset.xml"]
 }
 
-checkstyle {
-    toolVersion '8.11'
-    configFile file("config/checkstyle/checkstyle.xml")
+tasks.withType(Checkstyle) {
+    showViolations true
 }
 
-checkstyleMain {
-    source ='src/main/java'
+checkstyle {
+    toolVersion '8.11'
+    sourceSets = [project.sourceSets.main]
 }
-checkstyleTest {
-    source ='src/test/java'
+
+tasks.withType(Checkstyle).each { checkstyleTask ->
+    checkstyleTask.doLast {
+        reports.all { report ->
+            def outputFile = report.destination
+            if (outputFile.exists() && outputFile.text.contains("<error ")) {
+                throw new GradleException("There were checkstyle warnings! For more info check $outputFile")
+            }
+        }
+    }
 }
