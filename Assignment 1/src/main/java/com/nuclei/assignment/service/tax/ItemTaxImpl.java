@@ -8,13 +8,11 @@ import com.nuclei.assignment.constants.ItemTaxConstantsUtils;
 public class ItemTaxImpl implements ItemTax {
   
   @Override
-  // Calculation of tax for ItemType.RAW
   public double getTaxForRawItem(final Double itemPrice) {
     return ItemTaxConstantsUtils.TAX_PERCENTAGE * itemPrice;
   }
   
   @Override
-  // Calculation of tax for ItemType.MANUFACTURED
   public double getTaxForManufacturedItem(final Double itemPrice) {
     final double initialItemTax = ItemTaxConstantsUtils.TAX_PERCENTAGE * itemPrice;
     return initialItemTax + ItemTaxConstantsUtils.ADDITIONAL_TAX_PERCENTAGE
@@ -22,7 +20,6 @@ public class ItemTaxImpl implements ItemTax {
   }
   
   @Override
-  // Calculation of tax for ItemType.IMPORTED
   public double getTaxForImportedItem(final Double itemPrice) {
     final double initialItemTax =
         ItemTaxConstantsUtils.IMPORT_DUTY_TAX_PERCENTAGE * itemPrice;
