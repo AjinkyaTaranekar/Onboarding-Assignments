@@ -15,6 +15,9 @@ dependencies {
     implementation 'org.junit.jupiter:junit-jupiter:5.8.2'
     testImplementation 'junit:junit:4.13.2'
 
+    // https://mvnrepository.com/artifact/commons-logging/commons-logging
+    implementation 'commons-logging:commons-logging:1.2'
+
     // https://projectlombok.org
     compileOnly 'org.projectlombok:lombok:1.18.22'
     annotationProcessor 'org.projectlombok:lombok:1.18.22'

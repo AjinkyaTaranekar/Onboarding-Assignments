@@ -5,7 +5,8 @@ import com.nuclei.assignment.constants.FlagsConstantsUtils;
 import com.nuclei.assignment.constants.StringConstantsUtils;
 import com.nuclei.assignment.entity.ItemEntity;
 import com.nuclei.assignment.enums.ItemType;
-import com.nuclei.assignment.exception.CustomException;
+import com.nuclei.assignment.exception.AttributeParseException;
+import com.nuclei.assignment.exception.InputException;
 import com.nuclei.assignment.service.itemparser.ItemParser;
 import com.nuclei.assignment.service.itemparser.ItemParserImpl;
 import com.nuclei.assignment.service.tax.ItemTax;
@@ -16,14 +17,22 @@ import java.util.Arrays;
 import java.util.List;
 import java.util.Locale;
 import java.util.Scanner;
+import org.apache.commons.logging.Log;
+import org.apache.commons.logging.LogFactory;
 
 /**
  * Item Adder Implementation containing method to add items.
  */
 public class ItemAdderImpl implements ItemAdder {
   
+  /**
+   * The Logger.
+   */
+  private final Log logger = LogFactory.getLog(ItemAdderImpl.class);
+  
   @Override
   public void inputItemsFromUserInterface(final String... rawData) {
+    logger.info("New User Session");
     try (Scanner scanner = new Scanner(System.in)) {
       for (final String info : StringConstantsUtils.ITEM_DETAILS_INFO) {
         System.out.println(info);
@@ -35,24 +44,28 @@ public class ItemAdderImpl implements ItemAdder {
       }
       System.out.println(StringConstantsUtils.DIVIDER);
       final List<ItemEntity> items = addItemsToList(scanner, rawData);
+      logger.info(String.format("Received %d items", items.size()));
       outputItemsWithTaxToUser(items);
+      logger.info("User Session ended");
     } catch (Exception exception) {
       System.out.println(exception.getMessage());
     }
   }
   
   @Override
-  public void outputItemsWithTaxToUser(final List<ItemEntity> items) throws CustomException {
+  public void outputItemsWithTaxToUser(final List<ItemEntity> items) throws InputException {
     System.out.println(StringConstantsUtils.DIVIDER);
     if (items.isEmpty()) {
-      throw new CustomException(ExceptionsConstantsUtils.NO_INPUT);
+      logger.error(ExceptionsConstantsUtils.NO_INPUT);
+      throw new InputException(ExceptionsConstantsUtils.NO_INPUT);
     }
+    logger.info(String.format("Received items: \n%s", items));
     System.out.println(StringConstantsUtils.SHOW_ITEM_LIST);
     int itemCount = 0;
     for (final ItemEntity item : items) {
       itemCount += 1;
       System.out.printf(StringConstantsUtils.SHOW_ITEM_LIST_INFO,
-          item.getType(), itemCount, item.getName(), item.getPrice(),
+          itemCount, item.getType(), item.getName(), item.getPrice(),
           item.getQuantity(), item.getSalesTax(), item.getFinalPrice());
     }
   }
@@ -70,6 +83,7 @@ public class ItemAdderImpl implements ItemAdder {
           input = scanner.nextLine().split(" ");
         }
         final ItemEntity item = createItem(input);
+        logger.info(String.format("Created %s", item));
         items.add(item);
       } catch (Exception exception) {
         System.out.println(exception.getMessage());
@@ -84,7 +98,9 @@ public class ItemAdderImpl implements ItemAdder {
     return items;
   }
   
-  private ItemEntity createItem(final String... itemProperties) throws CustomException {
+  @SuppressWarnings("PMD.CyclomaticComplexity")
+  private ItemEntity createItem(final String... itemProperties)
+      throws InputException, AttributeParseException {
   
     validateItemProperties(itemProperties);
   
@@ -110,12 +126,29 @@ public class ItemAdderImpl implements ItemAdder {
             itemType = parser.parseType(itemProperties[index + 1]);
             break;
           default:
-            throw new CustomException(ExceptionsConstantsUtils.INVALID_INPUT);
+            throw new InputException(
+                String.format(ExceptionsConstantsUtils.INVALID_TYPE, itemProperties[index]));
         }
       } catch (IndexOutOfBoundsException exception) {
-        throw new CustomException(ExceptionsConstantsUtils.INVALID_INPUT, exception);
+        logger.error(
+            String.format(ExceptionsConstantsUtils.INVALID_INPUT_NO_DATA_FOR_FLAG,
+            itemProperties[index]), exception);
+        throw new InputException(
+            String.format(ExceptionsConstantsUtils.INVALID_INPUT_NO_DATA_FOR_FLAG,
+            itemProperties[index]), exception);
+      } catch (AttributeParseException exception) {
+        if (exception.getMessage().equals(
+            String.format(ExceptionsConstantsUtils.INVALID_INPUT_DATA_NOT_FLAG,
+            itemProperties[index + 1]))) {
+          logger.error(String.format(ExceptionsConstantsUtils.INVALID_INPUT_NO_DATA_FOR_FLAG,
+              itemProperties[index]), exception);
+          throw new InputException(
+            String.format(ExceptionsConstantsUtils.INVALID_INPUT_NO_DATA_FOR_FLAG,
+            itemProperties[index]), exception);
+        }
+        throw exception;
       }
-      
+  
     }
     final ItemEntity item = new ItemEntity(itemName, itemPrice, itemQuantity, itemType);
     
@@ -123,20 +156,32 @@ public class ItemAdderImpl implements ItemAdder {
     return item;
   }
   
-  private void validateItemProperties(final String... itemProperties) throws CustomException {
+  private void validateItemProperties(final String... itemProperties) throws InputException {
     // itemProperties shouldn't be less than FlagsConstantsUtils.MUST_ARGUMENTS
     if (itemProperties.length < FlagsConstantsUtils.MUST_ARGUMENTS) {
-      throw new CustomException(ExceptionsConstantsUtils.INVALID_INPUT);
+      logger.error(String.format(ExceptionsConstantsUtils.INVALID_INPUT_LENGTH,
+          Arrays.toString(itemProperties)), new Throwable().fillInStackTrace());
+      throw new InputException(
+          String.format(ExceptionsConstantsUtils.INVALID_INPUT_LENGTH,
+          Arrays.toString(itemProperties)));
     }
     
     // first property should be FlagsConstantsUtils.NAME_FLAG
     if (!FlagsConstantsUtils.NAME_FLAG.equals(itemProperties[0])) {
-      throw new CustomException(ExceptionsConstantsUtils.INVALID_INPUT);
+      logger.error(
+          String.format(ExceptionsConstantsUtils.INVALID_INPUT_NAME_NOT_AT_START,
+          Arrays.toString(itemProperties)), new Throwable().fillInStackTrace());
+      throw new InputException(
+          String.format(ExceptionsConstantsUtils.INVALID_INPUT_NAME_NOT_AT_START,
+          Arrays.toString(itemProperties)));
     }
     
     // properties should have FlagsConstantsUtils.TYPE_FLAG
     if (Arrays.stream(itemProperties).noneMatch(FlagsConstantsUtils.TYPE_FLAG::equals)) {
-      throw new CustomException(ExceptionsConstantsUtils.INVALID_INPUT);
+      logger.error(String.format(ExceptionsConstantsUtils.INVALID_INPUT_NO_TYPE,
+          Arrays.toString(itemProperties)), new Throwable().fillInStackTrace());
+      throw new InputException(String.format(ExceptionsConstantsUtils.INVALID_INPUT_NO_TYPE,
+        Arrays.toString(itemProperties)));
     }
   }
   

@@ -57,4 +57,15 @@ public class ItemEntity {
     this.type = type;
   }
   
+  @Override
+  public String toString() {
+    return "ItemEntity{"
+        + "name='" + name + '\''
+        + ", price=" + price
+        + ", salesTax=" + salesTax
+        + ", finalPrice=" + finalPrice
+        + ", quantity=" + quantity
+        + ", type=" + type
+        + '}';
+  }
 }

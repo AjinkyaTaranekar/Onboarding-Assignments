@@ -1,7 +1,7 @@
 package com.nuclei.assignment.service.itemadder;
 
 import com.nuclei.assignment.entity.ItemEntity;
-import com.nuclei.assignment.exception.CustomException;
+import com.nuclei.assignment.exception.InputException;
 
 import java.util.List;
 
@@ -21,7 +21,7 @@ public interface ItemAdder {
    * User Interface to output items with taxes.
    *
    * @param items the items
-   * @throws CustomException the custom exception
+   * @throws InputException the custom exception
    */
-  void outputItemsWithTaxToUser(List<ItemEntity> items) throws CustomException;
+  void outputItemsWithTaxToUser(List<ItemEntity> items) throws InputException;
 }

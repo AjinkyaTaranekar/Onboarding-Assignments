@@ -49,7 +49,7 @@ public class StringConstantsUtils {
    * The constant SHOW_ITEM_LIST_INFO.
    */
   public static final String SHOW_ITEM_LIST_INFO
-      = "%s Item %d %s with price %.2f and quantity %.2f at tax %.2f => final price as %.2f\n";
+      = "%d. %s Item %s with price %.2f and quantity %.2f at tax %.2f => final price as %.2f\n";
   
   /**
    * The constant DIVIDER.
