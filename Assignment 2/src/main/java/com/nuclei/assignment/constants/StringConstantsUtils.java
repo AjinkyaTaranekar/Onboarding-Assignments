@@ -18,6 +18,7 @@ public class StringConstantsUtils {
     "5. Exit",
     "Please choose from (1-5):",
   };
+  
   /**
    * The constant ADD_USER_DETAILS_INFO.
    */
@@ -27,28 +28,34 @@ public class StringConstantsUtils {
    * The constant ADD_USER_NAME.
    */
   public static final String ADD_USER_NAME = "Enter Full Name";
+  
   /**
    * The constant ADD_USER_AGE.
    */
   public static final String ADD_USER_AGE = "Enter Age";
+  
   /**
    * The constant ADD_USER_ADDRESS.
    */
   public static final String ADD_USER_ADDRESS = "Enter Address";
+  
   /**
    * The constant ADD_USER_ROLL_NUMBER.
    */
   public static final String ADD_USER_ROLL_NUMBER = "Enter Roll Number";
+  
   /**
    * The constant DELETE_USER_ROLL_NUMBER.
    */
-  public static final String DELETE_USER_ROLL_NUMBER = "Enter Roll Number to "
-      + "be deleted";
+  public static final String DELETE_USER_ROLL_NUMBER =
+      "Enter Roll Number to be deleted";
+  
   /**
    * The constant ADD_USER_COURSES.
    */
-  public static final String ADD_USER_COURSES = "Set of courses interested to"
-      + " enroll";
+  public static final String ADD_USER_COURSES =
+      "Set of courses interested to enroll";
+  
   /**
    * The constant COURSES_NOTE.
    */
@@ -58,47 +65,56 @@ public class StringConstantsUtils {
     "2. Enter Courses as comma separated example: A,B,C,D}",
     "3. Below is list of courses available."
   };
+  
   /**
    * The constant LIST_FORMAT.
    */
   public static final String LIST_FORMAT = "%d. %s\n";
+  
   /**
    * The constant MUST_COURSE_COUNT.
    */
   public static final int MUST_COURSE_COUNT = 4;
+  
   /**
    * The constant CONTINUE_MORE_OPERATIONS.
    */
   public static final String CONTINUE_MORE_OPERATIONS
       = "Continue more operations (y/n):";
+  
   /**
    * The constant SAVE_USERS.
    */
   public static final String SAVE_USERS
       = "Save user operations (y/n):";
+  
   /**
    * The constant CONFIRMATION.
    */
   public static final String CONFIRMATION = "y";
+  
   /**
    * The constant DIVIDER.
    */
   public static final String DIVIDER = "---------------------------------------"
-      +
-      "------------------------------------------------------------------------";
+      + "------------------------------------------------------------------------";
+  
   /**
    * The constant LEFT_ALIGN_FORMAT.
    */
   public static final String LEFT_ALIGN_FORMAT = "| %-20s | %-11s | %-8s | "
       + "%-40s | %-16s |%n";
+  
   /**
    * The constant SORT_BY_ORDER.
    */
   public static final String SORT_BY_ORDER = "Sort Order (ASC/DESC): ";
+  
   /**
    * The constant SORT_BY_COLUMN.
    */
   public static final String SORT_BY_COLUMN = "Sort Column (Enter choice): ";
+  
   /**
    * The constant USER_FIELDS.
    */
@@ -109,6 +125,7 @@ public class StringConstantsUtils {
     "Address",
     "Courses"
   };
+  
   /**
    * The constant USER_STORAGE.
    */

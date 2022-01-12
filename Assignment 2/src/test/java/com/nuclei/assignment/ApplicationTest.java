@@ -8,6 +8,7 @@ import com.nuclei.assignment.constants.SuccessConstantsUtils;
 import com.nuclei.assignment.entity.UserEntity;
 import com.nuclei.assignment.enums.Courses;
 import com.nuclei.assignment.enums.SortingOrder;
+import com.nuclei.assignment.exception.CustomException;
 import com.nuclei.assignment.service.useroperations.UserOperations;
 import com.nuclei.assignment.service.useroperations.UserOperationsImpl;
 import java.io.ByteArrayInputStream;
@@ -106,15 +107,18 @@ public class ApplicationTest {
     provideInput(testString);
     
     Application.main(new String[0]);
-    final String expectedMessage = ExceptionsConstantsUtils.ALREADY_PRESENT_ROLL_NUMBER;
+    final String expectedMessage =
+        String.format(ExceptionsConstantsUtils.ALREADY_PRESENT_ROLL_NUMBER, "2");
     assertTrue(getOutput().contains(expectedMessage));
   }
   
   /**
    * Adding two users with different name check if they are sorted.
+   *
+   * @throws CustomException the custom exception
    */
   @Test
-  public void addingTwoUsersWithDifferentNameCheckIfTheyAreSorted() {
+  public void addingTwoUsersWithDifferentNameCheckIfTheyAreSorted() throws CustomException {
     UserOperations userOperations = new UserOperationsImpl();
     userOperations.addUser(
         new UserEntity("Ajinkya", 21, "85, Sch 114",
@@ -134,9 +138,11 @@ public class ApplicationTest {
   /**
    * Adding two users with same name check if they are sorted.
    * If name are same then comparison is between roll numbers
+   *
+   * @throws CustomException the custom exception
    */
   @Test
-  public void addingTwoUsersWithSameNameCheckIfTheyAreSorted() {
+  public void addingTwoUsersWithSameNameCheckIfTheyAreSorted() throws CustomException {
     UserOperations userOperations = new UserOperationsImpl();
     userOperations.addUser(
         new UserEntity("Ajinkya", 21, "85, Sch 114",
@@ -170,28 +176,8 @@ public class ApplicationTest {
     provideInput(testString);
     
     Application.main(new String[0]);
-    final String expectedMessage = ExceptionsConstantsUtils.INVALID_COURSE;
-    assertTrue(getOutput().contains(expectedMessage));
-  }
-  
-  /**
-   * Adding user with same course twice.
-   */
-  @Test
-  public void addingUserWithSameCourseTwice() {
-    final String[] test = {
-      "1",
-      "4",
-      "Ajinkya",
-      "21",
-      "85, 114",
-      "A,B,C,A"
-    };
-    final String testString = String.join("\n",test);
-    provideInput(testString);
-    
-    Application.main(new String[0]);
-    final String expectedMessage = ExceptionsConstantsUtils.INVALID_COURSE;
+    final String expectedMessage =
+        ExceptionsConstantsUtils.INVALID_COURSE_COUNT;
     assertTrue(getOutput().contains(expectedMessage));
   }
   
@@ -233,7 +219,8 @@ public class ApplicationTest {
     provideInput(testString);
   
     Application.main(new String[0]);
-    final String expectedMessage = ExceptionsConstantsUtils.INVALID_AGE;
+    final String expectedMessage =
+        String.format(ExceptionsConstantsUtils.NEGATIVE_AGE, "-21");
     assertTrue(getOutput().contains(expectedMessage));
   }
   
@@ -254,7 +241,8 @@ public class ApplicationTest {
     provideInput(testString);
   
     Application.main(new String[0]);
-    final String expectedMessage = ExceptionsConstantsUtils.INVALID_AGE;
+    final String expectedMessage =
+        String.format(ExceptionsConstantsUtils.CHARACTER_AGE, "abc");
     assertTrue(getOutput().contains(expectedMessage));
   }
   
@@ -275,7 +263,8 @@ public class ApplicationTest {
     provideInput(testString);
   
     Application.main(new String[0]);
-    final String expectedMessage = ExceptionsConstantsUtils.INVALID_ROLL_NUMBER;
+    final String expectedMessage =
+        String.format(ExceptionsConstantsUtils.NEGATIVE_ROLL_NUMBER, "-1");
     assertTrue(getOutput().contains(expectedMessage));
   }
   
@@ -296,7 +285,8 @@ public class ApplicationTest {
     provideInput(testString);
   
     Application.main(new String[0]);
-    final String expectedMessage = ExceptionsConstantsUtils.INVALID_ROLL_NUMBER;
+    final String expectedMessage =
+        String.format(ExceptionsConstantsUtils.CHARACTER_ROLL_NUMBER, "abc");
     assertTrue(getOutput().contains(expectedMessage));
   }
   
@@ -322,6 +312,49 @@ public class ApplicationTest {
   }
   
   /**
+   * Adding user with 3 courses.
+   */
+  @Test
+  public void addingUserWith3Courses() {
+    final String[] test = {
+      "1",
+      "8",
+      "Ajinkya",
+      "21",
+      "85, Sch",
+      "A,B,C"
+    };
+    final String testString = String.join("\n",test);
+    provideInput(testString);
+    
+    Application.main(new String[0]);
+    final String expectedMessage = ExceptionsConstantsUtils.INVALID_COURSE_COUNT;
+    assertTrue(getOutput().contains(expectedMessage));
+  }
+  
+  /**
+   * Adding user with courses with same set.
+   */
+  @Test
+  public void addingUserWithCoursesWithSameSet() {
+    final String[] test = {
+      "1",
+      "8",
+      "Ajinkya",
+      "21",
+      "85, Sch",
+      "A,B,C,A"
+    };
+    final String testString = String.join("\n",test);
+    provideInput(testString);
+    
+    Application.main(new String[0]);
+    final String expectedMessage =
+        String.format(ExceptionsConstantsUtils.REPEATED_COURSE_FOUND, "A,B,C,A");
+    assertTrue(getOutput().contains(expectedMessage));
+  }
+  
+  /**
    * Invalid menu options.
    */
   @Test
@@ -337,6 +370,9 @@ public class ApplicationTest {
     assertTrue(getOutput().contains(expectedMessage));
   }
   
+  /**
+   * Displaying users based on column sorting order and columns.
+   */
   @Test
   public void displayingUsersBasedOnColumnSortingOrderAndColumns() {
     final String[] test = {
@@ -360,9 +396,42 @@ public class ApplicationTest {
     };
     final String testString = String.join("\n",test);
     provideInput(testString);
-    
+  
     Application.main(new String[0]);
     final String expectedMessage = SuccessConstantsUtils.DISPLAY_USERS;
+    assertTrue(getOutput().contains(expectedMessage));
+  }
+  
+  /**
+   * Displaying users but column is character.
+   */
+  @Test
+  public void displayingUsersButColumnIsCharacter() {
+    final String[] test = {
+      "1",
+      "10",
+      "Ajinkya",
+      "21",
+      "85, 114",
+      "A,B,C,D",
+      "y",
+      "1",
+      "11",
+      "Aditya",
+      "15",
+      "84, 114",
+      "A,E,C,F",
+      "y",
+      "2",
+      "1ab",
+      "ASC"
+    };
+    final String testString = String.join("\n",test);
+    provideInput(testString);
+    
+    Application.main(new String[0]);
+    final String expectedMessage =
+        String.format(ExceptionsConstantsUtils.INVALID_COLUMN_NUMBER, "1ab");
     assertTrue(getOutput().contains(expectedMessage));
   }
   
@@ -386,7 +455,8 @@ public class ApplicationTest {
     provideInput(testString);
     
     Application.main(new String[0]);
-    final String expectedMessage = ExceptionsConstantsUtils.INVALID_COLUMN_NUMBER;
+    final String expectedMessage =
+        String.format(ExceptionsConstantsUtils.INVALID_COLUMN_NUMBER, "-1");
     assertTrue(getOutput().contains(expectedMessage));
   }
   
@@ -411,15 +481,18 @@ public class ApplicationTest {
     provideInput(testString);
     
     Application.main(new String[0]);
-    final String expectedMessage = ExceptionsConstantsUtils.INVALID_SORTING_ORDER;
+    final String expectedMessage =
+        String.format(ExceptionsConstantsUtils.INVALID_SORTING_ORDER, "ascend");
     assertTrue(getOutput().contains(expectedMessage));
   }
   
   /**
    * Displaying users sorting based on name in desc.
+   *
+   * @throws CustomException the custom exception
    */
   @Test
-  public void displayingUsersSortingBasedOnNameInDesc() {
+  public void displayingUsersSortingBasedOnNameInDesc() throws CustomException {
     UserOperations userOperations = new UserOperationsImpl();
     userOperations.addUser(
         new UserEntity("Ajinkya", 21, "85, Sch 114",
@@ -443,9 +516,11 @@ public class ApplicationTest {
   
   /**
    * Displaying users sorting based on name in asc.
+   *
+   * @throws CustomException the custom exception
    */
   @Test
-  public void displayingUsersSortingBasedOnNameInAsc() {
+  public void displayingUsersSortingBasedOnNameInAsc() throws CustomException {
     UserOperations userOperations = new UserOperationsImpl();
     userOperations.addUser(
         new UserEntity("Ajinkya", 21, "85, Sch 114",
@@ -469,9 +544,11 @@ public class ApplicationTest {
   
   /**
    * Displaying users sorting based on age.
+   *
+   * @throws CustomException the custom exception
    */
   @Test
-  public void displayingUsersSortingBasedOnAge() {
+  public void displayingUsersSortingBasedOnAge() throws CustomException {
     UserOperations userOperations = new UserOperationsImpl();
     userOperations.addUser(
         new UserEntity("Ajinkya", 21, "85, Sch 114",
@@ -495,9 +572,11 @@ public class ApplicationTest {
   
   /**
    * Displaying users sorting based on roll number.
+   *
+   * @throws CustomException the custom exception
    */
   @Test
-  public void displayingUsersSortingBasedOnRollNumber() {
+  public void displayingUsersSortingBasedOnRollNumber() throws CustomException {
     UserOperations userOperations = new UserOperationsImpl();
     userOperations.addUser(
         new UserEntity("Ajinkya", 21, "85, Sch 114",
@@ -521,9 +600,11 @@ public class ApplicationTest {
   
   /**
    * Displaying users sorting based on address.
+   *
+   * @throws CustomException the custom exception
    */
   @Test
-  public void displayingUsersSortingBasedOnAddress() {
+  public void displayingUsersSortingBasedOnAddress() throws CustomException {
     UserOperations userOperations = new UserOperationsImpl();
     userOperations.addUser(
         new UserEntity("Ajinkya", 21, "85, Sch 114",

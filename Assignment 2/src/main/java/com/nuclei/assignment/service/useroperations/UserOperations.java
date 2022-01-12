@@ -23,7 +23,7 @@ public interface UserOperations {
    *
    * @param user the user
    */
-  void addUser(UserEntity user);
+  void addUser(UserEntity user) throws CustomException;
   
   /**
    * Get User by roll number.

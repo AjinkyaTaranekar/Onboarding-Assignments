@@ -4,6 +4,7 @@ package com.nuclei.assignment.exception;
  * Custom Exception.
  */
 public class CustomException extends Exception {
+  
   /**
    * Custom Exception Constructor supporting message.
    *

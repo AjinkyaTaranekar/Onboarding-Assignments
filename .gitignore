@@ -4,6 +4,7 @@ target/
 !**/src/main/**/target/
 !**/src/test/**/target/
 user.ser
+user_test.ser
 
 ### STS ###
 .apt_generated

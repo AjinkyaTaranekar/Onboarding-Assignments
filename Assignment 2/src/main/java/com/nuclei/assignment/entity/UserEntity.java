@@ -15,22 +15,27 @@ import lombok.Setter;
 @Setter
 @AllArgsConstructor
 public class UserEntity implements Serializable {
+  
   /**
    * The Name.
    */
   private String name;
+  
   /**
    * The Age.
    */
   private Integer age;
+  
   /**
    * The Address.
    */
   private String address;
+  
   /**
    * The Roll number.
    */
   private Integer rollNumber;
+  
   /**
    * The Courses.
    */

@@ -1,6 +1,7 @@
 package com.nuclei.assignment.service.useroperations;
 
 import com.nuclei.assignment.constants.ExceptionsConstantsUtils;
+import com.nuclei.assignment.constants.StringConstantsUtils;
 import com.nuclei.assignment.constants.SuccessConstantsUtils;
 import com.nuclei.assignment.entity.UserEntity;
 import com.nuclei.assignment.enums.SortingOrder;
@@ -12,6 +13,9 @@ import java.util.ArrayList;
 import java.util.Collections;
 import java.util.Comparator;
 import java.util.List;
+import org.apache.commons.logging.Log;
+import org.apache.commons.logging.LogFactory;
+
 
 /**
  * UserEntity CRUD Operations implementations.
@@ -21,7 +25,7 @@ public class UserOperationsImpl implements UserOperations {
   /**
    * The Users.
    */
-  public List<UserEntity> users;
+  private List<UserEntity> users;
   
   /**
    * The Disk storage operation.
@@ -29,10 +33,26 @@ public class UserOperationsImpl implements UserOperations {
   private final DiskStorageOperation diskStorageOperation;
   
   /**
-   * UserEntity Operations Constructor.
+   * The Logger.
+   */
+  private final Log logger = LogFactory.getLog(UserOperationsImpl.class);
+  
+  /**
+   * Instantiates a new User operations.
+   *
+   * @param filePathOfUserStorage the file path of user storage
+   */
+  public UserOperationsImpl(String filePathOfUserStorage) {
+    diskStorageOperation = new DiskStorageOperationImpl(filePathOfUserStorage);
+    users = getUsersFromDisk();
+  }
+  
+  /**
+   * Instantiates a new User operations.
    */
   public UserOperationsImpl() {
-    diskStorageOperation = new DiskStorageOperationImpl();
+    final String filePathOfUserStorage = StringConstantsUtils.USER_STORAGE;
+    diskStorageOperation = new DiskStorageOperationImpl(filePathOfUserStorage);
     users = getUsersFromDisk();
   }
   
@@ -44,6 +64,7 @@ public class UserOperationsImpl implements UserOperations {
   private List<UserEntity> getUsersFromDisk() {
     try {
       users = diskStorageOperation.fetchUsersFromDisk();
+      logger.info(String.format("Fetched %s users from disk", users.size()));
     } catch (Exception exception) {
       users = new ArrayList<>();
     }
@@ -51,31 +72,39 @@ public class UserOperationsImpl implements UserOperations {
   }
   
   @Override
-  public void addUser(final UserEntity user) {
+  public void addUser(final UserEntity user) throws CustomException {
+    final boolean userExist =
+        checkIfUserExistByRollNumber(user.getRollNumber());
+    if (userExist) {
+      logger.error(String.format(ExceptionsConstantsUtils.ALREADY_PRESENT_ROLL_NUMBER,
+          user.getRollNumber()));
+      throw new CustomException(
+          String.format(ExceptionsConstantsUtils.ALREADY_PRESENT_ROLL_NUMBER,
+            user.getRollNumber()));
+    }
     final int index = Collections.binarySearch(users, user,
         Comparator.comparing(UserEntity::getName).thenComparing(UserEntity::getRollNumber));
+  
     users.add(-(index + 1), user);
+    logger.info(SuccessConstantsUtils.CREATED_USER);
+    logger.info(user);
     System.out.println(SuccessConstantsUtils.CREATED_USER);
   }
   
   @Override
-  public UserEntity getUserByRollNumber(final int rollNumber) throws CustomException {
+  public UserEntity getUserByRollNumber(final int rollNumber) {
     final int index =  Collections.binarySearch(users, new UserEntity(rollNumber),
         Comparator.comparing(UserEntity::getRollNumber));
     if (index < 0) {
-      throw new CustomException(ExceptionsConstantsUtils.INVALID_ROLL_NUMBER);
+      return null;
     }
     return users.get(index);
   }
   
   @Override
   public boolean checkIfUserExistByRollNumber(final int rollNumber) {
-    try {
-      getUserByRollNumber(rollNumber);
-    } catch (Exception exception) {
-      return false;
-    }
-    return true;
+    final UserEntity user = getUserByRollNumber(rollNumber);
+    return user != null;
   }
   
   @Override
@@ -85,12 +114,15 @@ public class UserOperationsImpl implements UserOperations {
       throw new CustomException(ExceptionsConstantsUtils.INVALID_ROLL_NUMBER);
     }
     users.remove(user);
+    logger.info(SuccessConstantsUtils.DELETED_USER);
     System.out.println(SuccessConstantsUtils.DELETED_USER);
   }
   
   @Override
   public void saveUsersToDisk() throws CustomException {
     diskStorageOperation.saveUsersToDisk(users);
+    logger.info(SuccessConstantsUtils.SAVE_USERS);
+    logger.info(users);
     System.out.println(SuccessConstantsUtils.SAVE_USERS);
   }
   
