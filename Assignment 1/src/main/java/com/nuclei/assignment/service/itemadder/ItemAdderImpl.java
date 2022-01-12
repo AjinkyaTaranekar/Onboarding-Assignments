@@ -142,7 +142,7 @@ public class ItemAdderImpl implements ItemAdder {
           Arrays.toString(itemProperties)), new Throwable().fillInStackTrace());
       throw new InputException(
         String.format(ExceptionsConstantsUtils.INVALID_INPUT_LENGTH,
-          Arrays.toString(itemProperties)), new Throwable().fillInStackTrace());
+          Arrays.toString(itemProperties)));
     }
     
     // first property should be FlagsConstantsUtils.NAME_FLAG
@@ -152,7 +152,7 @@ public class ItemAdderImpl implements ItemAdder {
           Arrays.toString(itemProperties)), new Throwable().fillInStackTrace());
       throw new InputException(
           String.format(ExceptionsConstantsUtils.INVALID_INPUT_NAME_NOT_AT_START,
-          Arrays.toString(itemProperties)), new Throwable().fillInStackTrace());
+          Arrays.toString(itemProperties)));
     }
     
     // properties should have FlagsConstantsUtils.TYPE_FLAG
@@ -160,7 +160,7 @@ public class ItemAdderImpl implements ItemAdder {
       logger.error(String.format(ExceptionsConstantsUtils.INVALID_INPUT_NO_TYPE,
           Arrays.toString(itemProperties)), new Throwable().fillInStackTrace());
       throw new InputException(String.format(ExceptionsConstantsUtils.INVALID_INPUT_NO_TYPE,
-        Arrays.toString(itemProperties)), new Throwable().fillInStackTrace());
+        Arrays.toString(itemProperties)));
     }
   
     // itemProperties should be a multiple of 2 such that each key has value
@@ -169,7 +169,7 @@ public class ItemAdderImpl implements ItemAdder {
           Arrays.toString(itemProperties)), new Throwable().fillInStackTrace());
       throw new InputException(
         String.format(ExceptionsConstantsUtils.INVALID_INPUT_NO_DATA_FOR_FLAG,
-          Arrays.toString(itemProperties)), new Throwable().fillInStackTrace());
+          Arrays.toString(itemProperties)));
     }
   
   }
