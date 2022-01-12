@@ -98,7 +98,6 @@ public class ItemAdderImpl implements ItemAdder {
     return items;
   }
   
-  @SuppressWarnings("PMD.CyclomaticComplexity")
   private ItemEntity createItem(final String... itemProperties)
       throws InputException, AttributeParseException {
   
@@ -111,42 +110,22 @@ public class ItemAdderImpl implements ItemAdder {
     ItemType itemType = ItemType.RAW;
     
     for (int index = 0; index < itemProperties.length; index += 2) {
-      try {
-        switch (itemProperties[index]) {
-          case FlagsConstantsUtils.NAME_FLAG:
-            itemName = parser.parseName(itemProperties[index + 1]);
-            break;
-          case FlagsConstantsUtils.PRICE_FLAG:
-            itemPrice = parser.parsePrice(itemProperties[index + 1]);
-            break;
-          case FlagsConstantsUtils.QUANTITY_FLAG:
-            itemQuantity = parser.parseQuantity(itemProperties[index + 1]);
-            break;
-          case FlagsConstantsUtils.TYPE_FLAG:
-            itemType = parser.parseType(itemProperties[index + 1]);
-            break;
-          default:
-            throw new InputException(
-                String.format(ExceptionsConstantsUtils.INVALID_TYPE, itemProperties[index]));
-        }
-      } catch (IndexOutOfBoundsException exception) {
-        logger.error(
-            String.format(ExceptionsConstantsUtils.INVALID_INPUT_NO_DATA_FOR_FLAG,
-            itemProperties[index]), exception);
-        throw new InputException(
-            String.format(ExceptionsConstantsUtils.INVALID_INPUT_NO_DATA_FOR_FLAG,
-            itemProperties[index]), exception);
-      } catch (AttributeParseException exception) {
-        if (exception.getMessage().equals(
-            String.format(ExceptionsConstantsUtils.INVALID_INPUT_DATA_NOT_FLAG,
-            itemProperties[index + 1]))) {
-          logger.error(String.format(ExceptionsConstantsUtils.INVALID_INPUT_NO_DATA_FOR_FLAG,
-              itemProperties[index]), exception);
+      switch (itemProperties[index]) {
+        case FlagsConstantsUtils.NAME_FLAG:
+          itemName = parser.parseName(itemProperties[index + 1]);
+          break;
+        case FlagsConstantsUtils.PRICE_FLAG:
+          itemPrice = parser.parsePrice(itemProperties[index + 1]);
+          break;
+        case FlagsConstantsUtils.QUANTITY_FLAG:
+          itemQuantity = parser.parseQuantity(itemProperties[index + 1]);
+          break;
+        case FlagsConstantsUtils.TYPE_FLAG:
+          itemType = parser.parseType(itemProperties[index + 1]);
+          break;
+        default:
           throw new InputException(
-            String.format(ExceptionsConstantsUtils.INVALID_INPUT_NO_DATA_FOR_FLAG,
-            itemProperties[index]), exception);
-        }
-        throw exception;
+              String.format(ExceptionsConstantsUtils.INVALID_TYPE, itemProperties[index]));
       }
   
     }
@@ -162,8 +141,8 @@ public class ItemAdderImpl implements ItemAdder {
       logger.error(String.format(ExceptionsConstantsUtils.INVALID_INPUT_LENGTH,
           Arrays.toString(itemProperties)), new Throwable().fillInStackTrace());
       throw new InputException(
-          String.format(ExceptionsConstantsUtils.INVALID_INPUT_LENGTH,
-          Arrays.toString(itemProperties)));
+        String.format(ExceptionsConstantsUtils.INVALID_INPUT_LENGTH,
+          Arrays.toString(itemProperties)), new Throwable().fillInStackTrace());
     }
     
     // first property should be FlagsConstantsUtils.NAME_FLAG
@@ -173,7 +152,7 @@ public class ItemAdderImpl implements ItemAdder {
           Arrays.toString(itemProperties)), new Throwable().fillInStackTrace());
       throw new InputException(
           String.format(ExceptionsConstantsUtils.INVALID_INPUT_NAME_NOT_AT_START,
-          Arrays.toString(itemProperties)));
+          Arrays.toString(itemProperties)), new Throwable().fillInStackTrace());
     }
     
     // properties should have FlagsConstantsUtils.TYPE_FLAG
@@ -181,8 +160,18 @@ public class ItemAdderImpl implements ItemAdder {
       logger.error(String.format(ExceptionsConstantsUtils.INVALID_INPUT_NO_TYPE,
           Arrays.toString(itemProperties)), new Throwable().fillInStackTrace());
       throw new InputException(String.format(ExceptionsConstantsUtils.INVALID_INPUT_NO_TYPE,
-        Arrays.toString(itemProperties)));
+        Arrays.toString(itemProperties)), new Throwable().fillInStackTrace());
     }
+  
+    // itemProperties should be a multiple of 2 such that each key has value
+    if (itemProperties.length % 2 != 0) {
+      logger.error(String.format(ExceptionsConstantsUtils.INVALID_INPUT_NO_DATA_FOR_FLAG,
+          Arrays.toString(itemProperties)), new Throwable().fillInStackTrace());
+      throw new InputException(
+        String.format(ExceptionsConstantsUtils.INVALID_INPUT_NO_DATA_FOR_FLAG,
+          Arrays.toString(itemProperties)), new Throwable().fillInStackTrace());
+    }
+  
   }
   
   private void setTaxForTheNewItem(final ItemEntity item) {

@@ -3,7 +3,7 @@ package com.nuclei.assignment;
 import static org.junit.jupiter.api.Assertions.assertTrue;
 
 import com.nuclei.assignment.constants.ExceptionsConstantsUtils;
-import com.nuclei.assignment.exception.InputException;
+import com.nuclei.assignment.constants.FlagsConstantsUtils;
 import java.io.ByteArrayInputStream;
 import java.io.ByteArrayOutputStream;
 import java.io.InputStream;
@@ -124,13 +124,14 @@ public class ApplicationTest {
    */
   @Test
   public void addingItemButTagHasNoData() {
-    final String[] item = {"-name", "apple", "-type", "raw", "-price"};
+    final String[] item = {"-name", "apple", "-type", "raw", "-quantity"};
     final String addMoreItems = "n";
     provideInput(addMoreItems);
     
     Application.main(item);
     final String expectedMessage =
-        String.format(ExceptionsConstantsUtils.INVALID_INPUT_NO_DATA_FOR_FLAG, "-price");
+        String.format(ExceptionsConstantsUtils.INVALID_INPUT_NO_DATA_FOR_FLAG,
+          Arrays.toString(item));
     assertTrue(getOutput().contains(expectedMessage));
   }
   
@@ -161,7 +162,7 @@ public class ApplicationTest {
     Application.main(item);
     final String expectedMessage =
         String.format(ExceptionsConstantsUtils.INVALID_INPUT_DATA_NOT_NULL,
-          "price");
+          FlagsConstantsUtils.PRICE_FLAG);
     assertTrue(getOutput().contains(expectedMessage));
   }
   

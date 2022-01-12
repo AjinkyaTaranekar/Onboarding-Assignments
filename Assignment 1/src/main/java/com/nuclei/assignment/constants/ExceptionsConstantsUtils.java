@@ -42,7 +42,7 @@ public final class ExceptionsConstantsUtils {
    * The constant INVALID_INPUT_NO_DATA_FOR_FLAG.
    */
   public static final String INVALID_INPUT_NO_DATA_FOR_FLAG =
-      "No data present for flag: %s";
+      "Please, check no data present for some flag in : %s";
   
   /**
    * The constant INVALID_INPUT_DATA_NOT_FLAG.

@@ -4,6 +4,7 @@ import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertThrows;
 
 import com.nuclei.assignment.constants.ExceptionsConstantsUtils;
+import com.nuclei.assignment.constants.FlagsConstantsUtils;
 import com.nuclei.assignment.enums.ItemType;
 import com.nuclei.assignment.exception.AttributeParseException;
 import org.junit.jupiter.api.Test;
@@ -26,7 +27,7 @@ public class ItemParserTest {
     
     final String expectedMessage =
         String.format(ExceptionsConstantsUtils.INVALID_INPUT_DATA_NOT_NULL,
-          "name");
+          FlagsConstantsUtils.NAME_FLAG);
     final String actualMessage = exception.getMessage();
     
     assertEquals(expectedMessage, actualMessage);
@@ -43,7 +44,7 @@ public class ItemParserTest {
     
     final String expectedMessage =
         String.format(ExceptionsConstantsUtils.INVALID_INPUT_DATA_NOT_NULL,
-          "price");
+          FlagsConstantsUtils.PRICE_FLAG);
     final String actualMessage = exception.getMessage();
     
     assertEquals(expectedMessage, actualMessage);
@@ -60,7 +61,7 @@ public class ItemParserTest {
     
     final String expectedMessage =
         String.format(ExceptionsConstantsUtils.INVALID_INPUT_DATA_NOT_NULL,
-          "type");
+          FlagsConstantsUtils.TYPE_FLAG);
     final String actualMessage = exception.getMessage();
     
     assertEquals(expectedMessage, actualMessage);
@@ -77,7 +78,7 @@ public class ItemParserTest {
     
     final String expectedMessage =
         String.format(ExceptionsConstantsUtils.INVALID_INPUT_DATA_NOT_NULL,
-          "quantity");
+          FlagsConstantsUtils.QUANTITY_FLAG);
     final String actualMessage = exception.getMessage();
     
     assertEquals(expectedMessage, actualMessage);
@@ -168,7 +169,7 @@ public class ItemParserTest {
         () -> new ItemParserImpl().parseName(input));
     
     final String expectedMessage =
-        String.format(ExceptionsConstantsUtils.INVALID_INPUT_DATA_NOT_FLAG, input);
+        String.format(ExceptionsConstantsUtils.INVALID_INPUT_NO_DATA_FOR_FLAG, input);
     final String actualMessage = exception.getMessage();
     
     assertEquals(expectedMessage, actualMessage);

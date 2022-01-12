@@ -22,7 +22,7 @@ public class ItemParserImpl implements ItemParser {
   
   @Override
   public String parseName(final String name) throws AttributeParseException {
-    validateData(name, "name");
+    validateData(name, FlagsConstantsUtils.NAME_FLAG);
     if (name.isEmpty()) {
       logger.error(ExceptionsConstantsUtils.EMPTY_NAME, new Throwable().fillInStackTrace());
       throw new AttributeParseException(ExceptionsConstantsUtils.EMPTY_NAME);
@@ -32,7 +32,7 @@ public class ItemParserImpl implements ItemParser {
   
   @Override
   public double parsePrice(final String price) throws AttributeParseException {
-    validateData(price, "price");
+    validateData(price,  FlagsConstantsUtils.PRICE_FLAG);
     final double parsedPrice;
     try {
       parsedPrice = Double.parseDouble(price);
@@ -53,7 +53,7 @@ public class ItemParserImpl implements ItemParser {
   
   @Override
   public ItemType parseType(final String type) throws AttributeParseException {
-    validateData(type, "type");
+    validateData(type, FlagsConstantsUtils.TYPE_FLAG);
     final ItemType parsedItemType;
     try {
       parsedItemType = ItemType.valueOf(type.toUpperCase(Locale.ROOT));
@@ -69,7 +69,7 @@ public class ItemParserImpl implements ItemParser {
   
   @Override
   public double parseQuantity(final String quantity) throws AttributeParseException {
-    validateData(quantity, "quantity");
+    validateData(quantity, FlagsConstantsUtils.QUANTITY_FLAG);
     final double parsedQuantity;
     try {
       parsedQuantity = Double.parseDouble(quantity);
@@ -93,18 +93,20 @@ public class ItemParserImpl implements ItemParser {
   private void validateData(String data, String checkedOnAttributeName)
       throws AttributeParseException {
     checkDataIsNotNull(data, checkedOnAttributeName);
-    checkDataIsNotFlag(data);
+    checkDataIsNotFlag(data, checkedOnAttributeName);
   }
   
-  private void checkDataIsNotFlag(String data) throws AttributeParseException {
+  private void checkDataIsNotFlag(String data, String checkedOnAttributeName)
+      throws AttributeParseException {
     if (data.equals(FlagsConstantsUtils.NAME_FLAG)
         || data.equals(FlagsConstantsUtils.TYPE_FLAG)
         || data.equals(FlagsConstantsUtils.QUANTITY_FLAG)
         || data.equals(FlagsConstantsUtils.PRICE_FLAG)) {
-      logger.error(String.format(ExceptionsConstantsUtils.INVALID_INPUT_DATA_NOT_FLAG,
-          data), new Throwable().fillInStackTrace());
+      logger.error(String.format(ExceptionsConstantsUtils.INVALID_INPUT_NO_DATA_FOR_FLAG,
+          checkedOnAttributeName), new Throwable().fillInStackTrace());
       throw new AttributeParseException(
-          String.format(ExceptionsConstantsUtils.INVALID_INPUT_DATA_NOT_FLAG, data));
+          String.format(ExceptionsConstantsUtils.INVALID_INPUT_NO_DATA_FOR_FLAG,
+            checkedOnAttributeName));
     }
   }
   
