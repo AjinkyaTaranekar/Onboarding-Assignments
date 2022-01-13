@@ -97,8 +97,8 @@ public class ApplicationTest {
     
     Application.main(item);
     final String expectedMessage =
-        String.format(ExceptionsConstantsUtils.INVALID_INPUT_NO_DATA_FOR_FLAG,
-          "-name");
+        String.format(ExceptionsConstantsUtils.INVALID_INPUT,
+          "apple");
     assertTrue(getOutput().contains(expectedMessage));
   }
   
@@ -136,33 +136,17 @@ public class ApplicationTest {
   }
   
   /**
-   * Adding item but tag with wrong type.
+   * Adding item but tag with wrong flag.
    */
   @Test
-  public void addingItemButTagWithWrongType() {
+  public void addingItemButTagWithWrongFlag() {
     final String[] item = {"-name", "apple", "-type", "raw", "-cost", "120"};
     final String addMoreItems = "n";
     provideInput(addMoreItems);
     
     Application.main(item);
     final String expectedMessage =
-        String.format(ExceptionsConstantsUtils.INVALID_TYPE, "-cost");
-    assertTrue(getOutput().contains(expectedMessage));
-  }
-  
-  /**
-   * Adding item but tag with null data.
-   */
-  @Test
-  public void addingItemButTagWithNullData() {
-    final String[] item = {"-name", "apple", "-type", "raw", "-price", null};
-    final String addMoreItems = "n";
-    provideInput(addMoreItems);
-    
-    Application.main(item);
-    final String expectedMessage =
-        String.format(ExceptionsConstantsUtils.INVALID_INPUT_DATA_NOT_NULL,
-          FlagsConstantsUtils.PRICE_FLAG);
+        String.format(ExceptionsConstantsUtils.INVALID_INPUT, "-cost");
     assertTrue(getOutput().contains(expectedMessage));
   }
   

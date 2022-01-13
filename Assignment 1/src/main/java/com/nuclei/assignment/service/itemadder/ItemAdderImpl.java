@@ -16,7 +16,10 @@ import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 import java.util.Locale;
+import java.util.Map;
 import java.util.Scanner;
+import java.util.concurrent.ConcurrentHashMap;
+
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 
@@ -102,39 +105,71 @@ public class ItemAdderImpl implements ItemAdder {
       throws InputException, AttributeParseException {
   
     validateItemProperties(itemProperties);
-  
-    final ItemParser parser = new ItemParserImpl();
-    String itemName = "";
-    double itemPrice = 0;
-    double itemQuantity = 0;
-    ItemType itemType = ItemType.RAW;
+    final Map<String, String> properties = new ConcurrentHashMap<>();
     
     for (int index = 0; index < itemProperties.length; index += 2) {
       switch (itemProperties[index]) {
         case FlagsConstantsUtils.NAME_FLAG:
-          itemName = parser.parseName(itemProperties[index + 1]);
+          properties.put(FlagsConstantsUtils.NAME_FLAG,
+              itemProperties[index + 1]);
           break;
         case FlagsConstantsUtils.PRICE_FLAG:
-          itemPrice = parser.parsePrice(itemProperties[index + 1]);
+          properties.put(FlagsConstantsUtils.PRICE_FLAG,
+              itemProperties[index + 1]);
           break;
         case FlagsConstantsUtils.QUANTITY_FLAG:
-          itemQuantity = parser.parseQuantity(itemProperties[index + 1]);
+          properties.put(FlagsConstantsUtils.QUANTITY_FLAG,
+              itemProperties[index + 1]);
           break;
         case FlagsConstantsUtils.TYPE_FLAG:
-          itemType = parser.parseType(itemProperties[index + 1]);
+          properties.put(FlagsConstantsUtils.TYPE_FLAG,
+              itemProperties[index + 1]);
           break;
         default:
           throw new InputException(
-              String.format(ExceptionsConstantsUtils.INVALID_TYPE, itemProperties[index]));
+              String.format(ExceptionsConstantsUtils.INVALID_INPUT,
+                itemProperties[index]));
       }
-  
     }
-    final ItemEntity item = new ItemEntity(itemName, itemPrice, itemQuantity, itemType);
+    
+    final ItemEntity item = parseItemPropertiesMapEntries(properties);
     
     setTaxForTheNewItem(item);
     return item;
   }
   
+  private ItemEntity parseItemPropertiesMapEntries(final Map<String, String> properties)
+      throws AttributeParseException {
+    for (final String property : properties.keySet()) {
+      final String value = properties.get(property);
+      if (value.equals(FlagsConstantsUtils.NAME_FLAG)
+          || value.equals(FlagsConstantsUtils.PRICE_FLAG)
+          || value.equals(FlagsConstantsUtils.TYPE_FLAG)
+          || value.equals(FlagsConstantsUtils.QUANTITY_FLAG)) {
+        throw new AttributeParseException(
+          String.format(ExceptionsConstantsUtils.INVALID_INPUT_NO_DATA_FOR_FLAG,
+            property));
+      }
+    }
+  
+    final ItemParser parser = new ItemParserImpl();
+    final String itemName =
+        parser.parseName(properties.getOrDefault(FlagsConstantsUtils.NAME_FLAG,
+        ""));
+    final ItemType itemType =
+        parser.parseType(properties.getOrDefault(FlagsConstantsUtils.TYPE_FLAG,
+        ""));
+    final double itemPrice =
+        parser.parsePrice(properties.getOrDefault(FlagsConstantsUtils.PRICE_FLAG,
+        "0"));
+    final double itemQuantity =
+        parser.parseQuantity(properties.getOrDefault(FlagsConstantsUtils.QUANTITY_FLAG,
+        "0"));
+    
+    return new ItemEntity(itemName, itemPrice, itemQuantity, itemType);
+    
+  }
+
   private void validateItemProperties(final String... itemProperties) throws InputException {
     // itemProperties shouldn't be less than FlagsConstantsUtils.MUST_ARGUMENTS
     if (itemProperties.length < FlagsConstantsUtils.MUST_ARGUMENTS) {

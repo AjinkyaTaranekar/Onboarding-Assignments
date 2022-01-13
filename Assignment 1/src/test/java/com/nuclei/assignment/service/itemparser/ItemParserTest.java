@@ -17,74 +17,6 @@ import org.junit.jupiter.api.Test;
 public class ItemParserTest {
   
   /**
-   * Adding name with null input.
-   */
-  @Test
-  public void addingNameWithNullInput() {
-    String input = null;
-    final Exception exception = assertThrows(AttributeParseException.class,
-        () -> new ItemParserImpl().parseName(input));
-    
-    final String expectedMessage =
-        String.format(ExceptionsConstantsUtils.INVALID_INPUT_DATA_NOT_NULL,
-          FlagsConstantsUtils.NAME_FLAG);
-    final String actualMessage = exception.getMessage();
-    
-    assertEquals(expectedMessage, actualMessage);
-  }
-  
-  /**
-   * Adding price with null input.
-   */
-  @Test
-  public void addingPriceWithNullInput() {
-    String input = null;
-    final Exception exception = assertThrows(AttributeParseException.class,
-        () -> new ItemParserImpl().parsePrice(input));
-    
-    final String expectedMessage =
-        String.format(ExceptionsConstantsUtils.INVALID_INPUT_DATA_NOT_NULL,
-          FlagsConstantsUtils.PRICE_FLAG);
-    final String actualMessage = exception.getMessage();
-    
-    assertEquals(expectedMessage, actualMessage);
-  }
-  
-  /**
-   * Adding type with null input.
-   */
-  @Test
-  public void addingTypeWithNullInput() {
-    String input = null;
-    final Exception exception = assertThrows(AttributeParseException.class,
-        () -> new ItemParserImpl().parseType(input));
-    
-    final String expectedMessage =
-        String.format(ExceptionsConstantsUtils.INVALID_INPUT_DATA_NOT_NULL,
-          FlagsConstantsUtils.TYPE_FLAG);
-    final String actualMessage = exception.getMessage();
-    
-    assertEquals(expectedMessage, actualMessage);
-  }
-  
-  /**
-   * Adding quantity with null input.
-   */
-  @Test
-  public void addingQuantityWithNullInput() {
-    String input = null;
-    final Exception exception = assertThrows(AttributeParseException.class,
-        () -> new ItemParserImpl().parseQuantity(input));
-    
-    final String expectedMessage =
-        String.format(ExceptionsConstantsUtils.INVALID_INPUT_DATA_NOT_NULL,
-          FlagsConstantsUtils.QUANTITY_FLAG);
-    final String actualMessage = exception.getMessage();
-    
-    assertEquals(expectedMessage, actualMessage);
-  }
-  
-  /**
    * Adding name with input.
    *
    * @throws AttributeParseException the attribute parse exception
@@ -154,22 +86,6 @@ public class ItemParserTest {
         () -> new ItemParserImpl().parseName(input));
     
     final String expectedMessage = ExceptionsConstantsUtils.EMPTY_NAME;
-    final String actualMessage = exception.getMessage();
-    
-    assertEquals(expectedMessage, actualMessage);
-  }
-  
-  /**
-   * Adding name with type as data input.
-   */
-  @Test
-  public void addingNameWithTypeAsDataInput() {
-    String input = "-name";
-    final Exception exception = assertThrows(AttributeParseException.class,
-        () -> new ItemParserImpl().parseName(input));
-    
-    final String expectedMessage =
-        String.format(ExceptionsConstantsUtils.INVALID_INPUT_NO_DATA_FOR_FLAG, input);
     final String actualMessage = exception.getMessage();
     
     assertEquals(expectedMessage, actualMessage);

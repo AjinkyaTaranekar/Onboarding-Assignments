@@ -1,7 +1,6 @@
 package com.nuclei.assignment.service.itemparser;
 
 import com.nuclei.assignment.constants.ExceptionsConstantsUtils;
-import com.nuclei.assignment.constants.FlagsConstantsUtils;
 import com.nuclei.assignment.enums.ItemType;
 import com.nuclei.assignment.exception.AttributeParseException;
 import com.nuclei.assignment.service.itemadder.ItemAdderImpl;
@@ -22,7 +21,6 @@ public class ItemParserImpl implements ItemParser {
   
   @Override
   public String parseName(final String name) throws AttributeParseException {
-    validateData(name, FlagsConstantsUtils.NAME_FLAG);
     if (name.isEmpty()) {
       logger.error(ExceptionsConstantsUtils.EMPTY_NAME, new Throwable().fillInStackTrace());
       throw new AttributeParseException(ExceptionsConstantsUtils.EMPTY_NAME);
@@ -32,7 +30,6 @@ public class ItemParserImpl implements ItemParser {
   
   @Override
   public double parsePrice(final String price) throws AttributeParseException {
-    validateData(price,  FlagsConstantsUtils.PRICE_FLAG);
     final double parsedPrice;
     try {
       parsedPrice = Double.parseDouble(price);
@@ -53,7 +50,6 @@ public class ItemParserImpl implements ItemParser {
   
   @Override
   public ItemType parseType(final String type) throws AttributeParseException {
-    validateData(type, FlagsConstantsUtils.TYPE_FLAG);
     final ItemType parsedItemType;
     try {
       parsedItemType = ItemType.valueOf(type.toUpperCase(Locale.ROOT));
@@ -69,7 +65,6 @@ public class ItemParserImpl implements ItemParser {
   
   @Override
   public double parseQuantity(final String quantity) throws AttributeParseException {
-    validateData(quantity, FlagsConstantsUtils.QUANTITY_FLAG);
     final double parsedQuantity;
     try {
       parsedQuantity = Double.parseDouble(quantity);
@@ -90,34 +85,4 @@ public class ItemParserImpl implements ItemParser {
     return parsedQuantity;
   }
   
-  private void validateData(String data, String checkedOnAttributeName)
-      throws AttributeParseException {
-    checkDataIsNotNull(data, checkedOnAttributeName);
-    checkDataIsNotFlag(data, checkedOnAttributeName);
-  }
-  
-  private void checkDataIsNotFlag(String data, String checkedOnAttributeName)
-      throws AttributeParseException {
-    if (data.equals(FlagsConstantsUtils.NAME_FLAG)
-        || data.equals(FlagsConstantsUtils.TYPE_FLAG)
-        || data.equals(FlagsConstantsUtils.QUANTITY_FLAG)
-        || data.equals(FlagsConstantsUtils.PRICE_FLAG)) {
-      logger.error(String.format(ExceptionsConstantsUtils.INVALID_INPUT_NO_DATA_FOR_FLAG,
-          checkedOnAttributeName), new Throwable().fillInStackTrace());
-      throw new AttributeParseException(
-          String.format(ExceptionsConstantsUtils.INVALID_INPUT_NO_DATA_FOR_FLAG,
-            checkedOnAttributeName));
-    }
-  }
-  
-  private void checkDataIsNotNull(String data, String checkedOnAttributeName)
-      throws AttributeParseException {
-    if (data == null) {
-      logger.error(String.format(ExceptionsConstantsUtils.INVALID_INPUT_DATA_NOT_NULL,
-          checkedOnAttributeName), new Throwable().fillInStackTrace());
-      throw new AttributeParseException(
-          String.format(ExceptionsConstantsUtils.INVALID_INPUT_DATA_NOT_NULL,
-          checkedOnAttributeName));
-    }
-  }
 }
