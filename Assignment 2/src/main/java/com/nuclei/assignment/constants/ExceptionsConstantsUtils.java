@@ -94,7 +94,7 @@ public final class ExceptionsConstantsUtils {
    * The constant INVALID_COURSE_COUNT.
    */
   public static final String INVALID_COURSE_COUNT =
-      "Add at most " + StringConstantsUtils.MUST_COURSE_COUNT + " Course";
+      "Add only " + StringConstantsUtils.MUST_COURSE_COUNT + " Courses";
   
   /**
    * The constant FAILED_TO_READ_STORAGE.

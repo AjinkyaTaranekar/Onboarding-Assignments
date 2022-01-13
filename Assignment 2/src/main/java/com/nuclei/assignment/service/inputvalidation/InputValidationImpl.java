@@ -66,15 +66,18 @@ public class InputValidationImpl implements InputValidation {
   public Set<Courses> validateCourses(final String courses) throws CustomException {
     checkDataIsNull(courses, "Courses");
     final String[] coursesList = courses.split(",");
-    if (coursesList.length < StringConstantsUtils.MUST_COURSE_COUNT) {
-      logger.error(ExceptionsConstantsUtils.INVALID_COURSE_COUNT);
-      throw new CustomException(ExceptionsConstantsUtils.INVALID_COURSE_COUNT);
-    }
-
     final Set<Courses> validatedCourses = new HashSet<>();
     for (final String course : coursesList) {
       try {
-        validatedCourses.add(Courses.valueOf(course.toUpperCase(Locale.ROOT)));
+        final Courses parsedCourse =
+            Courses.valueOf(course.toUpperCase(Locale.ROOT));
+        if (validatedCourses.contains(parsedCourse)) {
+          logger.error(String.format(ExceptionsConstantsUtils.REPEATED_COURSE_FOUND,
+              courses));
+          throw new CustomException(String.format(ExceptionsConstantsUtils.REPEATED_COURSE_FOUND,
+              courses));
+        }
+        validatedCourses.add(parsedCourse);
       } catch (IllegalArgumentException exception) {
         logger.error(String.format(ExceptionsConstantsUtils.INVALID_COURSE,
             course));
@@ -82,12 +85,10 @@ public class InputValidationImpl implements InputValidation {
             course), exception);
       }
     }
-    if (validatedCourses.size() < StringConstantsUtils.MUST_COURSE_COUNT
-        || validatedCourses.size() != coursesList.length) {
-      logger.error(String.format(ExceptionsConstantsUtils.REPEATED_COURSE_FOUND,
-          courses));
-      throw new CustomException(String.format(ExceptionsConstantsUtils.REPEATED_COURSE_FOUND,
-          courses));
+    
+    if (validatedCourses.size() != StringConstantsUtils.MUST_COURSE_COUNT) {
+      logger.error(ExceptionsConstantsUtils.INVALID_COURSE_COUNT);
+      throw new CustomException(ExceptionsConstantsUtils.INVALID_COURSE_COUNT);
     }
     return validatedCourses;
   }
