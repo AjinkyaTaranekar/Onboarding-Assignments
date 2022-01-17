@@ -22,6 +22,7 @@ public interface UserOperations {
    * Add User to List.
    *
    * @param user the user
+   * @throws CustomException the custom exception
    */
   void addUser(UserEntity user) throws CustomException;
   
@@ -61,8 +62,8 @@ public interface UserOperations {
   /**
    * Sort user list based on column number and sorting order (asc/desc).
    *
-   * @param columnNumber the column number {1: Name, 2: Roll Number, 3: Age,
-   *                     4: Address, 5: Courses }
+   * @param columnNumber the column number
+   *      {1: Name, 2: Roll Number, 3: Age, 4: Address, 5: Courses}
    * @param sortingOrder the sorting order {ASC/DESC}
    * @return the list
    */

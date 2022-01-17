@@ -7,8 +7,8 @@ import com.nuclei.assignment.entity.UserEntity;
 import com.nuclei.assignment.enums.Courses;
 import com.nuclei.assignment.enums.SortingOrder;
 import com.nuclei.assignment.exception.CustomException;
-import com.nuclei.assignment.service.inputvalidation.InputValidation;
-import com.nuclei.assignment.service.inputvalidation.InputValidationImpl;
+import com.nuclei.assignment.service.inputparser.InputParser;
+import com.nuclei.assignment.service.inputparser.InputParserImpl;
 import com.nuclei.assignment.service.useroperations.UserOperations;
 import com.nuclei.assignment.service.useroperations.UserOperationsImpl;
 
@@ -28,10 +28,11 @@ public class MenuOptionsImpl implements MenuOptions {
    * The User operations.
    */
   private final UserOperations userOperations;
+  
   /**
-   * The Validation.
+   * The Input Parser.
    */
-  private final InputValidation validation;
+  private final InputParser inputParser;
   
   /**
    * The Logger.
@@ -43,7 +44,7 @@ public class MenuOptionsImpl implements MenuOptions {
    */
   public MenuOptionsImpl() {
     userOperations = new UserOperationsImpl();
-    validation = new InputValidationImpl();
+    inputParser = new InputParserImpl();
   }
   
   @Override
@@ -104,16 +105,16 @@ public class MenuOptionsImpl implements MenuOptions {
   
   private UserEntity createUser(final Scanner scanner) throws CustomException {
     System.out.println(StringConstantsUtils.ADD_USER_ROLL_NUMBER);
-    final int rollNumber = validation.validateRollNumber(scanner.nextLine());
+    final int rollNumber = inputParser.parseRollNumber(scanner.nextLine());
     
     System.out.println(StringConstantsUtils.ADD_USER_NAME);
-    final String name = validation.validateName(scanner.nextLine());
+    final String name = inputParser.parseName(scanner.nextLine());
     
     System.out.println(StringConstantsUtils.ADD_USER_AGE);
-    final int age = validation.validateAge(scanner.nextLine());
+    final int age = inputParser.parseAge(scanner.nextLine());
     
     System.out.println(StringConstantsUtils.ADD_USER_ADDRESS);
-    final String address = validation.validateAddress(scanner.nextLine());
+    final String address = inputParser.parseAddress(scanner.nextLine());
     
     System.out.println(StringConstantsUtils.ADD_USER_COURSES);
     
@@ -126,7 +127,7 @@ public class MenuOptionsImpl implements MenuOptions {
       coursesCount++;
     }
     final Set<Courses> courses =
-        validation.validateCourses(scanner.nextLine());
+        inputParser.parseCourses(scanner.nextLine());
     return new UserEntity(name, age, address, rollNumber, courses);
   }
   
@@ -141,10 +142,10 @@ public class MenuOptionsImpl implements MenuOptions {
       fieldIndex++;
     }
     final int columnNumber =
-        validation.validateColumnNumberForSorting(scanner.nextLine());
+        inputParser.parseColumnNumberForSorting(scanner.nextLine());
     System.out.println(StringConstantsUtils.SORT_BY_ORDER);
     final SortingOrder sortOrder =
-        validation.validateOrderOfSorting(scanner.nextLine());
+        inputParser.parseOrderOfSorting(scanner.nextLine());
     final List<UserEntity> users =
         userOperations.sortUsersBasedOnParameters(columnNumber, sortOrder);
     System.out.println(SuccessConstantsUtils.DISPLAY_USERS);
@@ -164,7 +165,7 @@ public class MenuOptionsImpl implements MenuOptions {
   private void deleteUserOption(final Scanner scanner) {
     try {
       System.out.print(StringConstantsUtils.DELETE_USER_ROLL_NUMBER);
-      final int rollNumber = validation.validateRollNumber(scanner.nextLine());
+      final int rollNumber = inputParser.parseRollNumber(scanner.nextLine());
       userOperations.deleteUserByRollNumber(rollNumber);
     } catch (Exception exception) {
       System.out.println(exception.getMessage());

@@ -6,8 +6,7 @@ import com.nuclei.assignment.enums.SortingOrder;
 import java.util.Arrays;
 
 /**
- * Constant Exceptions used in code describing various situations
- * occurred during input.
+ * The type Exceptions constants utils.
  */
 public final class ExceptionsConstantsUtils {
   
@@ -22,43 +21,33 @@ public final class ExceptionsConstantsUtils {
   public static final String INVALID_INPUT = "Invalid Input Entry";
   
   /**
-   * The constant INVALID_NAME.
+   * The constant INVALID_PARAMETER.
    */
-  public static final String INVALID_NAME = "Empty User Name.";
+  public static final String INVALID_PARAMETER = "Empty Parameter.";
   
   /**
-   * The constant INVALID_ADDRESS.
+   * The constant CHARACTER_PARAMETER.
    */
-  public static final String INVALID_ADDRESS = "Empty User Address.";
+  public static final String CHARACTER_PARAMETER =
+      "The parameter can't be character: %s";
   
   /**
-   * The constant CHARACTER_AGE.
+   * The constant DECIMAL_PARAMETER.
    */
-  public static final String CHARACTER_AGE = "User Age can't be character: %s";
+  public static final String DECIMAL_PARAMETER =
+      "The parameter can't be decimal: %s";
   
   /**
-   * The constant NEGATIVE_AGE.
+   * The constant NEGATIVE_PARAMETER.
    */
-  public static final String NEGATIVE_AGE =
-      "User Age can't be negative or zero: %s";
+  public static final String NEGATIVE_PARAMETER =
+      "The parameter can't be negative or zero: %s";
   
   /**
    * The constant INVALID_ROLL_NUMBER.
    */
   public static final String INVALID_ROLL_NUMBER =
       "Invalid User Roll Number: %s";
-  
-  /**
-   * The constant CHARACTER_ROLL_NUMBER.
-   */
-  public static final String CHARACTER_ROLL_NUMBER =
-      "User Roll Number can't be character: %s";
-  
-  /**
-   * The constant NEGATIVE_ROLL_NUMBER.
-   */
-  public static final String NEGATIVE_ROLL_NUMBER =
-      "User Roll Number can't be negative or zero: %s";
   
   /**
    * The constant ALREADY_PRESENT_ROLL_NUMBER.

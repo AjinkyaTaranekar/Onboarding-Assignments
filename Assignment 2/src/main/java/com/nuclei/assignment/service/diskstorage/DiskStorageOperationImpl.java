@@ -44,19 +44,14 @@ public class DiskStorageOperationImpl implements DiskStorageOperation {
   
   @Override
   public void saveUsersToDisk(final List<UserEntity> users) throws CustomException {
-    try (OutputStream file =
-           Files.newOutputStream(Paths.get(filePathOfUserStorage))) {
-      try (ObjectOutputStream writer = new ObjectOutputStream(file)) {
-        for (final UserEntity user : users) {
-          writer.writeObject(user);
-        }
-      } catch (Exception exception) {
-        logger.error(ExceptionsConstantsUtils.FAILED_TO_WRITE_STORAGE,
-            exception);
-        throw new CustomException(ExceptionsConstantsUtils.FAILED_TO_WRITE_STORAGE,
-            exception);
+    try (
+        OutputStream file = Files.newOutputStream(Paths.get(filePathOfUserStorage));
+        ObjectOutputStream writer = new ObjectOutputStream(file)
+    ) {
+      for (final UserEntity user : users) {
+        writer.writeObject(user);
       }
-    } catch (Exception exception) {
+    } catch (IOException exception) {
       logger.error(ExceptionsConstantsUtils.FAILED_TO_WRITE_STORAGE,
           exception);
       throw new CustomException(ExceptionsConstantsUtils.FAILED_TO_WRITE_STORAGE,
@@ -67,26 +62,20 @@ public class DiskStorageOperationImpl implements DiskStorageOperation {
   @Override
   public List<UserEntity> fetchUsersFromDisk() throws CustomException {
     final List<UserEntity> users = new ArrayList<>();
-    try (InputStream file =
-           Files.newInputStream(Paths.get(filePathOfUserStorage))) {
-      try (ObjectInputStream reader = new ObjectInputStream(file)) {
-        try {
-          while (true) {
-            final Object obj = reader.readObject();
-            if (obj == null) {
-              break;
-            }
-            users.add((UserEntity) obj);
-          }
-        } catch (EOFException exception) {
-          logger.info(ExceptionsConstantsUtils.END_OF_FILE_REACHED);
-        }
-      } catch (Exception exception) {
-        logger.error(ExceptionsConstantsUtils.FAILED_TO_READ_STORAGE,
-            exception);
-        throw new CustomException(ExceptionsConstantsUtils.FAILED_TO_READ_STORAGE, exception);
+    try (
+        InputStream file = Files.newInputStream(Paths.get(filePathOfUserStorage));
+        ObjectInputStream reader = new ObjectInputStream(file)
+    ) {
+      try {
+        Object obj;
+        do {
+          obj = reader.readObject();
+          users.add((UserEntity) obj);
+        } while (obj != null);
+      } catch (EOFException exception) {
+        logger.info(ExceptionsConstantsUtils.END_OF_FILE_REACHED);
       }
-    } catch (IOException exception) {
+    } catch (IOException | ClassNotFoundException | ClassCastException exception) {
       logger.error(ExceptionsConstantsUtils.FAILED_TO_READ_STORAGE);
       saveUsersToDisk(new ArrayList<>(0));
       throw new CustomException(ExceptionsConstantsUtils.FAILED_TO_READ_STORAGE, exception);

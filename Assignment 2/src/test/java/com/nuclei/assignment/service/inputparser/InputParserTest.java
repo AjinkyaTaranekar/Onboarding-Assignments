@@ -1,4 +1,4 @@
-package com.nuclei.assignment.service.inputvalidation;
+package com.nuclei.assignment.service.inputparser;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertThrows;
@@ -15,18 +15,18 @@ import org.junit.jupiter.api.Test;
 
 
 /**
- * The type Input validation test.
+ * The type Input parser test.
  */
-public class InputValidationTest {
+public class InputParserTest {
   
   /**
-   * Validate name when input is null.
+   * parse name when input is null.
    */
   @Test
-  public void validateNameWhenInputIsNull() {
+  public void parseNameWhenInputIsNull() {
     final String input = null;
     final Exception exception = assertThrows(CustomException.class,
-        () -> new InputValidationImpl().validateName(input));
+        () -> new InputParserImpl().parseName(input));
     
     final String expectedMessage =
         String.format(ExceptionsConstantsUtils.DATA_IS_NULL, "Name");
@@ -36,13 +36,13 @@ public class InputValidationTest {
   }
   
   /**
-   * Validate address when input is null.
+   * parse address when input is null.
    */
   @Test
-  public void  validateAddressWhenInputIsNull() {
+  public void  parseAddressWhenInputIsNull() {
     final String input = null;
     final Exception exception = assertThrows(CustomException.class,
-        () -> new InputValidationImpl().validateAddress(input));
+        () -> new InputParserImpl().parseAddress(input));
     
     final String expectedMessage =
         String.format(ExceptionsConstantsUtils.DATA_IS_NULL, "Address");
@@ -52,13 +52,13 @@ public class InputValidationTest {
   }
   
   /**
-   * Validate age when input is null.
+   * parse age when input is null.
    */
   @Test
-  public void  validateAgeWhenInputIsNull() {
+  public void  parseAgeWhenInputIsNull() {
     final String input = null;
     final Exception exception = assertThrows(CustomException.class,
-        () -> new InputValidationImpl().validateAge(input));
+        () -> new InputParserImpl().parseAge(input));
     
     final String expectedMessage =
         String.format(ExceptionsConstantsUtils.DATA_IS_NULL, "Age");
@@ -68,13 +68,13 @@ public class InputValidationTest {
   }
   
   /**
-   * Validate courses when input is null.
+   * parse courses when input is null.
    */
   @Test
-  public void  validateCoursesWhenInputIsNull() {
+  public void  parseCoursesWhenInputIsNull() {
     final String input = null;
     final Exception exception = assertThrows(CustomException.class,
-        () -> new InputValidationImpl().validateCourses(input));
+        () -> new InputParserImpl().parseCourses(input));
     
     final String expectedMessage =
         String.format(ExceptionsConstantsUtils.DATA_IS_NULL, "Courses");
@@ -84,13 +84,13 @@ public class InputValidationTest {
   }
   
   /**
-   * Validate roll number when input is null.
+   * parse roll number when input is null.
    */
   @Test
-  public void  validateRollNumberWhenInputIsNull() {
+  public void  parseRollNumberWhenInputIsNull() {
     final String input = null;
     final Exception exception = assertThrows(CustomException.class,
-        () -> new InputValidationImpl().validateRollNumber(input));
+        () -> new InputParserImpl().parseRollNumber(input));
     
     final String expectedMessage =
         String.format(ExceptionsConstantsUtils.DATA_IS_NULL, "Roll Number");
@@ -100,13 +100,13 @@ public class InputValidationTest {
   }
   
   /**
-   * Validate column number for sorting when input is null.
+   * parse column number for sorting when input is null.
    */
   @Test
-  public void  validateColumnNumberForSortingWhenInputIsNull() {
+  public void  parseColumnNumberForSortingWhenInputIsNull() {
     final String input = null;
     final Exception exception = assertThrows(CustomException.class,
-        () -> new InputValidationImpl().validateColumnNumberForSorting(input));
+        () -> new InputParserImpl().parseColumnNumberForSorting(input));
     
     final String expectedMessage =
         String.format(ExceptionsConstantsUtils.DATA_IS_NULL, "Column Number");
@@ -116,13 +116,13 @@ public class InputValidationTest {
   }
   
   /**
-   * Validate order of sorting when input is null.
+   * parse order of sorting when input is null.
    */
   @Test
-  public void  validateOrderOfSortingWhenInputIsNull() {
+  public void  parseOrderOfSortingWhenInputIsNull() {
     final String input = null;
     final Exception exception = assertThrows(CustomException.class,
-        () -> new InputValidationImpl().validateOrderOfSorting(input));
+        () -> new InputParserImpl().parseOrderOfSorting(input));
     
     final String expectedMessage =
         String.format(ExceptionsConstantsUtils.DATA_IS_NULL, "Sorting Order");
@@ -132,107 +132,92 @@ public class InputValidationTest {
   }
   
   /**
-   * Validate name when input is empty.
+   * parse name when input is empty.
    */
   @Test
-  public void validateNameWhenInputIsEmpty() {
+  public void parseNameWhenInputIsEmpty() {
     final String input = "";
     final Exception exception = assertThrows(CustomException.class,
-        () -> new InputValidationImpl().validateName(input));
+        () -> new InputParserImpl().parseName(input));
     
-    final String expectedMessage = ExceptionsConstantsUtils.INVALID_NAME;
+    final String expectedMessage = ExceptionsConstantsUtils.INVALID_PARAMETER;
     final String actualMessage = exception.getMessage();
     
     assertEquals(expectedMessage, actualMessage);
   }
   
   /**
-   * Validate address when input is empty.
+   * parse address when input is empty.
    */
   @Test
-  public void  validateAddressWhenInputIsEmpty() {
+  public void  parseAddressWhenInputIsEmpty() {
     final String input = "";
     final Exception exception = assertThrows(CustomException.class,
-        () -> new InputValidationImpl().validateAddress(input));
+        () -> new InputParserImpl().parseAddress(input));
     
-    final String expectedMessage = ExceptionsConstantsUtils.INVALID_ADDRESS;
+    final String expectedMessage = ExceptionsConstantsUtils.INVALID_PARAMETER;
     final String actualMessage = exception.getMessage();
     
     assertEquals(expectedMessage, actualMessage);
   }
   
   /**
-   * Validate age when input is negative.
+   * parse age when input is negative.
    */
   @Test
-  public void  validateAgeWhenInputIsNegative() {
+  public void  parseAgeWhenInputIsNegative() {
     final String input = "-21";
     final Exception exception = assertThrows(CustomException.class,
-        () -> new InputValidationImpl().validateAge(input));
+        () -> new InputParserImpl().parseAge(input));
     
     final String expectedMessage =
-        String.format(ExceptionsConstantsUtils.NEGATIVE_AGE, input);
+        String.format(ExceptionsConstantsUtils.NEGATIVE_PARAMETER, input);
     final String actualMessage = exception.getMessage();
     
     assertEquals(expectedMessage, actualMessage);
   }
   
   /**
-   * Validate age when input is character.
+   * parse age when input is character.
    */
   @Test
-  public void  validateAgeWhenInputIsCharacter() {
+  public void  parseAgeWhenInputIsCharacter() {
     final String input = "abc";
     final Exception exception = assertThrows(CustomException.class,
-        () -> new InputValidationImpl().validateAge(input));
+        () -> new InputParserImpl().parseAge(input));
     
     final String expectedMessage =
-        String.format(ExceptionsConstantsUtils.CHARACTER_AGE, input);
+        String.format(ExceptionsConstantsUtils.CHARACTER_PARAMETER, input);
     final String actualMessage = exception.getMessage();
     
     assertEquals(expectedMessage, actualMessage);
   }
   
   /**
-   * Validate courses when input has repeated courses.
+   * parse courses when input has repeated courses.
    */
   @Test
-  public void  validateCoursesWhenInputHasRepeatedCourses() {
+  public void  parseCoursesWhenInputHasRepeatedCourses() {
     final String input = "A,B,C,A,D";
     final Exception exception = assertThrows(CustomException.class,
-        () -> new InputValidationImpl().validateCourses(input));
+        () -> new InputParserImpl().parseCourses(input));
     
     final String expectedMessage =
-        String.format(ExceptionsConstantsUtils.REPEATED_COURSE_FOUND, input);
+        String.format(ExceptionsConstantsUtils.REPEATED_COURSE_FOUND,
+            Arrays.toString(input.split(",")));
     final String actualMessage = exception.getMessage();
     
     assertEquals(expectedMessage, actualMessage);
   }
   
   /**
-   * Validate courses when input has false courses.
+   * parse courses when input has false courses.
    */
   @Test
-  public void  validateCoursesWhenInputHasFalseCourses() {
+  public void  parseCoursesWhenInputHasFalseCourses() {
     final String input = "A,B,C,G,M";
     final Exception exception = assertThrows(CustomException.class,
-        () -> new InputValidationImpl().validateCourses(input));
-    
-    final String expectedMessage =
-        String.format(ExceptionsConstantsUtils.INVALID_COURSE, "G");
-    final String actualMessage = exception.getMessage();
-    
-    assertEquals(expectedMessage, actualMessage);
-  }
-  
-  /**
-   * Validate courses when input has less courses.
-   */
-  @Test
-  public void  validateCoursesWhenInputHasLessCourses() {
-    final String input = "A,B,C";
-    final Exception exception = assertThrows(CustomException.class,
-        () -> new InputValidationImpl().validateCourses(input));
+        () -> new InputParserImpl().parseCourses(input));
     
     final String expectedMessage =
         ExceptionsConstantsUtils.INVALID_COURSE_COUNT;
@@ -242,45 +227,61 @@ public class InputValidationTest {
   }
   
   /**
-   * Validate roll number when input is negative.
+   * parse courses when input has less courses.
    */
   @Test
-  public void  validateRollNumberWhenInputIsNegative() {
+  public void  parseCoursesWhenInputHasLessCourses() {
+    final String input = "A,B,C";
+    final Exception exception = assertThrows(CustomException.class,
+        () -> new InputParserImpl().parseCourses(input));
+    
+    final String expectedMessage =
+        ExceptionsConstantsUtils.INVALID_COURSE_COUNT;
+    final String actualMessage = exception.getMessage();
+    
+    assertEquals(expectedMessage, actualMessage);
+  }
+  
+  /**
+   * parse roll number when input is negative.
+   */
+  @Test
+  public void  parseRollNumberWhenInputIsNegative() {
     final String input = "-21";
     final Exception exception = assertThrows(CustomException.class,
-        () -> new InputValidationImpl().validateRollNumber(input));
+        () -> new InputParserImpl().parseRollNumber(input));
     
     final String expectedMessage =
-        String.format(ExceptionsConstantsUtils.NEGATIVE_ROLL_NUMBER, input);
+        String.format(ExceptionsConstantsUtils.NEGATIVE_PARAMETER, input);
     final String actualMessage = exception.getMessage();
     
     assertEquals(expectedMessage, actualMessage);
   }
   
   /**
-   * Validate roll number when input is character.
+   * parse roll number when input is character.
    */
   @Test
-  public void  validateRollNumberWhenInputIsCharacter() {
+  public void  parseRollNumberWhenInputIsCharacter() {
     final String input = "abc";
     final Exception exception = assertThrows(CustomException.class,
-        () -> new InputValidationImpl().validateRollNumber(input));
+        () -> new InputParserImpl().parseRollNumber(input));
     
     final String expectedMessage =
-        String.format(ExceptionsConstantsUtils.CHARACTER_ROLL_NUMBER, input);
+        String.format(ExceptionsConstantsUtils.CHARACTER_PARAMETER, input);
     final String actualMessage = exception.getMessage();
     
     assertEquals(expectedMessage, actualMessage);
   }
   
   /**
-   * Validate column number for sorting when input is not in range.
+   * parse column number for sorting when input is not in range.
    */
   @Test
-  public void  validateColumnNumberForSortingWhenInputIsNotInRange() {
+  public void  parseColumnNumberForSortingWhenInputIsNotInRange() {
     final String input = "5";
     final Exception exception = assertThrows(CustomException.class,
-        () -> new InputValidationImpl().validateColumnNumberForSorting(input));
+        () -> new InputParserImpl().parseColumnNumberForSorting(input));
     
     final String expectedMessage =
         String.format(ExceptionsConstantsUtils.INVALID_COLUMN_NUMBER, input);
@@ -290,29 +291,29 @@ public class InputValidationTest {
   }
   
   /**
-   * Validate column number for sorting when input is character.
+   * parse column number for sorting when input is character.
    */
   @Test
-  public void  validateColumnNumberForSortingWhenInputIsCharacter() {
+  public void  parseColumnNumberForSortingWhenInputIsCharacter() {
     final String input = "abc";
     final Exception exception = assertThrows(CustomException.class,
-        () -> new InputValidationImpl().validateColumnNumberForSorting(input));
+        () -> new InputParserImpl().parseColumnNumberForSorting(input));
     
     final String expectedMessage =
-        String.format(ExceptionsConstantsUtils.INVALID_COLUMN_NUMBER, input);
+        String.format(ExceptionsConstantsUtils.CHARACTER_PARAMETER, input);
     final String actualMessage = exception.getMessage();
     
     assertEquals(expectedMessage, actualMessage);
   }
   
   /**
-   * Validate order of sorting when input is not found.
+   * parse order of sorting when input is not found.
    */
   @Test
-  public void  validateOrderOfSortingWhenInputIsNotFound() {
+  public void  parseOrderOfSortingWhenInputIsNotFound() {
     final String input = "ascend";
     final Exception exception = assertThrows(CustomException.class,
-        () -> new InputValidationImpl().validateOrderOfSorting(input));
+        () -> new InputParserImpl().parseOrderOfSorting(input));
     
     final String expectedMessage =
         String.format(ExceptionsConstantsUtils.INVALID_SORTING_ORDER, input);
@@ -322,106 +323,106 @@ public class InputValidationTest {
   }
   
   /**
-   * Validate name.
+   * parse name.
    *
    * @throws CustomException the custom exception
    */
   @Test
-  public void validateName() throws CustomException {
+  public void parseName() throws CustomException {
     final String input = "Ajinkya";
     final String expectedMessage = "Ajinkya";
     final String actualMessage =
-        new InputValidationImpl().validateName(input);
+        new InputParserImpl().parseName(input);
   
     assertEquals(expectedMessage, actualMessage);
   }
   
   /**
-   * Validate address.
+   * parse address.
    *
    * @throws CustomException the custom exception
    */
   @Test
-  public void  validateAddress() throws CustomException {
+  public void  parseAddress() throws CustomException {
     final String input = "85, Sch 114";
     final String expectedMessage = "85, Sch 114";
     final String actualMessage =
-        new InputValidationImpl().validateAddress(input);
+        new InputParserImpl().parseAddress(input);
   
     assertEquals(expectedMessage, actualMessage);
   }
   
   /**
-   * Validate age.
+   * parse age.
    *
    * @throws CustomException the custom exception
    */
   @Test
-  public void  validateAge() throws CustomException {
+  public void  parseAge() throws CustomException {
     final String input = "1";
     final int expectedMessage = 1;
     final int actualMessage =
-        new InputValidationImpl().validateAge(input);
+        new InputParserImpl().parseAge(input);
   
     assertEquals(expectedMessage, actualMessage);
   }
   
   /**
-   * Validate courses.
+   * parse courses.
    *
    * @throws CustomException the custom exception
    */
   @Test
-  public void  validateCourses() throws CustomException {
+  public void  parseCourses() throws CustomException {
     final String input = "A,B,C,D";
     final Set<Courses> expectedMessage = new HashSet<>(
         Arrays.asList(Courses.A, Courses.B, Courses.C, Courses.D));
     final Set<Courses> actualMessage =
-        new InputValidationImpl().validateCourses(input);
+        new InputParserImpl().parseCourses(input);
   
     assertEquals(expectedMessage, actualMessage);
   }
   
   /**
-   * Validate roll number.
+   * parse roll number.
    *
    * @throws CustomException the custom exception
    */
   @Test
-  public void  validateRollNumber() throws CustomException {
+  public void  parseRollNumber() throws CustomException {
     final String input = "1";
     final int expectedMessage = 1;
     final int actualMessage =
-        new InputValidationImpl().validateRollNumber(input);
+        new InputParserImpl().parseRollNumber(input);
   
     assertEquals(expectedMessage, actualMessage);
   }
   
   /**
-   * Validate column number for sorting.
+   * parse column number for sorting.
    *
    * @throws CustomException the custom exception
    */
   @Test
-  public void  validateColumnNumberForSorting() throws CustomException {
+  public void  parseColumnNumberForSorting() throws CustomException {
     final String input = "1";
     final int expectedMessage = 1;
     final int actualMessage =
-        new InputValidationImpl().validateColumnNumberForSorting(input);
+        new InputParserImpl().parseColumnNumberForSorting(input);
     
     assertEquals(expectedMessage, actualMessage);
   }
   
   /**
-   * Validate order of sorting.
+   * parse order of sorting.
    *
    * @throws CustomException the custom exception
    */
   @Test
-  public void validateOrderOfSorting() throws CustomException {
+  public void parseOrderOfSorting() throws CustomException {
     final String input = "ASC";
     final SortingOrder actualMessage = 
-        new InputValidationImpl().validateOrderOfSorting(input);
+        new InputParserImpl().parseOrderOfSorting(input);
     final SortingOrder expectedMessage = SortingOrder.ASC;
     
     assertEquals(expectedMessage, actualMessage);

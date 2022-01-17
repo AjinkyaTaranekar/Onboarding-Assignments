@@ -198,7 +198,7 @@ public class ApplicationTest {
     provideInput(testString);
   
     Application.main(new String[0]);
-    final String expectedMessage = ExceptionsConstantsUtils.INVALID_NAME;
+    final String expectedMessage = ExceptionsConstantsUtils.INVALID_PARAMETER;
     assertTrue(getOutput().contains(expectedMessage));
   }
   
@@ -220,7 +220,7 @@ public class ApplicationTest {
   
     Application.main(new String[0]);
     final String expectedMessage =
-        String.format(ExceptionsConstantsUtils.NEGATIVE_AGE, "-21");
+        String.format(ExceptionsConstantsUtils.NEGATIVE_PARAMETER, "-21");
     assertTrue(getOutput().contains(expectedMessage));
   }
   
@@ -242,7 +242,7 @@ public class ApplicationTest {
   
     Application.main(new String[0]);
     final String expectedMessage =
-        String.format(ExceptionsConstantsUtils.CHARACTER_AGE, "abc");
+        String.format(ExceptionsConstantsUtils.CHARACTER_PARAMETER, "abc");
     assertTrue(getOutput().contains(expectedMessage));
   }
   
@@ -264,7 +264,7 @@ public class ApplicationTest {
   
     Application.main(new String[0]);
     final String expectedMessage =
-        String.format(ExceptionsConstantsUtils.NEGATIVE_ROLL_NUMBER, "-1");
+        String.format(ExceptionsConstantsUtils.NEGATIVE_PARAMETER, "-1");
     assertTrue(getOutput().contains(expectedMessage));
   }
   
@@ -286,7 +286,7 @@ public class ApplicationTest {
   
     Application.main(new String[0]);
     final String expectedMessage =
-        String.format(ExceptionsConstantsUtils.CHARACTER_ROLL_NUMBER, "abc");
+        String.format(ExceptionsConstantsUtils.CHARACTER_PARAMETER, "abc");
     assertTrue(getOutput().contains(expectedMessage));
   }
   
@@ -307,7 +307,7 @@ public class ApplicationTest {
     provideInput(testString);
   
     Application.main(new String[0]);
-    final String expectedMessage = ExceptionsConstantsUtils.INVALID_ADDRESS;
+    final String expectedMessage = ExceptionsConstantsUtils.INVALID_PARAMETER;
     assertTrue(getOutput().contains(expectedMessage));
   }
   
@@ -350,7 +350,8 @@ public class ApplicationTest {
     
     Application.main(new String[0]);
     final String expectedMessage =
-        String.format(ExceptionsConstantsUtils.REPEATED_COURSE_FOUND, "A,B,C,A");
+        String.format(ExceptionsConstantsUtils.REPEATED_COURSE_FOUND,
+          "[A, B, C, A]");
     assertTrue(getOutput().contains(expectedMessage));
   }
   
@@ -431,7 +432,7 @@ public class ApplicationTest {
     
     Application.main(new String[0]);
     final String expectedMessage =
-        String.format(ExceptionsConstantsUtils.INVALID_COLUMN_NUMBER, "1ab");
+        String.format(ExceptionsConstantsUtils.CHARACTER_PARAMETER, "1ab");
     assertTrue(getOutput().contains(expectedMessage));
   }
   
@@ -456,7 +457,7 @@ public class ApplicationTest {
     
     Application.main(new String[0]);
     final String expectedMessage =
-        String.format(ExceptionsConstantsUtils.INVALID_COLUMN_NUMBER, "-1");
+        String.format(ExceptionsConstantsUtils.NEGATIVE_PARAMETER, "-1");
     assertTrue(getOutput().contains(expectedMessage));
   }
   
