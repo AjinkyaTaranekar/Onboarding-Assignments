@@ -1,10 +1,7 @@
 package com.nuclei.assignment.service.inputvalidation;
 
-import com.nuclei.assignment.enums.Courses;
-import com.nuclei.assignment.enums.SortingOrder;
 import com.nuclei.assignment.exception.CustomException;
 
-import java.util.Set;
 
 /**
  * Input Validation interface.
@@ -13,65 +10,43 @@ public interface InputValidation {
   
   
   /**
-   * Parse raw String data to name.
+   * Validate raw String name.
    *
-   * @param name the name
-   * @return the string
+   * @param name the fullName
    * @throws CustomException the custom exception
    */
-  String validateName(String name) throws CustomException;
+  void validateFullName(String name) throws CustomException;
   
   /**
-   * Parse raw String data to address.
+   * Validate raw String numeric.
    *
-   * @param address the address
-   * @return the string
+   * @param number the number
    * @throws CustomException the custom exception
    */
-  String validateAddress(String address) throws CustomException;
+  void validateNumeric(String number) throws CustomException;
   
   /**
-   * Parse raw String data to age.
+   * Validate raw String courses.
    *
-   * @param age the age
-   * @return the int
+   * @param courses the courses
    * @throws CustomException the custom exception
    */
-  int validateAge(String age) throws CustomException;
+  void validateCourses(String... courses) throws CustomException;
   
   /**
-   * Parse raw String data to type.
-   *
-   * @param type the type
-   * @return the set
-   * @throws CustomException the custom exception
-   */
-  Set<Courses> validateCourses(String type) throws CustomException;
-  
-  /**
-   * Parse raw String data to rollNumber.
-   *
-   * @param rollNumber the roll number
-   * @return the int
-   * @throws CustomException the custom exception
-   */
-  int validateRollNumber(String rollNumber) throws CustomException;
-  
-  /**
-   * Parse raw String data to rollNumber.
+   * Validate raw String columnNumber.
    *
    * @param columnNumber the column number
-   * @return the int
    * @throws CustomException the custom exception
    */
-  int validateColumnNumberForSorting(String columnNumber) throws CustomException;
+  void validateColumnNumberForSorting(int columnNumber) throws CustomException;
   
   /**
-   * Parse raw String data to rollNumber.
+   * Check data is null.
    *
-   * @param sortingOrder the sorting order
-   * @return the sorting order
+   * @param data               the data
+   * @param checkedOnAttribute the checked on attribute
    * @throws CustomException the custom exception
    */
-  SortingOrder validateOrderOfSorting(String sortingOrder) throws CustomException;
+  void checkDataIsNull(String data, String checkedOnAttribute) throws CustomException;
 }
