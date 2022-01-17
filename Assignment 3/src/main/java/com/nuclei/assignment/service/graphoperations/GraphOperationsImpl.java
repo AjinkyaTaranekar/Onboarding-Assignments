@@ -64,14 +64,8 @@ public class GraphOperationsImpl implements GraphOperations {
   }
   
   @Override
-  public void createUser(final UserEntity user) throws CustomException {
+  public void createUser(final UserEntity user) {
     final int index = getIndexInList(user.getId());
-    if (index >= 0) {
-      logger.error(String.format(ExceptionsConstantsUtils.ID_ALREADY_EXISTS,
-          user.getId()));
-      throw new CustomException(String.format(ExceptionsConstantsUtils.ID_ALREADY_EXISTS,
-          user.getId()));
-    }
     users.add(-(index + 1), user);
     logger.info(String.format(SuccessConstantsUtils.USER_INFO, user));
     System.out.println(SuccessConstantsUtils.CREATED_USER);

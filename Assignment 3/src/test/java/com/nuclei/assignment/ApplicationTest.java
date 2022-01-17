@@ -193,7 +193,10 @@ public class ApplicationTest {
     final String expectedMessage = SuccessConstantsUtils.CREATED_DEPENDENCY;
     assertTrue(getOutput().contains(expectedMessage));
   }
-
+  
+  /**
+   * Adding two users and creating dependency but parent id not found.
+   */
   @Test
   public void addingTwoUsersAndCreatingDependencyButParentIdNotFound() {
     final String[] test = {
@@ -218,6 +221,9 @@ public class ApplicationTest {
     assertTrue(getOutput().contains(expectedMessage));
   }
   
+  /**
+   * Adding two users and creating dependency but child id not found.
+   */
   @Test
   public void addingTwoUsersAndCreatingDependencyButChildIdNotFound() {
     final String[] test = {
@@ -268,7 +274,10 @@ public class ApplicationTest {
         String.format(ExceptionsConstantsUtils.PARENT_NOT_EQUALS_CHILD, "1", "1");
     assertTrue(getOutput().contains(expectedMessage));
   }
-
+  
+  /**
+   * Adding two users and creating cyclic dependency.
+   */
   @Test
   public void addingTwoUsersAndCreatingCyclicDependency() {
     final String[] test = {
@@ -294,6 +303,53 @@ public class ApplicationTest {
     Application.main(new String[0]);
     final String expectedMessage =
         String.format(ExceptionsConstantsUtils.CYCLIC_DEPENDENCY, "2", "1");
+    assertTrue(getOutput().contains(expectedMessage));
+  }
+  
+  /**
+   * Adding four users and creating cyclic dependency.
+   */
+  @Test
+  public void addingFourUsersAndCreatingCyclicDependency() {
+    final String[] test = {
+      "8",
+      "1",
+      "Ajinkya1",
+      "y",
+      "8",
+      "2",
+      "Ajinkya2",
+      "y",
+      "8",
+      "3",
+      "Ajinkya3",
+      "y",
+      "8",
+      "4",
+      "Ajinkya4",
+      "y",
+      "7",
+      "1",
+      "2",
+      "y",
+      "7",
+      "2",
+      "3",
+      "y",
+      "7",
+      "2",
+      "4",
+      "y",
+      "7",
+      "1",
+      "4",
+    };
+    final String testString = String.join("\n",test);
+    provideInput(testString);
+    
+    Application.main(new String[0]);
+    final String expectedMessage =
+        String.format(ExceptionsConstantsUtils.CYCLIC_DEPENDENCY, "1", "4");
     assertTrue(getOutput().contains(expectedMessage));
   }
   
@@ -517,6 +573,9 @@ public class ApplicationTest {
     assertTrue(getOutput().contains(expectedMessage));
   }
   
+  /**
+   * Adding two users then deleting dependency but no dependency.
+   */
   @Test
   public void addingTwoUsersThenDeletingDependencyButNoDependency() {
     final String[] test = {

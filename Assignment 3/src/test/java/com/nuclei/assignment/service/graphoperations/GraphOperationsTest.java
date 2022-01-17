@@ -106,23 +106,6 @@ public class GraphOperationsTest {
   }
   
   /**
-   * Create user when id is present.
-   */
-  @Test
-  void createUserWhenIdIsPresent() {
-    int id = 1;
-    UserEntity user = new UserEntity("b", id);
-    final Exception exception = assertThrows(CustomException.class,
-        () -> graphOperations.createUser(user));
-  
-    final String expectedMessage =
-        String.format(ExceptionsConstantsUtils.ID_ALREADY_EXISTS, id);
-    final String actualMessage = exception.getMessage();
-  
-    assertEquals(expectedMessage, actualMessage);
-  }
-  
-  /**
    * Create dependency.
    */
   @Test
@@ -240,14 +223,36 @@ public class GraphOperationsTest {
   }
   
   /**
+   * Delete dependency but dependency does not exist.
+   */
+  @Test
+  void deleteDependencyButDependencyDoesNotExist() {
+    int parentId = 0;
+    int childId = 4;
+    final Exception exception = assertThrows(CustomException.class,
+        () -> graphOperations.deleteDependency(parentId, childId));
+    
+    final String expectedMessage =
+        String.format(ExceptionsConstantsUtils.NO_DEPENDENCY,
+          parentId, childId);
+    final String actualMessage = exception.getMessage();
+    
+    assertEquals(expectedMessage, actualMessage);
+  }
+  
+  /**
    * Delete user by id.
    *
    * @throws CustomException the custom exception
    */
   @Test
   void deleteUserById() throws CustomException {
-    int id = 7;
-    graphOperations.createUser(new UserEntity("g", id));
+    int id = 9;
+    graphOperations.createUser(new UserEntity("g", 7));
+    graphOperations.createUser(new UserEntity("h", 8));
+    graphOperations.createUser(new UserEntity("i", id));
+    graphOperations.createDependency(id, 8);
+    graphOperations.createDependency(7, id);
     assertDoesNotThrow(() -> graphOperations.deleteUserById(id));
   }
   

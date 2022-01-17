@@ -32,9 +32,8 @@ public interface GraphOperations {
    * Create user graph.
    *
    * @param user the user
-   * @throws CustomException the custom exception
    */
-  void createUser(UserEntity user) throws CustomException;
+  void createUser(UserEntity user);
   
   /**
    * Create Dependency between 2 user.
