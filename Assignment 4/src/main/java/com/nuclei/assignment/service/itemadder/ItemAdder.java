@@ -23,6 +23,8 @@ public interface ItemAdder {
    * @throws InputException          the custom exception
    * @throws AttributeParseException the attribute parse exception
    * @throws DatabaseException       the database exception
+   * @throws InterruptedException    the interrupted exception
    */
-  void outputItemsWithTaxToUser() throws InputException, AttributeParseException, DatabaseException;
+  void outputItemsWithTaxToUser() throws InputException, AttributeParseException,
+      DatabaseException, InterruptedException;
 }

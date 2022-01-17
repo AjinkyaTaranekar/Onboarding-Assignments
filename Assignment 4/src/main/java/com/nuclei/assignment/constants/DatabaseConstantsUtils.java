@@ -46,7 +46,7 @@ public class DatabaseConstantsUtils {
   /**
    * The constant ITEMS_FETCHED.
    */
-  public static final String ITEMS_FETCHED = "Items data fetched %s";
+  public static final String ITEMS_FETCHED = "%s Items data fetched";
   
   /**
    * The constant DATABASE_DRIVER.

@@ -4,7 +4,7 @@ import com.nuclei.assignment.entity.ItemEntity;
 import com.nuclei.assignment.exception.AttributeParseException;
 import com.nuclei.assignment.exception.DatabaseException;
 
-import java.util.List;
+import java.sql.ResultSet;
 
 /**
  * The interface Database operations.
@@ -14,18 +14,10 @@ public interface DatabaseOperations {
   /**
    * Gets all items.
    *
-   * @return the all items
+   * @return the all items result set
    * @throws DatabaseException       the database exception
-   * @throws AttributeParseException the attribute parse exception
    */
-  List<ItemEntity> getAllItems() throws DatabaseException, AttributeParseException;
-  
-  /**
-   * Check whether all items are fetched boolean.
-   *
-   * @return the boolean
-   */
-  boolean checkWhetherAllItemsAreFetched();
+  ResultSet getAllItems() throws DatabaseException, AttributeParseException;
   
   /**
    * Save item.

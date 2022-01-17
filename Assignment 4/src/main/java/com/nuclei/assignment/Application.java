@@ -20,7 +20,7 @@ public final class Application {
     try {
       new ItemAdderImpl().inputItemsFromUserInterface(args);
     } catch (DatabaseException exception) {
-      exception.printStackTrace();
+      System.out.println(exception.getMessage());
     }
   }
 }

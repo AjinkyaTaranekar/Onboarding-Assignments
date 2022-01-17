@@ -10,18 +10,17 @@ import com.nuclei.assignment.enums.ItemType;
 import com.nuclei.assignment.exception.AttributeParseException;
 import com.nuclei.assignment.exception.DatabaseException;
 import com.nuclei.assignment.exception.InputException;
+import com.nuclei.assignment.service.displayitem.DisplayItemsSynchronousThreads;
+import com.nuclei.assignment.service.displayitem.DisplayItemsSynchronousThreadsImpl;
 import com.nuclei.assignment.service.itemparser.ItemParser;
 import com.nuclei.assignment.service.itemparser.ItemParserImpl;
-import com.nuclei.assignment.service.tax.ItemTax;
-import com.nuclei.assignment.service.tax.ItemTaxImpl;
 
+import java.sql.ResultSet;
 import java.util.Arrays;
-import java.util.List;
 import java.util.Locale;
 import java.util.Map;
 import java.util.Scanner;
 import java.util.concurrent.ConcurrentHashMap;
-
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 
@@ -69,22 +68,38 @@ public class ItemAdderImpl implements ItemAdder {
   
   @Override
   public void outputItemsWithTaxToUser()
-      throws InputException, AttributeParseException, DatabaseException {
-    final List<ItemEntity> items = databaseOperations.getAllItems();
-    System.out.println(StringConstantsUtils.DIVIDER);
-    if (items.isEmpty()) {
-      logger.error(ExceptionsConstantsUtils.NO_INPUT);
-      throw new InputException(ExceptionsConstantsUtils.NO_INPUT);
-    }
-    logger.info(String.format("Received items: \n%s", items));
-    System.out.println(StringConstantsUtils.SHOW_ITEM_LIST);
-    int itemCount = 0;
-    for (final ItemEntity item : items) {
-      itemCount += 1;
-      System.out.printf(StringConstantsUtils.SHOW_ITEM_LIST_INFO,
-          itemCount, item.getType(), item.getName(), item.getPrice(),
-          item.getQuantity(), item.getSalesTax(), item.getFinalPrice());
-    }
+      throws AttributeParseException, DatabaseException, InterruptedException {
+    final ResultSet resultSet = databaseOperations.getAllItems();
+    final DisplayItemsSynchronousThreads displayItems =
+        new DisplayItemsSynchronousThreadsImpl();
+    
+    final Thread fetchItemsThread = new Thread(new Runnable() {
+      @Override
+      public void run() {
+        try {
+          displayItems.fetchItemDataFromResultSet(resultSet);
+        } catch (DatabaseException | AttributeParseException | InterruptedException exception) {
+          logger.error(exception.getMessage(), exception);
+        }
+      }
+    });
+  
+    final Thread calculateTaxesForItemsFetched = new Thread(new Runnable() {
+      @Override
+      public void run() {
+        try {
+          displayItems.calculateTaxForTheItems();
+        } catch (InterruptedException exception) {
+          logger.error(exception.getMessage(), exception);
+        }
+      }
+    });
+  
+    fetchItemsThread.start();
+    calculateTaxesForItemsFetched.start();
+  
+    fetchItemsThread.join();
+    calculateTaxesForItemsFetched.join();
   }
   
   private void addItemsToList(final Scanner scanner, final String... rawData) {
@@ -97,8 +112,7 @@ public class ItemAdderImpl implements ItemAdder {
           System.out.println(StringConstantsUtils.INSERT_ITEM_DETAILS);
           input = scanner.nextLine().split(" ");
         }
-        final ItemEntity item = createItem(input);
-        logger.info(String.format("Created %s", item));
+        createItem(input);
       } catch (Exception exception) {
         System.out.println(exception.getMessage());
       } finally {
@@ -111,7 +125,7 @@ public class ItemAdderImpl implements ItemAdder {
     }
   }
   
-  private ItemEntity createItem(final String... itemProperties)
+  private void createItem(final String... itemProperties)
       throws InputException, AttributeParseException, DatabaseException {
   
     validateItemProperties(itemProperties);
@@ -144,8 +158,7 @@ public class ItemAdderImpl implements ItemAdder {
     
     final ItemEntity item = parseItemPropertiesMapEntries(properties);
     databaseOperations.saveItem(item);
-    setTaxForTheNewItem(item);
-    return item;
+    logger.info(String.format("Created %s", item));
   }
   
   private ItemEntity parseItemPropertiesMapEntries(final Map<String, String> properties)
@@ -217,23 +230,6 @@ public class ItemAdderImpl implements ItemAdder {
           Arrays.toString(itemProperties)));
     }
   
-  }
-  
-  private void setTaxForTheNewItem(final ItemEntity item) {
-    final ItemTax itemTaxService = new ItemTaxImpl();
-    switch (item.getType()) {
-      case RAW:
-        item.setSalesTax(itemTaxService.getTaxForRawItem(item.getPrice()));
-        break;
-      case MANUFACTURED:
-        item.setSalesTax(itemTaxService.getTaxForManufacturedItem(item.getPrice()));
-        break;
-      case IMPORTED:
-        item.setSalesTax(itemTaxService.getTaxForImportedItem(item.getPrice()));
-        break;
-      default:
-    }
-    item.setFinalPrice(item.getSalesTax() + item.getPrice());
   }
   
 }
