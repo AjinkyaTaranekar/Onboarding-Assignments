@@ -32,4 +32,4 @@ jobs:
     - name: Build with Gradle
       run: |
           cd "Assignment 4"
-          ./gradlew clean build
+          ./gradlew clean build -x test
