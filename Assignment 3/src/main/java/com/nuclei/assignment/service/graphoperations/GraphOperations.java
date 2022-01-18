@@ -3,12 +3,20 @@ package com.nuclei.assignment.service.graphoperations;
 import com.nuclei.assignment.entity.UserEntity;
 import com.nuclei.assignment.exception.CustomException;
 
+import java.util.List;
 import java.util.Set;
 
 /**
  * Graph operations Interface.
  */
 public interface GraphOperations {
+  
+  /**
+   * Get all users from graph.
+   *
+   * @return the all users
+   */
+  List<UserEntity> getAllUsers();
   
   /**
    * Get user By id from graph.

@@ -21,15 +21,22 @@ public class StringConstantsUtils {
     "8. Add a new node to tree.",
     "Please choose from (1-8):",
   };
-  /**
-   * The constant ADD_USER_DETAILS_INFO.
-   */
-  public static final String ADD_USER_DETAILS_INFO = "Add User Details ";
   
   /**
    * The constant ADD_USER_NAME.
    */
   public static final String ADD_USER_NAME = "Enter Full Name";
+  
+  /**
+   * The constant CHECK_USER_DETAILS.
+   */
+  public static final String CHECK_USER_DETAILS = "Add users details (y/n):";
+  
+  /**
+   * The constant ADD_USER_DETAILS.
+   */
+  public static final String ADD_USER_DETAILS =
+      "Enter Details (in comma separated as `phone,9892345601`)";
   /**
    * The constant ADD_USER_ID.
    */

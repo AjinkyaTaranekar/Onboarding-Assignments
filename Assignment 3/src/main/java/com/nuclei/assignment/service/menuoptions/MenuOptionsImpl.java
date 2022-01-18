@@ -6,12 +6,15 @@ import com.nuclei.assignment.entity.UserEntity;
 import com.nuclei.assignment.exception.CustomException;
 import com.nuclei.assignment.service.graphoperations.GraphOperations;
 import com.nuclei.assignment.service.graphoperations.GraphOperationsImpl;
-import com.nuclei.assignment.service.inputvalidation.InputValidation;
-import com.nuclei.assignment.service.inputvalidation.InputValidationImpl;
+import com.nuclei.assignment.service.inputparser.InputParser;
+import com.nuclei.assignment.service.inputparser.InputParserImpl;
 
 import java.util.Locale;
+import java.util.Map;
 import java.util.Scanner;
 import java.util.Set;
+import java.util.concurrent.ConcurrentHashMap;
+
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 
@@ -25,9 +28,9 @@ public class MenuOptionsImpl implements MenuOptions {
   private final GraphOperations graphOperations;
   
   /**
-   * The Validation.
+   * The Parser.
    */
-  private final InputValidation validation;
+  private final InputParser parser;
   
   /**
    * The Logger.
@@ -39,7 +42,7 @@ public class MenuOptionsImpl implements MenuOptions {
    */
   public MenuOptionsImpl() {
     graphOperations = new GraphOperationsImpl();
-    validation = new InputValidationImpl();
+    parser = new InputParserImpl();
   }
   
   @Override
@@ -105,11 +108,15 @@ public class MenuOptionsImpl implements MenuOptions {
   
   private void addUserOption(final Scanner scanner) throws CustomException {
     createUser(scanner);
+    if (graphOperations.getAllUsers().size()
+        >= ExceptionsConstantsUtils.MUST_HAVE_USERS_BEFORE_DEPENDENCY_FORMATION) {
+      createDependency(scanner);
+    }
   }
   
   private void createUser(final Scanner scanner) throws CustomException {
     System.out.println(StringConstantsUtils.ADD_USER_ID);
-    final int id = validation.validateId(scanner.nextLine());
+    final int id = parser.parseId(scanner.nextLine());
     if (graphOperations.checkUserExistById(id)) {
       logger.error(String.format(ExceptionsConstantsUtils.ID_ALREADY_EXISTS,
           id));
@@ -118,15 +125,26 @@ public class MenuOptionsImpl implements MenuOptions {
     }
     
     System.out.println(StringConstantsUtils.ADD_USER_NAME);
-    final String name = validation.validateName(scanner.nextLine());
+    final String name = parser.parseName(scanner.nextLine());
+    final Map<String, String> userDetails = new ConcurrentHashMap<>();
     
-    final UserEntity user = new UserEntity(name, id);
+    System.out.println(StringConstantsUtils.CHECK_USER_DETAILS);
+    String addUserDetails = parser.parseName(scanner.nextLine());
+    while (addUserDetails.equals(StringConstantsUtils.CONFIRMATION)) {
+      System.out.println(StringConstantsUtils.ADD_USER_DETAILS);
+      final String[] details = parser.parseDetails(scanner.nextLine());
+      userDetails.put(details[0], details[1]);
+      
+      System.out.println(StringConstantsUtils.CHECK_USER_DETAILS);
+      addUserDetails = parser.parseName(scanner.nextLine());
+    }
+    final UserEntity user = new UserEntity(id, name, userDetails);
     graphOperations.createUser(user);
   }
   
   private void createDependency(final Scanner scanner) throws CustomException {
     System.out.println(StringConstantsUtils.ADD_PARENT_ID);
-    final int parentId = validation.validateId(scanner.nextLine());
+    final int parentId = parser.parseId(scanner.nextLine());
     if (!graphOperations.checkUserExistById(parentId)) {
       logger.error(String.format(ExceptionsConstantsUtils.INVALID_PARENT_ID,
           parentId));
@@ -135,7 +153,7 @@ public class MenuOptionsImpl implements MenuOptions {
     }
     
     System.out.println(StringConstantsUtils.ADD_CHILD_ID);
-    final int childId = validation.validateId(scanner.nextLine());
+    final int childId = parser.parseId(scanner.nextLine());
     if (!graphOperations.checkUserExistById(childId)) {
       logger.error(String.format(ExceptionsConstantsUtils.INVALID_CHILD_ID,
           childId));
@@ -147,41 +165,41 @@ public class MenuOptionsImpl implements MenuOptions {
   
   private void getImmediateParents(final Scanner scanner) throws CustomException {
     System.out.println(StringConstantsUtils.ADD_USER_ID);
-    final int id = validation.validateId(scanner.nextLine());
+    final int id = parser.parseId(scanner.nextLine());
     final Set<Integer> parents = graphOperations.getImmediateParents(id);
     System.out.println(parents);
   }
   
   private void getImmediateChildren(final Scanner scanner) throws CustomException {
     System.out.println(StringConstantsUtils.ADD_USER_ID);
-    final int id = validation.validateId(scanner.nextLine());
+    final int id = parser.parseId(scanner.nextLine());
     final Set<Integer> children = graphOperations.getImmediateChildren(id);
     System.out.println(children);
   }
   
   private void getAllAncestors(final Scanner scanner) throws CustomException {
     System.out.println(StringConstantsUtils.ADD_USER_ID);
-    final int id = validation.validateId(scanner.nextLine());
+    final int id = parser.parseId(scanner.nextLine());
     final Set<Integer> ancestors = graphOperations.getAllAncestors(id);
     System.out.println(ancestors);
   }
   
   private void getAllDescendants(final Scanner scanner) throws CustomException {
     System.out.println(StringConstantsUtils.ADD_USER_ID);
-    final int id = validation.validateId(scanner.nextLine());
+    final int id = parser.parseId(scanner.nextLine());
     final Set<Integer> descendants = graphOperations.getAllDescendants(id);
     System.out.println(descendants);
   }
   
   private void deleteUserById(final Scanner scanner) throws CustomException {
     System.out.println(StringConstantsUtils.ADD_USER_ID);
-    final int id = validation.validateId(scanner.nextLine());
+    final int id = parser.parseId(scanner.nextLine());
     graphOperations.deleteUserById(id);
   }
   
   private void deleteDependency(final Scanner scanner) throws CustomException {
     System.out.println(StringConstantsUtils.ADD_PARENT_ID);
-    final int parentId = validation.validateId(scanner.nextLine());
+    final int parentId = parser.parseId(scanner.nextLine());
     if (!graphOperations.checkUserExistById(parentId)) {
       logger.error(String.format(ExceptionsConstantsUtils.INVALID_PARENT_ID,
           parentId));
@@ -190,7 +208,7 @@ public class MenuOptionsImpl implements MenuOptions {
     }
   
     System.out.println(StringConstantsUtils.ADD_CHILD_ID);
-    final int childId = validation.validateId(scanner.nextLine());
+    final int childId = parser.parseId(scanner.nextLine());
     if (!graphOperations.checkUserExistById(childId)) {
       logger.error(String.format(ExceptionsConstantsUtils.INVALID_CHILD_ID,
           childId));

@@ -8,9 +8,12 @@ import com.nuclei.assignment.constants.ExceptionsConstantsUtils;
 import com.nuclei.assignment.entity.UserEntity;
 import com.nuclei.assignment.exception.CustomException;
 
+import java.util.HashMap;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
+import java.util.concurrent.ConcurrentHashMap;
+
 import org.junit.jupiter.api.Test;
 
 
@@ -27,12 +30,18 @@ public class GraphOperationsTest {
    * @throws CustomException the custom exception
    */
   public GraphOperationsTest() throws CustomException {
-    graphOperations.createUser(new UserEntity("a", 0));
-    graphOperations.createUser(new UserEntity("b", 1));
-    graphOperations.createUser(new UserEntity("c", 2));
-    graphOperations.createUser(new UserEntity("d", 3));
-    graphOperations.createUser(new UserEntity("e", 4));
-    graphOperations.createUser(new UserEntity("f", 5));
+    graphOperations.createUser(new UserEntity(0, "a",
+        new ConcurrentHashMap<>()));
+    graphOperations.createUser(new UserEntity(1, "b",
+        new ConcurrentHashMap<>()));
+    graphOperations.createUser(new UserEntity(2, "c",
+        new ConcurrentHashMap<>()));
+    graphOperations.createUser(new UserEntity(3, "d",
+        new ConcurrentHashMap<>()));
+    graphOperations.createUser(new UserEntity(4, "e",
+        new ConcurrentHashMap<>()));
+    graphOperations.createUser(new UserEntity(5, "f",
+        new ConcurrentHashMap<>()));
     graphOperations.createDependency(0,1);
     graphOperations.createDependency(1,3);
     graphOperations.createDependency(1,4);
@@ -46,7 +55,8 @@ public class GraphOperationsTest {
    */
   @Test
   void getUserByIdWhenIdIsPresent() throws CustomException {
-    UserEntity actualUser = new UserEntity("c", 2);
+    UserEntity actualUser = new UserEntity(2, "c",
+        new ConcurrentHashMap<>());
     UserEntity expectedUser = graphOperations.getUserById(2);
     
     assertEquals(expectedUser.getName(), actualUser.getName());
@@ -101,7 +111,8 @@ public class GraphOperationsTest {
    */
   @Test
   void createUser() {
-    UserEntity user = new UserEntity("f", 6);
+    UserEntity user = new UserEntity(6, "f",
+        new ConcurrentHashMap<>());
     assertDoesNotThrow(() -> graphOperations.createUser(user));
   }
   
@@ -216,8 +227,10 @@ public class GraphOperationsTest {
   void deleteDependency() throws CustomException {
     int parentId = 8;
     int childId = 9;
-    graphOperations.createUser(new UserEntity("g", parentId));
-    graphOperations.createUser(new UserEntity("f", childId));
+    graphOperations.createUser(new UserEntity(childId, "d",
+        new ConcurrentHashMap<>()));
+    graphOperations.createUser(new UserEntity(parentId, "e",
+        new ConcurrentHashMap<>()));
     graphOperations.createDependency(parentId, childId);
     assertDoesNotThrow(() -> graphOperations.deleteDependency(parentId, childId));
   }
@@ -248,9 +261,12 @@ public class GraphOperationsTest {
   @Test
   void deleteUserById() throws CustomException {
     int id = 9;
-    graphOperations.createUser(new UserEntity("g", 7));
-    graphOperations.createUser(new UserEntity("h", 8));
-    graphOperations.createUser(new UserEntity("i", id));
+    graphOperations.createUser(new UserEntity(7, "g",
+        new ConcurrentHashMap<>()));
+    graphOperations.createUser(new UserEntity(8, "h",
+        new ConcurrentHashMap<>()));
+    graphOperations.createUser(new UserEntity(id, "i",
+        new ConcurrentHashMap<>()));
     graphOperations.createDependency(id, 8);
     graphOperations.createDependency(7, id);
     assertDoesNotThrow(() -> graphOperations.deleteUserById(id));

@@ -2,11 +2,15 @@ package com.nuclei.assignment.service.inputvalidation;
 
 import com.nuclei.assignment.constants.ExceptionsConstantsUtils;
 import com.nuclei.assignment.exception.CustomException;
+
+import java.util.Arrays;
+import org.apache.commons.lang3.StringUtils;
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 
 /**
- * User Validation Implementation containing method to validate different properties.
+ * Input Validation Implementation containing method to validate different
+ * properties.
  */
 public class InputValidationImpl implements InputValidation {
   
@@ -16,28 +20,50 @@ public class InputValidationImpl implements InputValidation {
   private final Log logger = LogFactory.getLog(InputValidationImpl.class);
   
   @Override
-  public String validateName(final String name) throws CustomException {
+  public void validateFullName(final String name) throws CustomException {
     if (name.isEmpty()) {
-      logger.error(ExceptionsConstantsUtils.INVALID_NAME);
-      throw new CustomException(ExceptionsConstantsUtils.INVALID_NAME);
+      logger.error(ExceptionsConstantsUtils.INVALID_PARAMETER);
+      throw new CustomException(ExceptionsConstantsUtils.INVALID_PARAMETER);
     }
-    return name;
   }
-
+  
   @Override
-  public int validateId(final String id) throws CustomException {
-    final int parsedId;
-    try {
-      parsedId = Integer.parseInt(id);
-      if (parsedId < 0) {
-        logger.error(String.format(ExceptionsConstantsUtils.NEGATIVE_ID, id));
-        throw new CustomException(String.format(ExceptionsConstantsUtils.NEGATIVE_ID, id));
-      }
-    } catch (NumberFormatException exception) {
-      logger.error(String.format(ExceptionsConstantsUtils.CHARACTER_ID, id));
-      throw new CustomException(String.format(ExceptionsConstantsUtils.CHARACTER_ID,
-          id), exception);
+  public void validateNumeric(final String number) throws CustomException {
+    if (number.contains("-")) {
+      logger.error(String.format(ExceptionsConstantsUtils.NEGATIVE_PARAMETER,
+          number));
+      throw new CustomException(String.format(ExceptionsConstantsUtils.NEGATIVE_PARAMETER,
+          number));
     }
-    return parsedId;
+    if (number.contains(".")) {
+      logger.error(String.format(ExceptionsConstantsUtils.DECIMAL_PARAMETER,
+          number));
+      throw new CustomException(String.format(ExceptionsConstantsUtils.DECIMAL_PARAMETER,
+          number));
+    }
+    if (!StringUtils.isNumeric(number)) {
+      logger.error(String.format(ExceptionsConstantsUtils.CHARACTER_PARAMETER,
+          number));
+      throw new CustomException(String.format(ExceptionsConstantsUtils.CHARACTER_PARAMETER,
+          number));
+    }
+  }
+  
+  @Override
+  public void validateDetails(final String... details) throws CustomException {
+    if (details.length != ExceptionsConstantsUtils.MUST_HAVE_KEY_VALUE_COUNT) {
+      logger.error(String.format(ExceptionsConstantsUtils.DETAILS_NOT_FOUND,
+          Arrays.toString(details)));
+      throw new CustomException(String.format(ExceptionsConstantsUtils.DETAILS_NOT_FOUND,
+          Arrays.toString(details)));
+    }
+  }
+  
+  @Override
+  public void checkDataIsNull(String data, String checkedOnAttribute) throws CustomException {
+    if (data == null) {
+      throw new CustomException(
+          String.format(ExceptionsConstantsUtils.DATA_IS_NULL, checkedOnAttribute));
+    }
   }
 }

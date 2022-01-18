@@ -43,7 +43,12 @@ public class GraphOperationsImpl implements GraphOperations {
     return Collections.binarySearch(users, new UserEntity(id),
       Comparator.comparing(UserEntity::getId));
   }
-
+  
+  @Override
+  public List<UserEntity> getAllUsers() {
+    return users;
+  }
+  
   @Override
   public UserEntity getUserById(final int id) throws CustomException {
     final int index = getIndexInList(id);

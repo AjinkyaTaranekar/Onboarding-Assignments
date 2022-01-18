@@ -80,10 +80,12 @@ public class ApplicationTest {
       "8",
       "2",
       "Ajinkya",
+      "n",
       "y",
       "8",
       "2",
-      "Aditya"
+      "Aditya",
+      "n"
     };
     final String testString = String.join("\n",test);
     provideInput(testString);
@@ -108,7 +110,7 @@ public class ApplicationTest {
     provideInput(testString);
     
     Application.main(new String[0]);
-    final String expectedMessage = ExceptionsConstantsUtils.INVALID_NAME;
+    final String expectedMessage = ExceptionsConstantsUtils.INVALID_PARAMETER;
     assertTrue(getOutput().contains(expectedMessage));
   }
   
@@ -127,7 +129,7 @@ public class ApplicationTest {
     
     Application.main(new String[0]);
     final String expectedMessage =
-        String.format(ExceptionsConstantsUtils.NEGATIVE_ID, "-1");
+        String.format(ExceptionsConstantsUtils.NEGATIVE_PARAMETER, "-1");
     assertTrue(getOutput().contains(expectedMessage));
   }
   
@@ -146,7 +148,7 @@ public class ApplicationTest {
   
     Application.main(new String[0]);
     final String expectedMessage =
-        String.format(ExceptionsConstantsUtils.CHARACTER_ID, "abc");
+        String.format(ExceptionsConstantsUtils.CHARACTER_PARAMETER, "abc");
     assertTrue(getOutput().contains(expectedMessage));
   }
   
@@ -177,12 +179,12 @@ public class ApplicationTest {
       "8",
       "1",
       "Ajinkya",
+      "n",
       "y",
       "8",
       "2",
       "Aditya",
-      "y",
-      "7",
+      "n",
       "1",
       "2"
     };
@@ -203,12 +205,12 @@ public class ApplicationTest {
       "8",
       "1",
       "Ajinkya",
+      "n",
       "y",
       "8",
       "2",
       "Aditya",
-      "y",
-      "7",
+      "n",
       "3",
       "2"
     };
@@ -230,12 +232,12 @@ public class ApplicationTest {
       "8",
       "1",
       "Ajinkya",
+      "n",
       "y",
       "8",
       "2",
       "Aditya",
-      "y",
-      "7",
+      "n",
       "1",
       "3"
     };
@@ -257,12 +259,12 @@ public class ApplicationTest {
       "8",
       "1",
       "Ajinkya",
+      "n",
       "y",
       "8",
       "2",
       "Aditya",
-      "y",
-      "7",
+      "n",
       "1",
       "1"
     };
@@ -284,12 +286,12 @@ public class ApplicationTest {
       "8",
       "1",
       "Ajinkya",
+      "n",
       "y",
       "8",
       "2",
       "Aditya",
-      "y",
-      "7",
+      "n",
       "1",
       "2",
       "y",
@@ -315,28 +317,26 @@ public class ApplicationTest {
       "8",
       "1",
       "Ajinkya1",
+      "n",
       "y",
       "8",
       "2",
       "Ajinkya2",
+      "n",
+      "1",
+      "2",
       "y",
       "8",
       "3",
       "Ajinkya3",
+      "n",
+      "2",
+      "3",
       "y",
       "8",
       "4",
       "Ajinkya4",
-      "y",
-      "7",
-      "1",
-      "2",
-      "y",
-      "7",
-      "2",
-      "3",
-      "y",
-      "7",
+      "n",
       "2",
       "4",
       "y",
@@ -362,12 +362,12 @@ public class ApplicationTest {
       "8",
       "1",
       "Ajinkya",
+      "n",
       "y",
       "8",
       "2",
       "Aditya",
-      "y",
-      "7",
+      "n",
       "1",
       "2",
       "y",
@@ -391,12 +391,12 @@ public class ApplicationTest {
       "8",
       "1",
       "Ajinkya",
+      "n",
       "y",
       "8",
       "2",
       "Aditya",
-      "y",
-      "7",
+      "n",
       "1",
       "2",
       "y",
@@ -420,12 +420,12 @@ public class ApplicationTest {
       "8",
       "1",
       "Ajinkya",
+      "n",
       "y",
       "8",
       "2",
       "Aditya",
-      "y",
-      "7",
+      "n",
       "1",
       "2",
       "y",
@@ -449,12 +449,12 @@ public class ApplicationTest {
       "8",
       "1",
       "Ajinkya",
+      "n",
       "y",
       "8",
       "2",
       "Aditya",
-      "y",
-      "7",
+      "n",
       "1",
       "2",
       "y",
@@ -478,6 +478,7 @@ public class ApplicationTest {
       "8",
       "1",
       "Ajinkya",
+      "n",
       "y",
       "6",
       "1"
@@ -499,6 +500,7 @@ public class ApplicationTest {
       "8",
       "1",
       "Ajinkya",
+      "n",
       "y",
       "6",
       "2"
@@ -521,12 +523,12 @@ public class ApplicationTest {
       "8",
       "1",
       "Ajinkya",
+      "n",
       "y",
       "8",
       "2",
       "Aditya",
-      "y",
-      "7",
+      "n",
       "1",
       "2",
       "y",
@@ -551,12 +553,12 @@ public class ApplicationTest {
       "8",
       "1",
       "Ajinkya",
+      "n",
       "y",
       "8",
       "2",
       "Aditya",
-      "y",
-      "7",
+      "n",
       "1",
       "2",
       "y",
@@ -582,10 +584,14 @@ public class ApplicationTest {
       "8",
       "1",
       "Ajinkya",
+      "n",
       "y",
       "8",
       "2",
       "Aditya",
+      "n",
+      "1",
+      "3",
       "y",
       "5",
       "1",
@@ -609,12 +615,12 @@ public class ApplicationTest {
       "8",
       "1",
       "Ajinkya",
+      "n",
       "y",
       "8",
       "2",
       "Aditya",
-      "y",
-      "7",
+      "n",
       "1",
       "2",
       "y",

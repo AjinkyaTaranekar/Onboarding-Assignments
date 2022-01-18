@@ -1,6 +1,5 @@
 package com.nuclei.assignment.entity;
 
-import java.util.HashMap;
 import java.util.HashSet;
 import java.util.Map;
 import java.util.Set;
@@ -28,7 +27,7 @@ public class UserEntity implements Comparable<UserEntity> {
   /**
    * The Information.
    */
-  private Map<String, Object> information;
+  private Map<String, String> information;
   
   /**
    * The Parents.
@@ -55,12 +54,13 @@ public class UserEntity implements Comparable<UserEntity> {
    * @param name the name
    * @param id   the id
    */
-  public UserEntity(final String name, final Integer id) {
-    this.name = name;
+  public UserEntity(final Integer id, final String name,
+                    final Map<String, String> information) {
     this.id = id;
+    this.name = name;
+    this.information = information;
     this.parents = new HashSet<>();
     this.children = new HashSet<>();
-    this.information = new HashMap<>();
   }
   
   @Override

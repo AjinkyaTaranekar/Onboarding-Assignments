@@ -9,21 +9,36 @@ public interface InputValidation {
   
   
   /**
-   * Parse raw String data to name.
+   * Parse raw String name.
    *
    * @param name the name
-   * @return the string
    * @throws CustomException the custom exception
    */
-  String validateName(String name) throws CustomException;
+  void validateFullName(String name) throws CustomException;
   
   /**
-   * Parse raw String data to id.
+   * Parse raw String id.
    *
    * @param id the id
-   * @return the int
    * @throws CustomException the custom exception
    */
-  int validateId(String id) throws CustomException;
+  void validateNumeric(String id) throws CustomException;
+  
+  /**
+   * validate raw String details.
+   *
+   * @param details the details
+   * @throws CustomException the custom exception
+   */
+  void validateDetails(String... details) throws CustomException;
+  
+  /**
+   * validate data is not null.
+   *
+   * @param data               the data
+   * @param checkedOnAttribute the checked on attribute
+   * @throws CustomException the custom exception
+   */
+  void checkDataIsNull(String data, String checkedOnAttribute) throws CustomException;
   
 }
