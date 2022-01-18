@@ -15,8 +15,9 @@ import com.nuclei.assignment.service.displayitem.DisplayItemsSynchronousThreadsI
 import com.nuclei.assignment.service.itemparser.ItemParser;
 import com.nuclei.assignment.service.itemparser.ItemParserImpl;
 
-import java.sql.ResultSet;
+import java.sql.SQLException;
 import java.util.Arrays;
+import java.util.List;
 import java.util.Locale;
 import java.util.Map;
 import java.util.Scanner;
@@ -34,15 +35,20 @@ public class ItemAdderImpl implements ItemAdder {
    */
   private final Log logger = LogFactory.getLog(ItemAdderImpl.class);
   
-  private final DatabaseOperations databaseOperations;
+  /**
+   * The Database operations.
+   */
+  private DatabaseOperations databaseOperations;
   
   /**
    * Instantiates a new Item adder.
-   *
-   * @throws DatabaseException the database exception
    */
-  public ItemAdderImpl() throws DatabaseException {
-    databaseOperations = new DatabaseOperationsImpl();
+  public ItemAdderImpl() {
+    try {
+      databaseOperations = new DatabaseOperationsImpl();
+    } catch (DatabaseException exception) {
+      System.out.println(exception.getMessage());
+    }
   }
   
   @Override
@@ -63,43 +69,52 @@ public class ItemAdderImpl implements ItemAdder {
       logger.info("User Session ended");
     } catch (Exception exception) {
       System.out.println(exception.getMessage());
+    } finally {
+      try {
+        databaseOperations.closeConnection();
+      } catch (SQLException exception) {
+        System.out.println(exception.getMessage());
+      }
     }
   }
   
   @Override
-  public void outputItemsWithTaxToUser()
-      throws AttributeParseException, DatabaseException, InterruptedException {
-    final ResultSet resultSet = databaseOperations.getAllItems();
-    final DisplayItemsSynchronousThreads displayItems =
-        new DisplayItemsSynchronousThreadsImpl();
-    
-    final Thread fetchItemsThread = new Thread(new Runnable() {
-      @Override
-      public void run() {
-        try {
-          displayItems.fetchItemDataFromResultSet(resultSet);
-        } catch (DatabaseException | AttributeParseException | InterruptedException exception) {
-          logger.error(exception.getMessage(), exception);
+  public void outputItemsWithTaxToUser() {
+    try {
+      final List<Map<String,String>> items = databaseOperations.getAllItems();
+      final DisplayItemsSynchronousThreads displayItems =
+          new DisplayItemsSynchronousThreadsImpl();
+  
+      final Thread fetchItemsThread = new Thread(new Runnable() {
+        @Override
+        public void run() {
+          try {
+            displayItems.fetchItemDataFromRawData(items);
+          } catch (DatabaseException exception) {
+            logger.error(exception.getMessage(), exception);
+          }
         }
-      }
-    });
+      });
   
-    final Thread calculateTaxesForItemsFetched = new Thread(new Runnable() {
-      @Override
-      public void run() {
-        try {
-          displayItems.calculateTaxForTheItems();
-        } catch (InterruptedException exception) {
-          logger.error(exception.getMessage(), exception);
+      final Thread calculateTaxesForItemsFetched = new Thread(new Runnable() {
+        @Override
+        public void run() {
+          try {
+            displayItems.calculateTaxForTheItems();
+          } catch (InterruptedException exception) {
+            logger.error(exception.getMessage(), exception);
+          }
         }
-      }
-    });
+      });
   
-    fetchItemsThread.start();
-    calculateTaxesForItemsFetched.start();
+      fetchItemsThread.start();
+      calculateTaxesForItemsFetched.start();
   
-    fetchItemsThread.join();
-    calculateTaxesForItemsFetched.join();
+      fetchItemsThread.join();
+      calculateTaxesForItemsFetched.join();
+    } catch (Exception exception) {
+      logger.error(exception.getMessage(), exception);
+    }
   }
   
   private void addItemsToList(final Scanner scanner, final String... rawData) {

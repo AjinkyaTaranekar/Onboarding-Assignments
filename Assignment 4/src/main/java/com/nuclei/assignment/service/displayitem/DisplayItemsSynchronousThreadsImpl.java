@@ -1,6 +1,7 @@
 package com.nuclei.assignment.service.displayitem;
 
 import com.nuclei.assignment.constants.DatabaseConstantsUtils;
+import com.nuclei.assignment.constants.FlagsConstantsUtils;
 import com.nuclei.assignment.constants.StringConstantsUtils;
 import com.nuclei.assignment.entity.ItemEntity;
 import com.nuclei.assignment.enums.ItemType;
@@ -11,10 +12,10 @@ import com.nuclei.assignment.service.itemparser.ItemParserImpl;
 import com.nuclei.assignment.service.tax.ItemTax;
 import com.nuclei.assignment.service.tax.ItemTaxImpl;
 
-import java.sql.ResultSet;
-import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Map;
+
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 
@@ -44,27 +45,18 @@ public class DisplayItemsSynchronousThreadsImpl implements DisplayItemsSynchrono
   private int numberOfItems;
   
   @Override
-  public void fetchItemDataFromResultSet(ResultSet resultSet)
-      throws DatabaseException, AttributeParseException, InterruptedException {
-    final ItemParser itemParser = new ItemParserImpl();
+  public void fetchItemDataFromRawData(final List<Map<String,String>> items)
+      throws DatabaseException {
     try {
-      while (resultSet.next()) {
+      for (final Map<String, String> rawDataOfItem : items) {
         synchronized (this) {
-          final String itemName =
-              itemParser.parseName(resultSet.getString("name"));
-          final double itemPrice = itemParser.parsePrice(resultSet.getString(
-              "price"));
-          final double itemQuantity = itemParser.parseQuantity(resultSet.getString(
-              "quantity"));
-          final ItemType itemType = itemParser.parseType(resultSet.getString("type"));
-          final ItemEntity item = new ItemEntity(itemName, itemPrice,
-              itemQuantity, itemType);
+          final ItemEntity item = createItemFromRawData(rawDataOfItem);
           itemEntities.add(item);
           notifyAll();
           Thread.sleep(500);
         }
       }
-    } catch (SQLException exception) {
+    } catch (Exception exception) {
       logger.error(String.format(DatabaseConstantsUtils.EXCEPTION_WHILE_FETCHING_DATA,
           exception.getMessage()));
       throw new DatabaseException(String.format(
@@ -93,6 +85,20 @@ public class DisplayItemsSynchronousThreadsImpl implements DisplayItemsSynchrono
         }
       }
     }
+  }
+  
+  private ItemEntity createItemFromRawData(Map<String, String> rawDataOfItem)
+      throws AttributeParseException {
+    final ItemParser itemParser = new ItemParserImpl();
+    final String itemName =
+        itemParser.parseName(rawDataOfItem.get(FlagsConstantsUtils.NAME_FLAG));
+    final double itemPrice = itemParser.parsePrice(rawDataOfItem.get(
+        FlagsConstantsUtils.PRICE_FLAG));
+    final double itemQuantity = itemParser.parseQuantity(rawDataOfItem.get(
+        FlagsConstantsUtils.QUANTITY_FLAG));
+    final ItemType itemType =
+        itemParser.parseType(rawDataOfItem.get(FlagsConstantsUtils.TYPE_FLAG));
+    return new ItemEntity(itemName, itemPrice, itemQuantity, itemType);
   }
   
   private void printItemDetails(ItemEntity item) {
