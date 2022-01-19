@@ -186,6 +186,29 @@ public class ApplicationTest {
    * Adding user with empty name entry.
    */
   @Test
+  public void addingUserWithEmptyRollNumberEntry() {
+    final String[] test = {
+      "1",
+      "",
+      "Ajinkya",
+      "21",
+      "85, 114",
+      "A,B,C,D"
+    };
+    final String testString = String.join("\n",test);
+    provideInput(testString);
+    
+    Application.main(new String[0]);
+    final String expectedMessage =
+        String.format(ExceptionsConstantsUtils.DATA_IS_NULL_OR_EMPTY,
+          StringConstantsUtils.ROLL_NUMBER);
+    assertTrue(getOutput().contains(expectedMessage));
+  }
+  
+  /**
+   * Adding user with empty name entry.
+   */
+  @Test
   public void addingUserWithEmptyNameEntry() {
     final String[] test = {
       "1",
@@ -197,11 +220,81 @@ public class ApplicationTest {
     };
     final String testString = String.join("\n",test);
     provideInput(testString);
-  
+    
     Application.main(new String[0]);
     final String expectedMessage =
         String.format(ExceptionsConstantsUtils.DATA_IS_NULL_OR_EMPTY,
           StringConstantsUtils.NAME);
+    assertTrue(getOutput().contains(expectedMessage));
+  }
+  
+  /**
+   * Adding user with empty name entry.
+   */
+  @Test
+  public void addingUserWithEmptyAgeEntry() {
+    final String[] test = {
+      "1",
+      "5",
+      "Ajinkya",
+      "",
+      "85, 114",
+      "A,B,C,D"
+    };
+    final String testString = String.join("\n",test);
+    provideInput(testString);
+    
+    Application.main(new String[0]);
+    final String expectedMessage =
+        String.format(ExceptionsConstantsUtils.DATA_IS_NULL_OR_EMPTY,
+          StringConstantsUtils.AGE);
+    assertTrue(getOutput().contains(expectedMessage));
+  }
+  
+  /**
+   * Adding user with empty name entry.
+   */
+  @Test
+  public void addingUserWithEmptyAddressEntry() {
+    final String[] test = {
+      "1",
+      "5",
+      "Ajinkya",
+      "21",
+      "",
+      "A,B,C,D"
+    };
+    final String testString = String.join("\n",test);
+    provideInput(testString);
+    
+    Application.main(new String[0]);
+    final String expectedMessage =
+        String.format(ExceptionsConstantsUtils.DATA_IS_NULL_OR_EMPTY,
+          StringConstantsUtils.ADDRESS);
+    assertTrue(getOutput().contains(expectedMessage));
+  }
+  
+  
+  /**
+   * Adding user with empty name entry.
+   */
+  @Test
+  public void addingUserWithEmptyCoursesEntry() {
+    final String[] test = {
+      "1",
+      "5",
+      "Ajinkya",
+      "21",
+      "85, 114",
+      "\n"
+    };
+    final String testString = String.join("\n",test);
+    provideInput(testString);
+    
+    Application.main(new String[0]);
+    final String expectedMessage =
+        String.format(ExceptionsConstantsUtils.DATA_IS_NULL_OR_EMPTY,
+          StringConstantsUtils.COURSES);
     assertTrue(getOutput().contains(expectedMessage));
   }
   
@@ -243,13 +336,60 @@ public class ApplicationTest {
     };
     final String testString = String.join("\n",test);
     provideInput(testString);
-  
+    
     Application.main(new String[0]);
     final String expectedMessage =
-        String.format(ExceptionsConstantsUtils.CHARACTER_PARAMETER,
-          StringConstantsUtils.AGE, "abc");
+      String.format(ExceptionsConstantsUtils.CHARACTER_PARAMETER,
+        StringConstantsUtils.AGE, "abc");
     assertTrue(getOutput().contains(expectedMessage));
   }
+  
+  /**
+   * Adding user with character age.
+   */
+  @Test
+  public void addingUserWithDecimalAge() {
+    final String[] test = {
+      "1",
+      "7",
+      "Ajinkya",
+      "21.5",
+      "85, 114",
+      "A,B,C,D"
+    };
+    final String testString = String.join("\n",test);
+    provideInput(testString);
+    
+    Application.main(new String[0]);
+    final String expectedMessage =
+        String.format(ExceptionsConstantsUtils.DECIMAL_PARAMETER,
+          StringConstantsUtils.AGE, "21.5");
+    assertTrue(getOutput().contains(expectedMessage));
+  }
+  
+  
+  /**
+   * Adding user with character age.
+   */
+  @Test
+  public void addingUserWithWrongCourse() {
+    final String[] test = {
+      "1",
+      "7",
+      "Ajinkya",
+      "21",
+      "85, 114",
+      "A,B,C,D,Z"
+    };
+    final String testString = String.join("\n",test);
+    provideInput(testString);
+    
+    Application.main(new String[0]);
+    final String expectedMessage =
+        String.format(ExceptionsConstantsUtils.INVALID_COURSE, "Z");
+    assertTrue(getOutput().contains(expectedMessage));
+  }
+  
   
   /**
    * Adding user with negative roll number.
@@ -442,6 +582,38 @@ public class ApplicationTest {
           StringConstantsUtils.COLUMN_NUMBER, "1ab");
     assertTrue(getOutput().contains(expectedMessage));
   }
+  /**
+   * Displaying users but column is character.
+   */
+  @Test
+  public void displayingUsersButColumnIsInvalid() {
+    final String[] test = {
+      "1",
+      "10",
+      "Ajinkya",
+      "21",
+      "85, 114",
+      "A,B,C,D",
+      "y",
+      "1",
+      "11",
+      "Aditya",
+      "15",
+      "84, 114",
+      "A,E,C,F",
+      "y",
+      "2",
+      "7",
+      "ASC"
+    };
+    final String testString = String.join("\n",test);
+    provideInput(testString);
+    
+    Application.main(new String[0]);
+    final String expectedMessage =
+        String.format(ExceptionsConstantsUtils.INVALID_COLUMN_NUMBER, "7");
+    assertTrue(getOutput().contains(expectedMessage));
+  }
   
   /**
    * Displaying users but column not found.
@@ -492,6 +664,33 @@ public class ApplicationTest {
     Application.main(new String[0]);
     final String expectedMessage =
         String.format(ExceptionsConstantsUtils.INVALID_SORTING_ORDER, "ascend");
+    assertTrue(getOutput().contains(expectedMessage));
+  }
+  
+  /**
+   * Displaying users but sorting order not found.
+   */
+  @Test
+  public void displayingUsersButSortingOrderIsEmpty() {
+    final String[] test = {
+      "1",
+      "10",
+      "Ajinkya",
+      "21",
+      "85, 114",
+      "A,B,C,D",
+      "y",
+      "2",
+      "1",
+      "\n"
+    };
+    final String testString = String.join("\n",test);
+    provideInput(testString);
+    
+    Application.main(new String[0]);
+    final String expectedMessage =
+        String.format(ExceptionsConstantsUtils.DATA_IS_NULL_OR_EMPTY,
+            StringConstantsUtils.SORTING_ORDER);
     assertTrue(getOutput().contains(expectedMessage));
   }
   
