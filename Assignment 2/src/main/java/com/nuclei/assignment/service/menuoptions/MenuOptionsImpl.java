@@ -16,8 +16,6 @@ import java.util.List;
 import java.util.Locale;
 import java.util.Scanner;
 import java.util.Set;
-import org.apache.commons.logging.Log;
-import org.apache.commons.logging.LogFactory;
 
 /**
  * Menu Option implementation for different types of access.
@@ -35,11 +33,6 @@ public class MenuOptionsImpl implements MenuOptions {
   private final InputParser inputParser;
   
   /**
-   * The Logger.
-   */
-  private final Log logger = LogFactory.getLog(MenuOptionsImpl.class);
-  
-  /**
    * Menu Option Constructor.
    */
   public MenuOptionsImpl() {
@@ -49,7 +42,6 @@ public class MenuOptionsImpl implements MenuOptions {
   
   @Override
   public void menuInterface() {
-    logger.info("New user session started");
     try (Scanner scanner = new Scanner(System.in)) {
       String addMoreUsers = StringConstantsUtils.CONFIRMATION;
       while (addMoreUsers.equals(StringConstantsUtils.CONFIRMATION)) {
@@ -72,7 +64,6 @@ public class MenuOptionsImpl implements MenuOptions {
     } catch (Exception exception) {
       System.out.println(exception.getMessage());
     }
-    logger.info("User session ended");
   }
   
   private int chooseMenuOption(final Scanner scanner) throws CustomException {
@@ -133,14 +124,14 @@ public class MenuOptionsImpl implements MenuOptions {
   
   private void displayUsersOption(final Scanner scanner) throws CustomException {
     System.out.println(StringConstantsUtils.SORT_BY_COLUMN);
-    int fieldIndex = 1;
-    for (final String fields : StringConstantsUtils.USER_FIELDS) {
-      if (fieldIndex == StringConstantsUtils.USER_FIELDS.length) {
-        continue;
-      }
-      System.out.printf(StringConstantsUtils.LIST_FORMAT, fieldIndex, fields);
-      fieldIndex++;
-    }
+    System.out.printf(StringConstantsUtils.LIST_FORMAT, 1,
+        StringConstantsUtils.NAME);
+    System.out.printf(StringConstantsUtils.LIST_FORMAT, 2,
+        StringConstantsUtils.ROLL_NUMBER);
+    System.out.printf(StringConstantsUtils.LIST_FORMAT, 3,
+        StringConstantsUtils.AGE);
+    System.out.printf(StringConstantsUtils.LIST_FORMAT, 4,
+        StringConstantsUtils.ADDRESS);
     final int columnNumber =
         inputParser.parseColumnNumberForSorting(scanner.nextLine());
     System.out.println(StringConstantsUtils.SORT_BY_ORDER);
@@ -151,14 +142,13 @@ public class MenuOptionsImpl implements MenuOptions {
     System.out.println(SuccessConstantsUtils.DISPLAY_USERS);
     System.out.println(StringConstantsUtils.DIVIDER);
     System.out.format(StringConstantsUtils.LEFT_ALIGN_FORMAT,
-        StringConstantsUtils.USER_FIELDS[0], StringConstantsUtils.USER_FIELDS[1],
-        StringConstantsUtils.USER_FIELDS[2], StringConstantsUtils.USER_FIELDS[3],
-        StringConstantsUtils.USER_FIELDS[4]);
+        StringConstantsUtils.NAME, StringConstantsUtils.ROLL_NUMBER, StringConstantsUtils.AGE,
+        StringConstantsUtils.ADDRESS, StringConstantsUtils.COURSES);
     System.out.println(StringConstantsUtils.DIVIDER);
     for (final UserEntity user : users) {
       System.out.format(StringConstantsUtils.LEFT_ALIGN_FORMAT, user.getName(),
           user.getRollNumber(), user.getAge(), user.getAddress(),
-          user.getCourses());
+          String.join(", ", (CharSequence) user.getCourses()));
     }
   }
   

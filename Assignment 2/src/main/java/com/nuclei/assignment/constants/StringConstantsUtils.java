@@ -48,7 +48,7 @@ public class StringConstantsUtils {
    * The constant DELETE_USER_ROLL_NUMBER.
    */
   public static final String DELETE_USER_ROLL_NUMBER =
-      "Enter Roll Number to be deleted";
+      "Enter Roll Number to be deleted: ";
   
   /**
    * The constant ADD_USER_COURSES.
@@ -61,8 +61,8 @@ public class StringConstantsUtils {
    */
   public static final String[] COURSES_NOTE = {
     "NOTE:",
-    "1. " + StringConstantsUtils.MUST_COURSE_COUNT + "Courses are must.",
-    "2. Enter Courses as comma separated example: A,B,C,D}",
+    "1. " + StringConstantsUtils.MUST_COURSE_COUNT + " Courses are must.",
+    "2. Enter Courses as comma separated example: A,B,C,D.",
     "3. Below is list of courses available."
   };
   
@@ -116,18 +116,42 @@ public class StringConstantsUtils {
   public static final String SORT_BY_COLUMN = "Sort Column (Enter choice): ";
   
   /**
-   * The constant USER_FIELDS.
+   * The constant NAME.
    */
-  public static final String[] USER_FIELDS = {
-    "Name",
-    "Roll Number",
-    "Age",
-    "Address",
-    "Courses"
-  };
+  public static final String NAME = "Name";
+  
+  /**
+   * The constant AGE.
+   */
+  public static final String AGE = "Age";
+  
+  /**
+   * The constant ADDRESS.
+   */
+  public static final String ADDRESS = "Address";
+  
+  /**
+   * The constant ROLL_NUMBER.
+   */
+  public static final String ROLL_NUMBER = "Roll Number";
+  
+  /**
+   * The constant COURSES.
+   */
+  public static final String COURSES = "Courses";
+  
+  /**
+   * The constant COLUMN_NUMBER.
+   */
+  public static final String COLUMN_NUMBER = "Column Number";
+  
+  /**
+   * The constant SORTING_ORDER.
+   */
+  public static final String SORTING_ORDER = "Sorting Order";
   
   /**
    * The constant USER_STORAGE.
    */
-  public static final String USER_STORAGE = "./user.ser";
+  public static final String USER_STORAGE = "user.ser";
 }

@@ -4,6 +4,7 @@ import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertTrue;
 
 import com.nuclei.assignment.constants.ExceptionsConstantsUtils;
+import com.nuclei.assignment.constants.StringConstantsUtils;
 import com.nuclei.assignment.constants.SuccessConstantsUtils;
 import com.nuclei.assignment.entity.UserEntity;
 import com.nuclei.assignment.enums.Courses;
@@ -198,7 +199,9 @@ public class ApplicationTest {
     provideInput(testString);
   
     Application.main(new String[0]);
-    final String expectedMessage = ExceptionsConstantsUtils.INVALID_PARAMETER;
+    final String expectedMessage =
+        String.format(ExceptionsConstantsUtils.DATA_IS_NULL_OR_EMPTY,
+          StringConstantsUtils.NAME);
     assertTrue(getOutput().contains(expectedMessage));
   }
   
@@ -220,7 +223,8 @@ public class ApplicationTest {
   
     Application.main(new String[0]);
     final String expectedMessage =
-        String.format(ExceptionsConstantsUtils.NEGATIVE_PARAMETER, "-21");
+        String.format(ExceptionsConstantsUtils.NEGATIVE_PARAMETER,
+          StringConstantsUtils.AGE, "-21");
     assertTrue(getOutput().contains(expectedMessage));
   }
   
@@ -242,7 +246,8 @@ public class ApplicationTest {
   
     Application.main(new String[0]);
     final String expectedMessage =
-        String.format(ExceptionsConstantsUtils.CHARACTER_PARAMETER, "abc");
+        String.format(ExceptionsConstantsUtils.CHARACTER_PARAMETER,
+          StringConstantsUtils.AGE, "abc");
     assertTrue(getOutput().contains(expectedMessage));
   }
   
@@ -264,7 +269,8 @@ public class ApplicationTest {
   
     Application.main(new String[0]);
     final String expectedMessage =
-        String.format(ExceptionsConstantsUtils.NEGATIVE_PARAMETER, "-1");
+        String.format(ExceptionsConstantsUtils.NEGATIVE_PARAMETER,
+          StringConstantsUtils.ROLL_NUMBER, "-1");
     assertTrue(getOutput().contains(expectedMessage));
   }
   
@@ -286,7 +292,8 @@ public class ApplicationTest {
   
     Application.main(new String[0]);
     final String expectedMessage =
-        String.format(ExceptionsConstantsUtils.CHARACTER_PARAMETER, "abc");
+        String.format(ExceptionsConstantsUtils.CHARACTER_PARAMETER,
+          StringConstantsUtils.ROLL_NUMBER, "abc");
     assertTrue(getOutput().contains(expectedMessage));
   }
   
@@ -307,7 +314,8 @@ public class ApplicationTest {
     provideInput(testString);
   
     Application.main(new String[0]);
-    final String expectedMessage = ExceptionsConstantsUtils.INVALID_PARAMETER;
+    final String expectedMessage =
+        String.format(ExceptionsConstantsUtils.DATA_IS_NULL_OR_EMPTY, StringConstantsUtils.ADDRESS);
     assertTrue(getOutput().contains(expectedMessage));
   }
   
@@ -349,9 +357,7 @@ public class ApplicationTest {
     provideInput(testString);
     
     Application.main(new String[0]);
-    final String expectedMessage =
-        String.format(ExceptionsConstantsUtils.REPEATED_COURSE_FOUND,
-          "[A, B, C, A]");
+    final String expectedMessage = ExceptionsConstantsUtils.INVALID_COURSE_COUNT;
     assertTrue(getOutput().contains(expectedMessage));
   }
   
@@ -432,7 +438,8 @@ public class ApplicationTest {
     
     Application.main(new String[0]);
     final String expectedMessage =
-        String.format(ExceptionsConstantsUtils.CHARACTER_PARAMETER, "1ab");
+        String.format(ExceptionsConstantsUtils.CHARACTER_PARAMETER,
+          StringConstantsUtils.COLUMN_NUMBER, "1ab");
     assertTrue(getOutput().contains(expectedMessage));
   }
   
@@ -457,7 +464,8 @@ public class ApplicationTest {
     
     Application.main(new String[0]);
     final String expectedMessage =
-        String.format(ExceptionsConstantsUtils.NEGATIVE_PARAMETER, "-1");
+        String.format(ExceptionsConstantsUtils.NEGATIVE_PARAMETER,
+          StringConstantsUtils.COLUMN_NUMBER, "-1");
     assertTrue(getOutput().contains(expectedMessage));
   }
   
@@ -673,7 +681,8 @@ public class ApplicationTest {
     provideInput(testString);
     
     Application.main(new String[0]);
-    final String expectedMessage = ExceptionsConstantsUtils.INVALID_ROLL_NUMBER;
+    final String expectedMessage =
+        String.format(ExceptionsConstantsUtils.INVALID_ROLL_NUMBER, "35");
     assertTrue(getOutput().contains(expectedMessage));
   }
   

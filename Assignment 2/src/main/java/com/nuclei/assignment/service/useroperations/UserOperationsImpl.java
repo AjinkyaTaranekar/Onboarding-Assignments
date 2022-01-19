@@ -8,6 +8,8 @@ import com.nuclei.assignment.enums.SortingOrder;
 import com.nuclei.assignment.exception.CustomException;
 import com.nuclei.assignment.service.diskstorage.DiskStorageOperation;
 import com.nuclei.assignment.service.diskstorage.DiskStorageOperationImpl;
+import com.nuclei.assignment.service.inputvalidation.InputValidation;
+import com.nuclei.assignment.service.inputvalidation.InputValidationImpl;
 
 import java.util.ArrayList;
 import java.util.Collections;
@@ -15,7 +17,6 @@ import java.util.Comparator;
 import java.util.List;
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
-
 
 /**
  * UserEntity CRUD Operations implementations.
@@ -39,16 +40,6 @@ public class UserOperationsImpl implements UserOperations {
   
   /**
    * Instantiates a new User operations.
-   *
-   * @param filePathOfUserStorage the file path of user storage
-   */
-  public UserOperationsImpl(String filePathOfUserStorage) {
-    diskStorageOperation = new DiskStorageOperationImpl(filePathOfUserStorage);
-    users = getUsersFromDisk();
-  }
-  
-  /**
-   * Instantiates a new User operations.
    */
   public UserOperationsImpl() {
     final String filePathOfUserStorage = StringConstantsUtils.USER_STORAGE;
@@ -64,7 +55,6 @@ public class UserOperationsImpl implements UserOperations {
   private List<UserEntity> getUsersFromDisk() {
     try {
       users = diskStorageOperation.fetchUsersFromDisk();
-      logger.info(String.format("Fetched %s users from disk", users.size()));
     } catch (Exception exception) {
       users = new ArrayList<>();
     }
@@ -86,8 +76,6 @@ public class UserOperationsImpl implements UserOperations {
         Comparator.comparing(UserEntity::getName).thenComparing(UserEntity::getRollNumber));
   
     users.add(-(index + 1), user);
-    logger.info(SuccessConstantsUtils.CREATED_USER);
-    logger.info(user);
     System.out.println(SuccessConstantsUtils.CREATED_USER);
   }
   
@@ -104,25 +92,32 @@ public class UserOperationsImpl implements UserOperations {
   @Override
   public boolean checkIfUserExistByRollNumber(final int rollNumber) {
     final UserEntity user = getUserByRollNumber(rollNumber);
-    return user != null;
+    try {
+      final InputValidation validation = new InputValidationImpl();
+      validation.validateUser(user);
+    } catch (Exception exception) {
+      return false;
+    }
+    return true;
   }
   
   @Override
   public void deleteUserByRollNumber(final int rollNumber) throws CustomException {
     final UserEntity user = getUserByRollNumber(rollNumber);
-    if (user == null) {
-      throw new CustomException(ExceptionsConstantsUtils.INVALID_ROLL_NUMBER);
+    try {
+      final InputValidation validation = new InputValidationImpl();
+      validation.validateUser(user);
+    } catch (Exception exception) {
+      throw new CustomException(String.format(exception.getMessage(), rollNumber),
+          exception);
     }
     users.remove(user);
-    logger.info(SuccessConstantsUtils.DELETED_USER);
     System.out.println(SuccessConstantsUtils.DELETED_USER);
   }
   
   @Override
   public void saveUsersToDisk() throws CustomException {
     diskStorageOperation.saveUsersToDisk(users);
-    logger.info(SuccessConstantsUtils.SAVE_USERS);
-    logger.info(users);
     System.out.println(SuccessConstantsUtils.SAVE_USERS);
   }
   

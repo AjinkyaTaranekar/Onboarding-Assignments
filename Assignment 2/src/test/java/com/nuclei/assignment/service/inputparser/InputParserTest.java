@@ -4,6 +4,7 @@ import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertThrows;
 
 import com.nuclei.assignment.constants.ExceptionsConstantsUtils;
+import com.nuclei.assignment.constants.StringConstantsUtils;
 import com.nuclei.assignment.enums.Courses;
 import com.nuclei.assignment.enums.SortingOrder;
 import com.nuclei.assignment.exception.CustomException;
@@ -29,7 +30,8 @@ public class InputParserTest {
         () -> new InputParserImpl().parseName(input));
     
     final String expectedMessage =
-        String.format(ExceptionsConstantsUtils.DATA_IS_NULL, "Name");
+        String.format(ExceptionsConstantsUtils.DATA_IS_NULL_OR_EMPTY,
+          StringConstantsUtils.NAME);
     final String actualMessage = exception.getMessage();
     
     assertEquals(expectedMessage, actualMessage);
@@ -45,7 +47,8 @@ public class InputParserTest {
         () -> new InputParserImpl().parseAddress(input));
     
     final String expectedMessage =
-        String.format(ExceptionsConstantsUtils.DATA_IS_NULL, "Address");
+        String.format(ExceptionsConstantsUtils.DATA_IS_NULL_OR_EMPTY,
+          StringConstantsUtils.ADDRESS);
     final String actualMessage = exception.getMessage();
     
     assertEquals(expectedMessage, actualMessage);
@@ -61,7 +64,8 @@ public class InputParserTest {
         () -> new InputParserImpl().parseAge(input));
     
     final String expectedMessage =
-        String.format(ExceptionsConstantsUtils.DATA_IS_NULL, "Age");
+        String.format(ExceptionsConstantsUtils.DATA_IS_NULL_OR_EMPTY,
+          StringConstantsUtils.AGE);
     final String actualMessage = exception.getMessage();
     
     assertEquals(expectedMessage, actualMessage);
@@ -77,7 +81,8 @@ public class InputParserTest {
         () -> new InputParserImpl().parseCourses(input));
     
     final String expectedMessage =
-        String.format(ExceptionsConstantsUtils.DATA_IS_NULL, "Courses");
+        String.format(ExceptionsConstantsUtils.DATA_IS_NULL_OR_EMPTY,
+          StringConstantsUtils.COURSES);
     final String actualMessage = exception.getMessage();
     
     assertEquals(expectedMessage, actualMessage);
@@ -93,7 +98,8 @@ public class InputParserTest {
         () -> new InputParserImpl().parseRollNumber(input));
     
     final String expectedMessage =
-        String.format(ExceptionsConstantsUtils.DATA_IS_NULL, "Roll Number");
+        String.format(ExceptionsConstantsUtils.DATA_IS_NULL_OR_EMPTY,
+          StringConstantsUtils.ROLL_NUMBER);
     final String actualMessage = exception.getMessage();
     
     assertEquals(expectedMessage, actualMessage);
@@ -109,7 +115,8 @@ public class InputParserTest {
         () -> new InputParserImpl().parseColumnNumberForSorting(input));
     
     final String expectedMessage =
-        String.format(ExceptionsConstantsUtils.DATA_IS_NULL, "Column Number");
+        String.format(ExceptionsConstantsUtils.DATA_IS_NULL_OR_EMPTY,
+          StringConstantsUtils.COLUMN_NUMBER);
     final String actualMessage = exception.getMessage();
     
     assertEquals(expectedMessage, actualMessage);
@@ -125,7 +132,8 @@ public class InputParserTest {
         () -> new InputParserImpl().parseOrderOfSorting(input));
     
     final String expectedMessage =
-        String.format(ExceptionsConstantsUtils.DATA_IS_NULL, "Sorting Order");
+        String.format(ExceptionsConstantsUtils.DATA_IS_NULL_OR_EMPTY,
+          StringConstantsUtils.SORTING_ORDER);
     final String actualMessage = exception.getMessage();
     
     assertEquals(expectedMessage, actualMessage);
@@ -140,7 +148,8 @@ public class InputParserTest {
     final Exception exception = assertThrows(CustomException.class,
         () -> new InputParserImpl().parseName(input));
     
-    final String expectedMessage = ExceptionsConstantsUtils.INVALID_PARAMETER;
+    final String expectedMessage = String.format(ExceptionsConstantsUtils.DATA_IS_NULL_OR_EMPTY,
+        StringConstantsUtils.NAME);
     final String actualMessage = exception.getMessage();
     
     assertEquals(expectedMessage, actualMessage);
@@ -155,7 +164,8 @@ public class InputParserTest {
     final Exception exception = assertThrows(CustomException.class,
         () -> new InputParserImpl().parseAddress(input));
     
-    final String expectedMessage = ExceptionsConstantsUtils.INVALID_PARAMETER;
+    final String expectedMessage = String.format(ExceptionsConstantsUtils.DATA_IS_NULL_OR_EMPTY,
+        StringConstantsUtils.ADDRESS);
     final String actualMessage = exception.getMessage();
     
     assertEquals(expectedMessage, actualMessage);
@@ -171,7 +181,8 @@ public class InputParserTest {
         () -> new InputParserImpl().parseAge(input));
     
     final String expectedMessage =
-        String.format(ExceptionsConstantsUtils.NEGATIVE_PARAMETER, input);
+        String.format(ExceptionsConstantsUtils.NEGATIVE_PARAMETER,
+          StringConstantsUtils.AGE, input);
     final String actualMessage = exception.getMessage();
     
     assertEquals(expectedMessage, actualMessage);
@@ -187,24 +198,8 @@ public class InputParserTest {
         () -> new InputParserImpl().parseAge(input));
     
     final String expectedMessage =
-        String.format(ExceptionsConstantsUtils.CHARACTER_PARAMETER, input);
-    final String actualMessage = exception.getMessage();
-    
-    assertEquals(expectedMessage, actualMessage);
-  }
-  
-  /**
-   * parse courses when input has repeated courses.
-   */
-  @Test
-  public void  parseCoursesWhenInputHasRepeatedCourses() {
-    final String input = "A,B,C,A,D";
-    final Exception exception = assertThrows(CustomException.class,
-        () -> new InputParserImpl().parseCourses(input));
-    
-    final String expectedMessage =
-        String.format(ExceptionsConstantsUtils.REPEATED_COURSE_FOUND,
-            Arrays.toString(input.split(",")));
+        String.format(ExceptionsConstantsUtils.CHARACTER_PARAMETER,
+          StringConstantsUtils.AGE, input);
     final String actualMessage = exception.getMessage();
     
     assertEquals(expectedMessage, actualMessage);
@@ -220,7 +215,7 @@ public class InputParserTest {
         () -> new InputParserImpl().parseCourses(input));
     
     final String expectedMessage =
-        ExceptionsConstantsUtils.INVALID_COURSE_COUNT;
+        String.format(ExceptionsConstantsUtils.INVALID_COURSE, "G");
     final String actualMessage = exception.getMessage();
     
     assertEquals(expectedMessage, actualMessage);
@@ -252,7 +247,8 @@ public class InputParserTest {
         () -> new InputParserImpl().parseRollNumber(input));
     
     final String expectedMessage =
-        String.format(ExceptionsConstantsUtils.NEGATIVE_PARAMETER, input);
+        String.format(ExceptionsConstantsUtils.NEGATIVE_PARAMETER,
+          StringConstantsUtils.ROLL_NUMBER, input);
     final String actualMessage = exception.getMessage();
     
     assertEquals(expectedMessage, actualMessage);
@@ -268,7 +264,8 @@ public class InputParserTest {
         () -> new InputParserImpl().parseRollNumber(input));
     
     final String expectedMessage =
-        String.format(ExceptionsConstantsUtils.CHARACTER_PARAMETER, input);
+        String.format(ExceptionsConstantsUtils.CHARACTER_PARAMETER,
+          StringConstantsUtils.ROLL_NUMBER, input);
     final String actualMessage = exception.getMessage();
     
     assertEquals(expectedMessage, actualMessage);
@@ -300,7 +297,8 @@ public class InputParserTest {
         () -> new InputParserImpl().parseColumnNumberForSorting(input));
     
     final String expectedMessage =
-        String.format(ExceptionsConstantsUtils.CHARACTER_PARAMETER, input);
+        String.format(ExceptionsConstantsUtils.CHARACTER_PARAMETER,
+          StringConstantsUtils.COLUMN_NUMBER, input);
     final String actualMessage = exception.getMessage();
     
     assertEquals(expectedMessage, actualMessage);

@@ -1,5 +1,6 @@
 package com.nuclei.assignment.service.inputvalidation;
 
+import com.nuclei.assignment.entity.UserEntity;
 import com.nuclei.assignment.exception.CustomException;
 
 
@@ -15,7 +16,7 @@ public interface InputValidation {
    * @param name the fullName
    * @throws CustomException the custom exception
    */
-  void validateFullName(String name) throws CustomException;
+  void validateString(String name) throws CustomException;
   
   /**
    * Validate raw String numeric.
@@ -42,11 +43,10 @@ public interface InputValidation {
   void validateColumnNumberForSorting(int columnNumber) throws CustomException;
   
   /**
-   * Check data is null.
+   * Validate user.
    *
-   * @param data               the data
-   * @param checkedOnAttribute the checked on attribute
-   * @throws CustomException the custom exception
+   * @param user the user
    */
-  void checkDataIsNull(String data, String checkedOnAttribute) throws CustomException;
+  void validateUser(UserEntity user);
+  
 }

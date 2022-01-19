@@ -2,12 +2,13 @@ package com.nuclei.assignment.service.inputvalidation;
 
 import com.nuclei.assignment.constants.ExceptionsConstantsUtils;
 import com.nuclei.assignment.constants.StringConstantsUtils;
+import com.nuclei.assignment.entity.UserEntity;
 import com.nuclei.assignment.enums.Courses;
 import com.nuclei.assignment.exception.CustomException;
 
-import java.util.Arrays;
 import java.util.HashSet;
 import java.util.List;
+import java.util.Objects;
 import java.util.Set;
 import org.apache.commons.lang3.StringUtils;
 import org.apache.commons.logging.Log;
@@ -24,55 +25,35 @@ public class InputValidationImpl implements InputValidation {
   private final Log logger = LogFactory.getLog(InputValidationImpl.class);
   
   @Override
-  public void validateFullName(final String name) throws CustomException {
-    if (name.isEmpty()) {
-      logger.error(ExceptionsConstantsUtils.INVALID_PARAMETER);
-      throw new CustomException(ExceptionsConstantsUtils.INVALID_PARAMETER);
+  public void validateString(final String string) throws CustomException {
+    if (StringUtils.isBlank(string)) {
+      throw new CustomException(ExceptionsConstantsUtils.DATA_IS_NULL_OR_EMPTY);
     }
   }
   
   @Override
   public void validateNumeric(final String number) throws CustomException {
     if (number.contains("-")) {
-      logger.error(String.format(ExceptionsConstantsUtils.NEGATIVE_PARAMETER,
-          number));
-      throw new CustomException(String.format(ExceptionsConstantsUtils.NEGATIVE_PARAMETER,
-          number));
+      throw new CustomException(ExceptionsConstantsUtils.NEGATIVE_PARAMETER);
     }
     if (number.contains(".")) {
-      logger.error(String.format(ExceptionsConstantsUtils.DECIMAL_PARAMETER,
-          number));
-      throw new CustomException(String.format(ExceptionsConstantsUtils.DECIMAL_PARAMETER,
-          number));
+      throw new CustomException(ExceptionsConstantsUtils.DECIMAL_PARAMETER);
     }
     if (!StringUtils.isNumeric(number)) {
-      logger.error(String.format(ExceptionsConstantsUtils.CHARACTER_PARAMETER,
-          number));
-      throw new CustomException(String.format(ExceptionsConstantsUtils.CHARACTER_PARAMETER,
-          number));
+      throw new CustomException(ExceptionsConstantsUtils.CHARACTER_PARAMETER);
     }
   }
   
   @Override
   public void validateCourses(final String... coursesList) throws CustomException {
     final Set<String> coursesSet = new HashSet<>(List.of(coursesList));
-    if (coursesSet.size() != coursesList.length) {
-      logger.error(String.format(ExceptionsConstantsUtils.REPEATED_COURSE_FOUND,
-          Arrays.toString(coursesList)));
-      throw new CustomException(String.format(ExceptionsConstantsUtils.REPEATED_COURSE_FOUND,
-          Arrays.toString(coursesList)));
-    }
-    if (coursesSet.size() != StringConstantsUtils.MUST_COURSE_COUNT) {
+    if (coursesSet.size() < StringConstantsUtils.MUST_COURSE_COUNT) {
       logger.error(ExceptionsConstantsUtils.INVALID_COURSE_COUNT);
       throw new CustomException(ExceptionsConstantsUtils.INVALID_COURSE_COUNT);
     }
-    final Set<String> coursesEnumSet = new HashSet<>();
-    for (final Courses course : Courses.values()) {
-      coursesEnumSet.add(course.toString());
-    }
     
     for (final String course : coursesSet) {
-      if (!coursesEnumSet.contains(course)) {
+      if (!Courses.STRING_COURSES_MAP.containsKey(course)) {
         logger.error(String.format(ExceptionsConstantsUtils.INVALID_COURSE,
             course));
         throw new CustomException(String.format(ExceptionsConstantsUtils.INVALID_COURSE,
@@ -92,10 +73,7 @@ public class InputValidationImpl implements InputValidation {
   }
   
   @Override
-  public void checkDataIsNull(String data, String checkedOnAttribute) throws CustomException {
-    if (data == null) {
-      throw new CustomException(
-        String.format(ExceptionsConstantsUtils.DATA_IS_NULL, checkedOnAttribute));
-    }
+  public void validateUser(UserEntity user) {
+    Objects.requireNonNull(user, ExceptionsConstantsUtils.INVALID_ROLL_NUMBER);
   }
 }

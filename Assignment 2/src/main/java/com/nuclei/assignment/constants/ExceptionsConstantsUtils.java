@@ -21,27 +21,28 @@ public final class ExceptionsConstantsUtils {
   public static final String INVALID_INPUT = "Invalid Input Entry";
   
   /**
-   * The constant INVALID_PARAMETER.
+   * The constant DATA_IS_EMPTY.
    */
-  public static final String INVALID_PARAMETER = "Empty Parameter.";
+  public static final String DATA_IS_NULL_OR_EMPTY =
+      "Data for %s is null or empty";
   
   /**
    * The constant CHARACTER_PARAMETER.
    */
   public static final String CHARACTER_PARAMETER =
-      "The parameter can't be character: %s";
+      "The %s can't be character: %s";
   
   /**
    * The constant DECIMAL_PARAMETER.
    */
   public static final String DECIMAL_PARAMETER =
-      "The parameter can't be decimal: %s";
+      "The %s can't be decimal: %s";
   
   /**
    * The constant NEGATIVE_PARAMETER.
    */
   public static final String NEGATIVE_PARAMETER =
-      "The parameter can't be negative or zero: %s";
+      "The %s can't be negative or zero: %s";
   
   /**
    * The constant INVALID_ROLL_NUMBER.
@@ -83,7 +84,7 @@ public final class ExceptionsConstantsUtils {
    * The constant INVALID_COURSE_COUNT.
    */
   public static final String INVALID_COURSE_COUNT =
-      "Add only " + StringConstantsUtils.MUST_COURSE_COUNT + " Courses";
+      "Add at least " + StringConstantsUtils.MUST_COURSE_COUNT + " Courses";
   
   /**
    * The constant FAILED_TO_READ_STORAGE.
@@ -102,11 +103,5 @@ public final class ExceptionsConstantsUtils {
    */
   public static final String END_OF_FILE_REACHED =
       "Failed to read " + StringConstantsUtils.USER_STORAGE;
-  
-  /**
-   * The constant DATA_IS_NULL.
-   */
-  public static final String DATA_IS_NULL =
-      "Data for %s found null";
   
 }

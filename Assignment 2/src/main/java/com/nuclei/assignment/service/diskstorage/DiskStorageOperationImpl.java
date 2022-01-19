@@ -73,15 +73,13 @@ public class DiskStorageOperationImpl implements DiskStorageOperation {
           users.add((UserEntity) obj);
         } while (obj != null);
       } catch (EOFException exception) {
-        logger.info(ExceptionsConstantsUtils.END_OF_FILE_REACHED);
+        System.out.println(SuccessConstantsUtils.FETCH_SAVED_USERS);
       }
     } catch (IOException | ClassNotFoundException | ClassCastException exception) {
-      logger.error(ExceptionsConstantsUtils.FAILED_TO_READ_STORAGE);
+      logger.warn(ExceptionsConstantsUtils.FAILED_TO_READ_STORAGE);
       saveUsersToDisk(new ArrayList<>(0));
       throw new CustomException(ExceptionsConstantsUtils.FAILED_TO_READ_STORAGE, exception);
     }
-    logger.info(SuccessConstantsUtils.FETCH_SAVED_USERS);
-    System.out.println(SuccessConstantsUtils.FETCH_SAVED_USERS);
     return users;
   }
 }

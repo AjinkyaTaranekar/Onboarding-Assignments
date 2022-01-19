@@ -63,7 +63,7 @@ public interface UserOperations {
    * Sort user list based on column number and sorting order (asc/desc).
    *
    * @param columnNumber the column number
-   *      {1: Name, 2: Roll Number, 3: Age, 4: Address, 5: Courses}
+   *                     {1: Name, 2: Roll Number, 3: Age, 4: Address}
    * @param sortingOrder the sorting order {ASC/DESC}
    * @return the list
    */
