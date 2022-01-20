@@ -339,8 +339,8 @@ public class ApplicationTest {
     
     Application.main(new String[0]);
     final String expectedMessage =
-      String.format(ExceptionsConstantsUtils.CHARACTER_PARAMETER,
-        StringConstantsUtils.AGE, "abc");
+        String.format(ExceptionsConstantsUtils.CHARACTER_PARAMETER,
+          StringConstantsUtils.AGE, "abc");
     assertTrue(getOutput().contains(expectedMessage));
   }
   
@@ -582,6 +582,7 @@ public class ApplicationTest {
           StringConstantsUtils.COLUMN_NUMBER, "1ab");
     assertTrue(getOutput().contains(expectedMessage));
   }
+  
   /**
    * Displaying users but column is character.
    */
