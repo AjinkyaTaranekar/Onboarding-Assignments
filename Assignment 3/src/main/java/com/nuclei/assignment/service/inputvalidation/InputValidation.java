@@ -9,15 +9,15 @@ public interface InputValidation {
   
   
   /**
-   * Parse raw String name.
+   * validate raw String string.
    *
-   * @param name the name
+   * @param string the string
    * @throws CustomException the custom exception
    */
-  void validateFullName(String name) throws CustomException;
+  void validateString(String string) throws CustomException;
   
   /**
-   * Parse raw String id.
+   * validate raw String id.
    *
    * @param id the id
    * @throws CustomException the custom exception
@@ -31,14 +31,5 @@ public interface InputValidation {
    * @throws CustomException the custom exception
    */
   void validateDetails(String... details) throws CustomException;
-  
-  /**
-   * validate data is not null.
-   *
-   * @param data               the data
-   * @param checkedOnAttribute the checked on attribute
-   * @throws CustomException the custom exception
-   */
-  void checkDataIsNull(String data, String checkedOnAttribute) throws CustomException;
   
 }

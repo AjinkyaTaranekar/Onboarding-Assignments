@@ -20,32 +20,22 @@ public class InputValidationImpl implements InputValidation {
   private final Log logger = LogFactory.getLog(InputValidationImpl.class);
   
   @Override
-  public void validateFullName(final String name) throws CustomException {
-    if (name.isEmpty()) {
-      logger.error(ExceptionsConstantsUtils.INVALID_PARAMETER);
-      throw new CustomException(ExceptionsConstantsUtils.INVALID_PARAMETER);
+  public void validateString(final String string) throws CustomException {
+    if (StringUtils.isBlank(string)) {
+      throw new CustomException(ExceptionsConstantsUtils.EMPTY_PARAMETER);
     }
   }
   
   @Override
   public void validateNumeric(final String number) throws CustomException {
     if (number.contains("-")) {
-      logger.error(String.format(ExceptionsConstantsUtils.NEGATIVE_PARAMETER,
-          number));
-      throw new CustomException(String.format(ExceptionsConstantsUtils.NEGATIVE_PARAMETER,
-          number));
+      throw new CustomException(ExceptionsConstantsUtils.NEGATIVE_PARAMETER);
     }
     if (number.contains(".")) {
-      logger.error(String.format(ExceptionsConstantsUtils.DECIMAL_PARAMETER,
-          number));
-      throw new CustomException(String.format(ExceptionsConstantsUtils.DECIMAL_PARAMETER,
-          number));
+      throw new CustomException(ExceptionsConstantsUtils.DECIMAL_PARAMETER);
     }
     if (!StringUtils.isNumeric(number)) {
-      logger.error(String.format(ExceptionsConstantsUtils.CHARACTER_PARAMETER,
-          number));
-      throw new CustomException(String.format(ExceptionsConstantsUtils.CHARACTER_PARAMETER,
-          number));
+      throw new CustomException(ExceptionsConstantsUtils.CHARACTER_PARAMETER);
     }
   }
   
@@ -56,14 +46,6 @@ public class InputValidationImpl implements InputValidation {
           Arrays.toString(details)));
       throw new CustomException(String.format(ExceptionsConstantsUtils.DETAILS_NOT_FOUND,
           Arrays.toString(details)));
-    }
-  }
-  
-  @Override
-  public void checkDataIsNull(String data, String checkedOnAttribute) throws CustomException {
-    if (data == null) {
-      throw new CustomException(
-          String.format(ExceptionsConstantsUtils.DATA_IS_NULL, checkedOnAttribute));
     }
   }
 }

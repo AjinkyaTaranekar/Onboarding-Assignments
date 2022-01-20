@@ -1,8 +1,7 @@
 package com.nuclei.assignment.constants;
 
 /**
- * Constant Strings used in code to provide user a brief
- * of what to do during input.
+ * The type String constants utils.
  */
 public class StringConstantsUtils {
   
@@ -26,6 +25,21 @@ public class StringConstantsUtils {
    * The constant ADD_USER_NAME.
    */
   public static final String ADD_USER_NAME = "Enter Full Name";
+  
+  /**
+   * The constant NAME.
+   */
+  public static final String NAME = "Name";
+  
+  /**
+   * The constant ID.
+   */
+  public static final String ID = "ID";
+  
+  /**
+   * The constant USER_DETAILS.
+   */
+  public static final String USER_DETAILS = "User Details";
   
   /**
    * The constant CHECK_USER_DETAILS.

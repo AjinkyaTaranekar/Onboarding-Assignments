@@ -3,6 +3,7 @@ package com.nuclei.assignment;
 import static org.junit.jupiter.api.Assertions.assertTrue;
 
 import com.nuclei.assignment.constants.ExceptionsConstantsUtils;
+import com.nuclei.assignment.constants.StringConstantsUtils;
 import com.nuclei.assignment.constants.SuccessConstantsUtils;
 
 import java.io.ByteArrayInputStream;
@@ -13,9 +14,6 @@ import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
-/**
- * The type Application test.
- */
 public class ApplicationTest {
   private final InputStream systemIn = System.in;
   private final PrintStream systemOut = System.out;
@@ -23,9 +21,6 @@ public class ApplicationTest {
   private ByteArrayInputStream testIn;
   private ByteArrayOutputStream testOut;
   
-  /**
-   * Sets up output.
-   */
   @BeforeEach
   public void setUpOutput() {
     testOut = new ByteArrayOutputStream();
@@ -41,9 +36,6 @@ public class ApplicationTest {
     return testOut.toString();
   }
   
-  /**
-   * Restore system input output.
-   */
   @AfterEach
   public void restoreSystemInputOutput() {
     System.setIn(systemIn);
@@ -51,9 +43,6 @@ public class ApplicationTest {
   }
   
   
-  /**
-   * Creating user gives success.
-   */
   @Test
   public void creatingUserGivesSuccess() {
     final String[] test = {
@@ -71,9 +60,6 @@ public class ApplicationTest {
   }
   
   
-  /**
-   * Adding two users with same roll number.
-   */
   @Test
   public void addingTwoUsersWithSameRollNumber() {
     final String[] test = {
@@ -96,9 +82,6 @@ public class ApplicationTest {
     assertTrue(getOutput().contains(expectedMessage));
   }
   
-  /**
-   * Adding user with empty name entry.
-   */
   @Test
   public void addingUserWithEmptyNameEntry() {
     final String[] test = {
@@ -110,13 +93,11 @@ public class ApplicationTest {
     provideInput(testString);
     
     Application.main(new String[0]);
-    final String expectedMessage = ExceptionsConstantsUtils.INVALID_PARAMETER;
+    final String expectedMessage = String.format(ExceptionsConstantsUtils.EMPTY_PARAMETER,
+        StringConstantsUtils.NAME);
     assertTrue(getOutput().contains(expectedMessage));
   }
   
-  /**
-   * Adding user with negative id.
-   */
   @Test
   public void addingUserWithNegativeId() {
     final String[] test = {
@@ -129,13 +110,69 @@ public class ApplicationTest {
     
     Application.main(new String[0]);
     final String expectedMessage =
-        String.format(ExceptionsConstantsUtils.NEGATIVE_PARAMETER, "-1");
+        String.format(ExceptionsConstantsUtils.NEGATIVE_PARAMETER,
+          StringConstantsUtils.ID, "-1");
     assertTrue(getOutput().contains(expectedMessage));
   }
   
   /**
-   * Adding user with character id.
+   * Adding user with empty details.
    */
+  @Test
+  public void addingUserWithEmptyDetails() {
+    final String[] test = {
+      "8",
+      "15",
+      "Ajinkya",
+      "y",
+      "\n"
+    };
+    final String testString = String.join("\n",test);
+    provideInput(testString);
+    
+    Application.main(new String[0]);
+    final String expectedMessage =
+        String.format(ExceptionsConstantsUtils.EMPTY_PARAMETER,
+          StringConstantsUtils.USER_DETAILS);
+    assertTrue(getOutput().contains(expectedMessage));
+  }
+  
+  @Test
+  public void addingUserWithInvalidDetails() {
+    final String[] test = {
+      "8",
+      "15",
+      "Ajinkya",
+      "y",
+      "phone"
+    };
+    final String testString = String.join("\n",test);
+    provideInput(testString);
+    
+    Application.main(new String[0]);
+    final String expectedMessage =
+        String.format(ExceptionsConstantsUtils.DETAILS_NOT_FOUND, "[phone]");
+    assertTrue(getOutput().contains(expectedMessage));
+  }
+  
+  @Test
+  public void addingUserWithDetails() {
+    final String[] test = {
+      "8",
+      "15",
+      "Ajinkya",
+      "y",
+      "phone, 8518076044",
+      "n"
+    };
+    final String testString = String.join("\n",test);
+    provideInput(testString);
+    
+    Application.main(new String[0]);
+    final String expectedMessage = SuccessConstantsUtils.CREATED_USER;
+    assertTrue(getOutput().contains(expectedMessage));
+  }
+  
   @Test
   public void addingUserWithCharacterId() {
     final String[] test = {
@@ -148,13 +185,11 @@ public class ApplicationTest {
   
     Application.main(new String[0]);
     final String expectedMessage =
-        String.format(ExceptionsConstantsUtils.CHARACTER_PARAMETER, "abc");
+        String.format(ExceptionsConstantsUtils.CHARACTER_PARAMETER,
+          StringConstantsUtils.ID, "abc");
     assertTrue(getOutput().contains(expectedMessage));
   }
   
-  /**
-   * Invalid menu input.
-   */
   @Test
   public void invalidMenuInput() {
     final String[] test = {
@@ -170,9 +205,6 @@ public class ApplicationTest {
   }
   
   
-  /**
-   * Adding two users and creating dependency.
-   */
   @Test
   public void addingTwoUsersAndCreatingDependency() {
     final String[] test = {
@@ -196,9 +228,6 @@ public class ApplicationTest {
     assertTrue(getOutput().contains(expectedMessage));
   }
   
-  /**
-   * Adding two users and creating dependency but parent id not found.
-   */
   @Test
   public void addingTwoUsersAndCreatingDependencyButParentIdNotFound() {
     final String[] test = {
@@ -223,9 +252,6 @@ public class ApplicationTest {
     assertTrue(getOutput().contains(expectedMessage));
   }
   
-  /**
-   * Adding two users and creating dependency but child id not found.
-   */
   @Test
   public void addingTwoUsersAndCreatingDependencyButChildIdNotFound() {
     final String[] test = {
@@ -250,9 +276,6 @@ public class ApplicationTest {
     assertTrue(getOutput().contains(expectedMessage));
   }
   
-  /**
-   * Adding two users and creating dependency but parent child id same.
-   */
   @Test
   public void addingTwoUsersAndCreatingDependencyButParentChildIdSame() {
     final String[] test = {
@@ -277,9 +300,6 @@ public class ApplicationTest {
     assertTrue(getOutput().contains(expectedMessage));
   }
   
-  /**
-   * Adding two users and creating cyclic dependency.
-   */
   @Test
   public void addingTwoUsersAndCreatingCyclicDependency() {
     final String[] test = {
@@ -308,9 +328,6 @@ public class ApplicationTest {
     assertTrue(getOutput().contains(expectedMessage));
   }
   
-  /**
-   * Adding four users and creating cyclic dependency.
-   */
   @Test
   public void addingFourUsersAndCreatingCyclicDependency() {
     final String[] test = {
@@ -353,9 +370,6 @@ public class ApplicationTest {
     assertTrue(getOutput().contains(expectedMessage));
   }
   
-  /**
-   * Adding two users and creating dependency checking parent of user.
-   */
   @Test
   public void addingTwoUsersAndCreatingDependencyCheckingParentOfUser() {
     final String[] test = {
@@ -382,9 +396,6 @@ public class ApplicationTest {
     assertTrue(getOutput().contains(expectedMessage));
   }
   
-  /**
-   * Adding two users and creating dependency checking children of user.
-   */
   @Test
   public void addingTwoUsersAndCreatingDependencyCheckingChildrenOfUser() {
     final String[] test = {
@@ -411,9 +422,6 @@ public class ApplicationTest {
     assertTrue(getOutput().contains(expectedMessage));
   }
   
-  /**
-   * Adding two users and creating dependency checking ancestor of user.
-   */
   @Test
   public void addingTwoUsersAndCreatingDependencyCheckingAncestorOfUser() {
     final String[] test = {
@@ -440,9 +448,6 @@ public class ApplicationTest {
     assertTrue(getOutput().contains(expectedMessage));
   }
   
-  /**
-   * Adding two users and creating dependency checking descendants of user.
-   */
   @Test
   public void addingTwoUsersAndCreatingDependencyCheckingDescendantsOfUser() {
     final String[] test = {
@@ -469,9 +474,6 @@ public class ApplicationTest {
     assertTrue(getOutput().contains(expectedMessage));
   }
   
-  /**
-   * Adding user and then deleting user.
-   */
   @Test
   public void addingUserAndThenDeletingUser() {
     final String[] test = {
@@ -491,9 +493,6 @@ public class ApplicationTest {
     assertTrue(getOutput().contains(expectedMessage));
   }
   
-  /**
-   * Adding user and then deleting user but id not found.
-   */
   @Test
   public void addingUserAndThenDeletingUserButIdNotFound() {
     final String[] test = {
@@ -514,9 +513,6 @@ public class ApplicationTest {
     assertTrue(getOutput().contains(expectedMessage));
   }
   
-  /**
-   * Adding two users and creating dependency then deleting dependency.
-   */
   @Test
   public void addingTwoUsersAndCreatingDependencyThenDeletingDependency() {
     final String[] test = {
@@ -544,9 +540,6 @@ public class ApplicationTest {
     assertTrue(getOutput().contains(expectedMessage));
   }
   
-  /**
-   * Adding two users and creating dependency then deleting dependency but parent id not found.
-   */
   @Test
   public void addingTwoUsersAndCreatingDependencyThenDeletingDependencyButParentIdNotFound() {
     final String[] test = {
@@ -575,9 +568,6 @@ public class ApplicationTest {
     assertTrue(getOutput().contains(expectedMessage));
   }
   
-  /**
-   * Adding two users then deleting dependency but no dependency.
-   */
   @Test
   public void addingTwoUsersThenDeletingDependencyButNoDependency() {
     final String[] test = {
@@ -606,9 +596,6 @@ public class ApplicationTest {
     assertTrue(getOutput().contains(expectedMessage));
   }
   
-  /**
-   * Adding two users and creating dependency then deleting dependency but child id not found.
-   */
   @Test
   public void addingTwoUsersAndCreatingDependencyThenDeletingDependencyButChildIdNotFound() {
     final String[] test = {

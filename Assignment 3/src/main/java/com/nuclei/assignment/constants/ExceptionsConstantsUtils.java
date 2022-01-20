@@ -23,39 +23,33 @@ public final class ExceptionsConstantsUtils {
   public static final String INVALID_ID = "Invalid User ID : %s";
   
   /**
-   * The constant INVALID_PARAMETER.
+   * The constant EMPTY_PARAMETER.
    */
-  public static final String INVALID_PARAMETER = "Empty Parameter.";
+  public static final String EMPTY_PARAMETER = "The %s is empty";
   
   /**
    * The constant CHARACTER_PARAMETER.
    */
   public static final String CHARACTER_PARAMETER =
-      "The parameter can't be character: %s";
+      "The %s can't be character: %s";
   
   /**
    * The constant DECIMAL_PARAMETER.
    */
   public static final String DECIMAL_PARAMETER =
-      "The parameter can't be decimal: %s";
+      "The %s can't be decimal: %s";
   
   /**
    * The constant NEGATIVE_PARAMETER.
    */
   public static final String NEGATIVE_PARAMETER =
-      "The parameter can't be negative or zero: %s";
-  
-  /**
-   * The constant DATA_IS_NULL.
-   */
-  public static final String DATA_IS_NULL =
-      "Data for %s found null";
+      "The %s can't be negative or zero: %s";
   
   /**
    * The constant DETAILS_NOT_FOUND.
    */
   public static final String DETAILS_NOT_FOUND =
-      "Cannot found key and value here: %s";
+      "Cannot found key and value in user details: %s";
   
   /**
    * The constant MUST_HAVE_KEY_VALUE_COUNT.

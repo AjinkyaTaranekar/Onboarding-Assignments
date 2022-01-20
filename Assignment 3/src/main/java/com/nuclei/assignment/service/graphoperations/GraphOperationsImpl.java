@@ -57,9 +57,7 @@ public class GraphOperationsImpl implements GraphOperations {
       throw new CustomException(String.format(ExceptionsConstantsUtils.INVALID_ID,
           id));
     }
-    final UserEntity user = users.get(index);
-    logger.info(String.format(SuccessConstantsUtils.USER_INFO, user));
-    return user;
+    return users.get(index);
   }
   
   @Override
@@ -72,7 +70,6 @@ public class GraphOperationsImpl implements GraphOperations {
   public void createUser(final UserEntity user) {
     final int index = getIndexInList(user.getId());
     users.add(-(index + 1), user);
-    logger.info(String.format(SuccessConstantsUtils.USER_INFO, user));
     System.out.println(SuccessConstantsUtils.CREATED_USER);
   }
   
