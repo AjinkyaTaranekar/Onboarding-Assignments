@@ -52,7 +52,7 @@ public class DatabaseOperationsImpl implements DatabaseOperations {
           DatabaseConstantsUtils.PASSWORD
       );
       if (connection != null) {
-        logger.info(DatabaseConstantsUtils.DATABASE_CONNECTED);
+        System.out.println(DatabaseConstantsUtils.DATABASE_CONNECTED);
       }
     } catch (SQLException | ClassNotFoundException exception) {
       logger.error(String.format(DatabaseConstantsUtils.DATABASE_NOT_CONNECTED,
@@ -101,8 +101,6 @@ public class DatabaseOperationsImpl implements DatabaseOperations {
       final int resultSet =
           statement.executeUpdate(String.format(DatabaseConstantsUtils.INSERT_QUERY,
             item.getName(), item.getPrice(), item.getQuantity(), item.getType()));
-      logger.info(String.format(DatabaseConstantsUtils.ITEM_SAVED,
-            resultSet));
       System.out.println(String.format(DatabaseConstantsUtils.ITEM_SAVED,
             resultSet));
     } catch (SQLException exception) {

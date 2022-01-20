@@ -63,15 +63,11 @@ public class DisplayItemsSynchronousThreadsImpl implements DisplayItemsSynchrono
           DatabaseConstantsUtils.EXCEPTION_WHILE_FETCHING_DATA, exception.getMessage()), exception);
     }
     allItemsFetchedFromDatabase = true;
-    logger.info(String.format(DatabaseConstantsUtils.ITEMS_FETCHED,
-        numberOfItems));
-    System.out.println(String.format(DatabaseConstantsUtils.ITEMS_FETCHED,
-        numberOfItems));
   }
   
   @Override
   public void calculateTaxForTheItems() throws InterruptedException {
-    while (!allItemsFetchedFromDatabase) {
+    while (!(allItemsFetchedFromDatabase && itemEntities.isEmpty())) {
       synchronized (this) {
         if (itemEntities.isEmpty()) {
           wait();
@@ -85,6 +81,8 @@ public class DisplayItemsSynchronousThreadsImpl implements DisplayItemsSynchrono
         }
       }
     }
+    System.out.println(String.format(DatabaseConstantsUtils.ITEMS_FETCHED,
+        numberOfItems));
   }
   
   private ItemEntity createItemFromRawData(Map<String, String> rawDataOfItem)

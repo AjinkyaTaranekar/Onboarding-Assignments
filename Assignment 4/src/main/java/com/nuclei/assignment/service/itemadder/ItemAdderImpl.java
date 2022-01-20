@@ -53,7 +53,6 @@ public class ItemAdderImpl implements ItemAdder {
   
   @Override
   public void inputItemsFromUserInterface(final String... rawData) {
-    logger.info("New User Session");
     try (Scanner scanner = new Scanner(System.in)) {
       for (final String info : StringConstantsUtils.ITEM_DETAILS_INFO) {
         System.out.println(info);
@@ -66,7 +65,6 @@ public class ItemAdderImpl implements ItemAdder {
       System.out.println(StringConstantsUtils.DIVIDER);
       addItemsToList(scanner, rawData);
       outputItemsWithTaxToUser();
-      logger.info("User Session ended");
     } catch (Exception exception) {
       System.out.println(exception.getMessage());
     } finally {
@@ -173,7 +171,6 @@ public class ItemAdderImpl implements ItemAdder {
     
     final ItemEntity item = parseItemPropertiesMapEntries(properties);
     databaseOperations.saveItem(item);
-    logger.info(String.format("Created %s", item));
   }
   
   private ItemEntity parseItemPropertiesMapEntries(final Map<String, String> properties)
