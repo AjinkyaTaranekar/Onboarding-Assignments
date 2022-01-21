@@ -53,12 +53,7 @@ public class InputValidationImpl implements InputValidation {
     }
     
     for (final String course : coursesSet) {
-      if (!Courses.STRING_COURSES_MAP.containsKey(course)) {
-        logger.error(String.format(ExceptionsConstantsUtils.INVALID_COURSE,
-            course));
-        throw new CustomException(String.format(ExceptionsConstantsUtils.INVALID_COURSE,
-            course));
-      }
+      Courses.checkWhetherCourseIsPresent(course);
     }
   }
   

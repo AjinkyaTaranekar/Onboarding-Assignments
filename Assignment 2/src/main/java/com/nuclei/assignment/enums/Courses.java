@@ -1,5 +1,10 @@
 package com.nuclei.assignment.enums;
 
+import com.nuclei.assignment.constants.ExceptionsConstantsUtils;
+import com.nuclei.assignment.exception.CustomException;
+import org.apache.commons.logging.Log;
+import org.apache.commons.logging.LogFactory;
+
 import java.util.Map;
 import java.util.concurrent.ConcurrentHashMap;
 
@@ -33,19 +38,27 @@ public enum Courses {
   F;
   
   /**
-   * The constant STRING_COURSES_MAP.
+   * The String Courses Map.
    */
-  public static final Map<String, Courses> STRING_COURSES_MAP;
+  private static final Map<String, Courses> stringCoursesMap = new ConcurrentHashMap<>();
   
-  static {
-    STRING_COURSES_MAP = getCoursesConstantsMap();
+  /**
+   * The Logger.
+   */
+  private static final Log logger = LogFactory.getLog(Courses.class);
+  
+  static { 
+    for (final Courses courses : Courses.values()) {
+      stringCoursesMap.put(courses.toString(), courses);
+    }
   }
   
-  private static Map<String, Courses> getCoursesConstantsMap() {
-    final Map<String, Courses> coursesConstantsMap = new ConcurrentHashMap<>();
-    for (final Courses courses : Courses.values()) {
-      coursesConstantsMap.put(courses.toString(), courses);
+  public static void checkWhetherCourseIsPresent(String course) throws CustomException {
+    if (!stringCoursesMap.containsKey(course)) {
+      logger.error(String.format(ExceptionsConstantsUtils.INVALID_COURSE,
+        course));
+      throw new CustomException(String.format(ExceptionsConstantsUtils.INVALID_COURSE,
+        course));
     }
-    return coursesConstantsMap;
   }
 }
