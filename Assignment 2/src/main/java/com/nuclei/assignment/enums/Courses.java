@@ -2,11 +2,11 @@ package com.nuclei.assignment.enums;
 
 import com.nuclei.assignment.constants.ExceptionsConstantsUtils;
 import com.nuclei.assignment.exception.CustomException;
-import org.apache.commons.logging.Log;
-import org.apache.commons.logging.LogFactory;
 
 import java.util.Map;
 import java.util.concurrent.ConcurrentHashMap;
+import org.apache.commons.logging.Log;
+import org.apache.commons.logging.LogFactory;
 
 /**
  * User Types.
@@ -40,25 +40,31 @@ public enum Courses {
   /**
    * The String Courses Map.
    */
-  private static final Map<String, Courses> stringCoursesMap = new ConcurrentHashMap<>();
+  private static final Map<String, Courses> STRING_COURSES_MAP = new ConcurrentHashMap<>();
   
   /**
    * The Logger.
    */
-  private static final Log logger = LogFactory.getLog(Courses.class);
+  private static final Log LOGGER = LogFactory.getLog(Courses.class);
   
   static { 
     for (final Courses courses : Courses.values()) {
-      stringCoursesMap.put(courses.toString(), courses);
+      STRING_COURSES_MAP.put(courses.toString(), courses);
     }
   }
   
+  /**
+   * Check whether course is present.
+   *
+   * @param course the course
+   * @throws CustomException the custom exception
+   */
   public static void checkWhetherCourseIsPresent(String course) throws CustomException {
-    if (!stringCoursesMap.containsKey(course)) {
-      logger.error(String.format(ExceptionsConstantsUtils.INVALID_COURSE,
-        course));
+    if (!STRING_COURSES_MAP.containsKey(course)) {
+      LOGGER.error(String.format(ExceptionsConstantsUtils.INVALID_COURSE,
+          course));
       throw new CustomException(String.format(ExceptionsConstantsUtils.INVALID_COURSE,
-        course));
+          course));
     }
   }
 }
