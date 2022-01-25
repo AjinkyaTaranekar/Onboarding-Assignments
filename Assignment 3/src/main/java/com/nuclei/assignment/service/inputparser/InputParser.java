@@ -8,13 +8,13 @@ import com.nuclei.assignment.exception.CustomException;
 public interface InputParser {
   
   /**
-   * Parse raw String data to name.
-   *
-   * @param name the name
+   * Parse raw String data to string.
+   * @param string               the string
+   * @param checkedOnAttribute the checked on attribute
    * @return the string
    * @throws CustomException the custom exception
    */
-  String parseName(String name) throws CustomException;
+  String parseString(String string, final String checkedOnAttribute) throws CustomException;
   
   /**
    * Parse raw String data to id.
@@ -24,13 +24,4 @@ public interface InputParser {
    * @throws CustomException the custom exception
    */
   int parseId(String id) throws CustomException;
-  
-  /**
-   * Parse raw String data to details.
-   *
-   * @param details the details
-   * @return the String[]
-   * @throws CustomException the custom exception
-   */
-  String[] parseDetails(String details) throws CustomException;
 }

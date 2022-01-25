@@ -16,11 +16,11 @@ public final class ExceptionsConstantsUtils {
   /**
    * The constant INVALID_NAME.
    */
-  public static final String INVALID_NAME = "Empty User Name";
+  public static final String INVALID_NAME = "Empty Node Name";
   /**
    * The constant INVALID_ID.
    */
-  public static final String INVALID_ID = "Invalid User ID : %s";
+  public static final String INVALID_ID = "Invalid Node ID : %s";
   
   /**
    * The constant EMPTY_PARAMETER.
@@ -49,16 +49,16 @@ public final class ExceptionsConstantsUtils {
    * The constant DETAILS_NOT_FOUND.
    */
   public static final String DETAILS_NOT_FOUND =
-      "Cannot found key and value in user details: %s";
+      "Cannot found key and value in node details: %s";
   
   /**
    * The constant MUST_HAVE_KEY_VALUE_COUNT.
    */
   public static final int MUST_HAVE_KEY_VALUE_COUNT = 2;
   /**
-   * The constant MUST_HAVE_USERS_BEFORE_DEPENDENCY_FORMATION.
+   * The constant MUST_HAVE_NODES_BEFORE_DEPENDENCY_FORMATION.
    */
-  public static final int MUST_HAVE_USERS_BEFORE_DEPENDENCY_FORMATION = 2;
+  public static final int MUST_HAVE_NODES_BEFORE_DEPENDENCY_FORMATION = 2;
   
   /**
    * The constant ID_ALREADY_EXISTS.

@@ -8,11 +8,11 @@ import lombok.Setter;
 
 
 /**
- * User Entity class.
+ * Node Entity class.
  */
 @Getter
 @Setter
-public class UserEntity implements Comparable<UserEntity> {
+public class NodeEntity implements Comparable<NodeEntity> {
   
   /**
    * The Name.
@@ -40,21 +40,21 @@ public class UserEntity implements Comparable<UserEntity> {
   private Set<Integer> children;
   
   /**
-   * User Entity Constructor with id.
+   * Node Entity Constructor with id.
    *
    * @param id the id
    */
-  public UserEntity(final Integer id) {
+  public NodeEntity(final Integer id) {
     this.id = id;
   }
   
   /**
-   * User Entity Constructor with id.
+   * Node Entity Constructor with id.
    *
    * @param name the name
    * @param id   the id
    */
-  public UserEntity(final Integer id, final String name,
+  public NodeEntity(final Integer id, final String name,
                     final Map<String, String> information) {
     this.id = id;
     this.name = name;
@@ -64,13 +64,13 @@ public class UserEntity implements Comparable<UserEntity> {
   }
   
   @Override
-  public int compareTo(final UserEntity user) {
-    return this.getId().compareTo(user.getId());
+  public int compareTo(final NodeEntity node) {
+    return this.getId().compareTo(node.getId());
   }
   
   @Override
   public String toString() {
-    return "UserEntity{"
+    return "NodeEntity{"
       + "name='" + name + '\''
       + ", id=" + id
       + ", information=" + information

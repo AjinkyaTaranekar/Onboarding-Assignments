@@ -9,7 +9,7 @@ public class StringConstantsUtils {
    * The constant MENU_DETAILS_INFO.
    */
   public static final String[] MENU_DETAILS_INFO = {
-    "User Menu Details ",
+    "Node Menu Details ",
     "1. Get the immediate parents of a node.",
     "2. Get the immediate children of a node.",
     "3. Get the ancestors of a node.",
@@ -22,9 +22,9 @@ public class StringConstantsUtils {
   };
   
   /**
-   * The constant ADD_USER_NAME.
+   * The constant ADD_NODE_NAME.
    */
-  public static final String ADD_USER_NAME = "Enter Full Name";
+  public static final String ADD_NODE_NAME = "Enter Full Name";
   
   /**
    * The constant NAME.
@@ -32,29 +32,52 @@ public class StringConstantsUtils {
   public static final String NAME = "Name";
   
   /**
+   * The constant KEY.
+   */
+  public static final String KEY = "Key";
+  
+  /**
+   * The constant VALUE.
+   */
+  public static final String VALUE = "Value";
+  
+  /**
+   * The constant QUERY.
+   */
+  public static final String QUERY = "Query";
+  
+  /**
    * The constant ID.
    */
   public static final String ID = "ID";
   
   /**
-   * The constant USER_DETAILS.
+   * The constant NODE_DETAILS.
    */
-  public static final String USER_DETAILS = "User Details";
+  public static final String NODE_DETAILS = "Node Details";
   
   /**
-   * The constant CHECK_USER_DETAILS.
+   * The constant ADD_NODE_DETAILS_QUERY.
    */
-  public static final String CHECK_USER_DETAILS = "Add users details (y/n):";
+  public static final String ADD_NODE_DETAILS_QUERY =
+      "Add nodes details (y/n):";
   
   /**
-   * The constant ADD_USER_DETAILS.
+   * The constant ENTER_KEY.
    */
-  public static final String ADD_USER_DETAILS =
-      "Enter Details (in comma separated as `phone,9892345601`)";
+  public static final String ENTER_KEY =
+      "Enter a key for details (example `phone`, `address`)";
+  
   /**
-   * The constant ADD_USER_ID.
+   * The constant ENTER_VALUE.
    */
-  public static final String ADD_USER_ID = "Enter ID";
+  public static final String ENTER_VALUE =
+      "Enter the value for %s: ";
+  /**
+   * The constant ADD_NODE_ID.
+   */
+  public static final String ADD_NODE_ID = "Enter ID";
+  
   /**
    * The constant ADD_PARENT_ID.
    */

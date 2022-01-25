@@ -5,7 +5,7 @@ import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertThrows;
 
 import com.nuclei.assignment.constants.ExceptionsConstantsUtils;
-import com.nuclei.assignment.entity.UserEntity;
+import com.nuclei.assignment.entity.NodeEntity;
 import com.nuclei.assignment.exception.CustomException;
 
 import java.util.HashMap;
@@ -30,17 +30,17 @@ public class GraphOperationsTest {
    * @throws CustomException the custom exception
    */
   public GraphOperationsTest() throws CustomException {
-    graphOperations.createUser(new UserEntity(0, "a",
+    graphOperations.createNode(new NodeEntity(0, "a",
         new ConcurrentHashMap<>()));
-    graphOperations.createUser(new UserEntity(1, "b",
+    graphOperations.createNode(new NodeEntity(1, "b",
         new ConcurrentHashMap<>()));
-    graphOperations.createUser(new UserEntity(2, "c",
+    graphOperations.createNode(new NodeEntity(2, "c",
         new ConcurrentHashMap<>()));
-    graphOperations.createUser(new UserEntity(3, "d",
+    graphOperations.createNode(new NodeEntity(3, "d",
         new ConcurrentHashMap<>()));
-    graphOperations.createUser(new UserEntity(4, "e",
+    graphOperations.createNode(new NodeEntity(4, "e",
         new ConcurrentHashMap<>()));
-    graphOperations.createUser(new UserEntity(5, "f",
+    graphOperations.createNode(new NodeEntity(5, "f",
         new ConcurrentHashMap<>()));
     graphOperations.createDependency(0,1);
     graphOperations.createDependency(1,3);
@@ -49,27 +49,27 @@ public class GraphOperationsTest {
   }
   
   /**
-   * Gets user by id when id is present.
+   * Gets node by id when id is present.
    *
    * @throws CustomException the custom exception
    */
   @Test
-  void getUserByIdWhenIdIsPresent() throws CustomException {
-    UserEntity actualUser = new UserEntity(2, "c",
+  void getNodeByIdWhenIdIsPresent() throws CustomException {
+    NodeEntity actualNode = new NodeEntity(2, "c",
         new ConcurrentHashMap<>());
-    UserEntity expectedUser = graphOperations.getUserById(2);
+    NodeEntity expectedNode = graphOperations.getNodeById(2);
     
-    assertEquals(expectedUser.getName(), actualUser.getName());
+    assertEquals(expectedNode.getName(), actualNode.getName());
   }
   
   /**
-   * Gets user by id when id is absent.
+   * Gets node by id when id is absent.
    */
   @Test
-  void getUserByIdWhenIdIsAbsent() {
+  void getNodeByIdWhenIdIsAbsent() {
     int id = 6;
     final Exception exception = assertThrows(CustomException.class,
-        () -> graphOperations.getUserById(id));
+        () -> graphOperations.getNodeById(id));
   
     final String expectedMessage =
         String.format(ExceptionsConstantsUtils.INVALID_ID, id);
@@ -79,41 +79,41 @@ public class GraphOperationsTest {
   }
   
   /**
-   * Check user exist by id when id is present.
+   * Check node exist by id when id is present.
    *
    * @throws CustomException the custom exception
    */
   @Test
-  void checkUserExistByIdWhenIdIsPresent() throws CustomException {
+  void checkNodeExistByIdWhenIdIsPresent() throws CustomException {
     int id = 1;
-    boolean actualMessage = graphOperations.checkUserExistById(id);
+    boolean actualMessage = graphOperations.checkNodeExistById(id);
     boolean expectedMessage = true;
     
     assertEquals(expectedMessage, actualMessage);
   }
   
   /**
-   * Check user exist by id when i dis absent.
+   * Check node exist by id when i dis absent.
    *
    * @throws CustomException the custom exception
    */
   @Test
-  void checkUserExistByIdWhenIDisAbsent() throws CustomException {
+  void checkNodeExistByIdWhenIDisAbsent() throws CustomException {
     int id = 6;
-    boolean actualMessage = graphOperations.checkUserExistById(id);
+    boolean actualMessage = graphOperations.checkNodeExistById(id);
     boolean expectedMessage = false;
     
     assertEquals(expectedMessage, actualMessage);
   }
   
   /**
-   * Create user.
+   * Create node.
    */
   @Test
-  void createUser() {
-    UserEntity user = new UserEntity(6, "f",
+  void createNode() {
+    NodeEntity node = new NodeEntity(6, "f",
         new ConcurrentHashMap<>());
-    assertDoesNotThrow(() -> graphOperations.createUser(user));
+    assertDoesNotThrow(() -> graphOperations.createNode(node));
   }
   
   /**
@@ -227,9 +227,9 @@ public class GraphOperationsTest {
   void deleteDependency() throws CustomException {
     int parentId = 8;
     int childId = 9;
-    graphOperations.createUser(new UserEntity(childId, "d",
+    graphOperations.createNode(new NodeEntity(childId, "d",
         new ConcurrentHashMap<>()));
-    graphOperations.createUser(new UserEntity(parentId, "e",
+    graphOperations.createNode(new NodeEntity(parentId, "e",
         new ConcurrentHashMap<>()));
     graphOperations.createDependency(parentId, childId);
     assertDoesNotThrow(() -> graphOperations.deleteDependency(parentId, childId));
@@ -254,22 +254,22 @@ public class GraphOperationsTest {
   }
   
   /**
-   * Delete user by id.
+   * Delete node by id.
    *
    * @throws CustomException the custom exception
    */
   @Test
-  void deleteUserById() throws CustomException {
+  void deleteNodeById() throws CustomException {
     int id = 9;
-    graphOperations.createUser(new UserEntity(7, "g",
+    graphOperations.createNode(new NodeEntity(7, "g",
         new ConcurrentHashMap<>()));
-    graphOperations.createUser(new UserEntity(8, "h",
+    graphOperations.createNode(new NodeEntity(8, "h",
         new ConcurrentHashMap<>()));
-    graphOperations.createUser(new UserEntity(id, "i",
+    graphOperations.createNode(new NodeEntity(id, "i",
         new ConcurrentHashMap<>()));
     graphOperations.createDependency(id, 8);
     graphOperations.createDependency(7, id);
-    assertDoesNotThrow(() -> graphOperations.deleteUserById(id));
+    assertDoesNotThrow(() -> graphOperations.deleteNodeById(id));
   }
   
 }

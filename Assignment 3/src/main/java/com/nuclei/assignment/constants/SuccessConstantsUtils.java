@@ -5,17 +5,17 @@ package com.nuclei.assignment.constants;
  */
 public class SuccessConstantsUtils {
   /**
-   * The constant CREATED_USER.
+   * The constant CREATED_NODE.
    */
-  public static final String CREATED_USER = "User Created Successfully";
+  public static final String CREATED_NODE = "Node Created Successfully";
   /**
-   * The constant USER_INFO.
+   * The constant NODE_INFO.
    */
-  public static final String USER_INFO = "User Info %s";
+  public static final String NODE_INFO = "Node Info %s";
   /**
-   * The constant DELETED_USER.
+   * The constant DELETED_NODE.
    */
-  public static final String DELETED_USER = "User Deleted Successfully";
+  public static final String DELETED_NODE = "Node Deleted Successfully";
   /**
    * The constant CREATED_DEPENDENCY.
    */

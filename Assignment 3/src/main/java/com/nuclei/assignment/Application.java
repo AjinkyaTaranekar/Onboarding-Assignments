@@ -11,7 +11,7 @@ public final class Application {
   }
   
   /**
-   * Main Function to run the user interface.
+   * Main Function to run the node interface.
    *
    * @param args the args
    */

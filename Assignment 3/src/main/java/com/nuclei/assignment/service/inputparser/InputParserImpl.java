@@ -30,16 +30,17 @@ public class InputParserImpl implements InputParser {
   }
   
   @Override
-  public String parseName(final String name) throws CustomException {
+  public String parseString(final String string, final String checkedOnAttribute)
+      throws CustomException {
     try {
-      inputValidation.validateString(name);
+      inputValidation.validateString(string);
     } catch (CustomException exception) {
-      logger.error(String.format(exception.getMessage(), StringConstantsUtils.NAME),
+      logger.error(String.format(exception.getMessage(), checkedOnAttribute),
           exception);
       throw new CustomException(String.format(exception.getMessage(),
-          StringConstantsUtils.NAME), exception);
+          checkedOnAttribute), exception);
     }
-    return name;
+    return string;
   }
   
   @Override
@@ -54,20 +55,5 @@ public class InputParserImpl implements InputParser {
           StringConstantsUtils.ID, id), exception);
     }
     return Integer.parseInt(id);
-  }
-  
-  @Override
-  public String[] parseDetails(String details) throws CustomException {
-    try {
-      inputValidation.validateString(details);
-    } catch (CustomException exception) {
-      logger.error(String.format(exception.getMessage(), StringConstantsUtils.USER_DETAILS),
-          exception);
-      throw new CustomException(String.format(exception.getMessage(),
-          StringConstantsUtils.USER_DETAILS), exception);
-    }
-    final String[] detailsList = details.split(",");
-    inputValidation.validateDetails(detailsList);
-    return detailsList;
   }
 }

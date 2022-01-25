@@ -44,7 +44,7 @@ public class ApplicationTest {
   
   
   @Test
-  public void creatingUserGivesSuccess() {
+  public void creatingNodeGivesSuccess() {
     final String[] test = {
       "8",
       "1",
@@ -55,13 +55,13 @@ public class ApplicationTest {
     provideInput(testString);
     
     Application.main(new String[0]);
-    final String expectedMessage = SuccessConstantsUtils.CREATED_USER;
+    final String expectedMessage = SuccessConstantsUtils.CREATED_NODE;
     assertTrue(getOutput().contains(expectedMessage));
   }
   
   
   @Test
-  public void addingTwoUsersWithSameRollNumber() {
+  public void addingTwoNodesWithSameRollNumber() {
     final String[] test = {
       "8",
       "2",
@@ -83,7 +83,7 @@ public class ApplicationTest {
   }
   
   @Test
-  public void addingUserWithEmptyNameEntry() {
+  public void addingNodeWithEmptyNameEntry() {
     final String[] test = {
       "8",
       "5",
@@ -99,7 +99,7 @@ public class ApplicationTest {
   }
   
   @Test
-  public void addingUserWithNegativeId() {
+  public void addingNodeWithNegativeId() {
     final String[] test = {
       "8",
       "-1",
@@ -116,10 +116,10 @@ public class ApplicationTest {
   }
   
   /**
-   * Adding user with empty details.
+   * Adding node with empty details.
    */
   @Test
-  public void addingUserWithEmptyDetails() {
+  public void addingNodeWithEmptyDetails() {
     final String[] test = {
       "8",
       "15",
@@ -133,48 +133,52 @@ public class ApplicationTest {
     Application.main(new String[0]);
     final String expectedMessage =
         String.format(ExceptionsConstantsUtils.EMPTY_PARAMETER,
-          StringConstantsUtils.USER_DETAILS);
+          StringConstantsUtils.KEY);
     assertTrue(getOutput().contains(expectedMessage));
   }
   
   @Test
-  public void addingUserWithInvalidDetails() {
+  public void addingNodeWithInvalidDetails() {
     final String[] test = {
       "8",
       "15",
       "Ajinkya",
       "y",
-      "phone"
-    };
-    final String testString = String.join("\n",test);
-    provideInput(testString);
-    
-    Application.main(new String[0]);
-    final String expectedMessage =
-        String.format(ExceptionsConstantsUtils.DETAILS_NOT_FOUND, "[phone]");
-    assertTrue(getOutput().contains(expectedMessage));
-  }
-  
-  @Test
-  public void addingUserWithDetails() {
-    final String[] test = {
-      "8",
-      "15",
-      "Ajinkya",
-      "y",
-      "phone, 8518076044",
+      "phone",
+      "\n",
       "n"
     };
     final String testString = String.join("\n",test);
     provideInput(testString);
     
     Application.main(new String[0]);
-    final String expectedMessage = SuccessConstantsUtils.CREATED_USER;
+    final String expectedMessage =
+        String.format(ExceptionsConstantsUtils.EMPTY_PARAMETER,
+            StringConstantsUtils.VALUE);
     assertTrue(getOutput().contains(expectedMessage));
   }
   
   @Test
-  public void addingUserWithCharacterId() {
+  public void addingNodeWithDetails() {
+    final String[] test = {
+      "8",
+      "15",
+      "Ajinkya",
+      "y",
+      "phone",
+      "8518076044",
+      "n"
+    };
+    final String testString = String.join("\n",test);
+    provideInput(testString);
+    
+    Application.main(new String[0]);
+    final String expectedMessage = SuccessConstantsUtils.CREATED_NODE;
+    assertTrue(getOutput().contains(expectedMessage));
+  }
+  
+  @Test
+  public void addingNodeWithCharacterId() {
     final String[] test = {
       "8",
       "abc",
@@ -206,7 +210,7 @@ public class ApplicationTest {
   
   
   @Test
-  public void addingTwoUsersAndCreatingDependency() {
+  public void addingTwoNodesAndCreatingDependency() {
     final String[] test = {
       "8",
       "1",
@@ -217,6 +221,8 @@ public class ApplicationTest {
       "2",
       "Aditya",
       "n",
+      "y",
+      "7",
       "1",
       "2"
     };
@@ -229,7 +235,7 @@ public class ApplicationTest {
   }
   
   @Test
-  public void addingTwoUsersAndCreatingDependencyButParentIdNotFound() {
+  public void addingTwoNodesAndCreatingDependencyButParentIdNotFound() {
     final String[] test = {
       "8",
       "1",
@@ -240,6 +246,8 @@ public class ApplicationTest {
       "2",
       "Aditya",
       "n",
+      "y",
+      "7",
       "3",
       "2"
     };
@@ -253,7 +261,7 @@ public class ApplicationTest {
   }
   
   @Test
-  public void addingTwoUsersAndCreatingDependencyButChildIdNotFound() {
+  public void addingTwoNodesAndCreatingDependencyButChildIdNotFound() {
     final String[] test = {
       "8",
       "1",
@@ -264,6 +272,8 @@ public class ApplicationTest {
       "2",
       "Aditya",
       "n",
+      "y",
+      "7",
       "1",
       "3"
     };
@@ -277,7 +287,7 @@ public class ApplicationTest {
   }
   
   @Test
-  public void addingTwoUsersAndCreatingDependencyButParentChildIdSame() {
+  public void addingTwoNodesAndCreatingDependencyButParentChildIdSame() {
     final String[] test = {
       "8",
       "1",
@@ -288,6 +298,8 @@ public class ApplicationTest {
       "2",
       "Aditya",
       "n",
+      "y",
+      "7",
       "1",
       "1"
     };
@@ -301,7 +313,7 @@ public class ApplicationTest {
   }
   
   @Test
-  public void addingTwoUsersAndCreatingCyclicDependency() {
+  public void addingTwoNodesAndCreatingCyclicDependency() {
     final String[] test = {
       "8",
       "1",
@@ -312,6 +324,8 @@ public class ApplicationTest {
       "2",
       "Aditya",
       "n",
+      "y",
+      "7",
       "1",
       "2",
       "y",
@@ -329,7 +343,7 @@ public class ApplicationTest {
   }
   
   @Test
-  public void addingFourUsersAndCreatingCyclicDependency() {
+  public void addingFourNodesAndCreatingCyclicDependency() {
     final String[] test = {
       "8",
       "1",
@@ -340,6 +354,8 @@ public class ApplicationTest {
       "2",
       "Ajinkya2",
       "n",
+      "y",
+      "7",
       "1",
       "2",
       "y",
@@ -347,6 +363,8 @@ public class ApplicationTest {
       "3",
       "Ajinkya3",
       "n",
+      "y",
+      "7",
       "2",
       "3",
       "y",
@@ -354,24 +372,26 @@ public class ApplicationTest {
       "4",
       "Ajinkya4",
       "n",
+      "y",
+      "7",
       "2",
       "4",
       "y",
       "7",
-      "1",
       "4",
+      "1",
     };
     final String testString = String.join("\n",test);
     provideInput(testString);
     
     Application.main(new String[0]);
     final String expectedMessage =
-        String.format(ExceptionsConstantsUtils.CYCLIC_DEPENDENCY, "1", "4");
+        String.format(ExceptionsConstantsUtils.CYCLIC_DEPENDENCY, "4", "1");
     assertTrue(getOutput().contains(expectedMessage));
   }
   
   @Test
-  public void addingTwoUsersAndCreatingDependencyCheckingParentOfUser() {
+  public void addingTwoNodesAndCreatingDependencyCheckingParentOfNode() {
     final String[] test = {
       "8",
       "1",
@@ -382,6 +402,8 @@ public class ApplicationTest {
       "2",
       "Aditya",
       "n",
+      "y",
+      "7",
       "1",
       "2",
       "y",
@@ -397,7 +419,7 @@ public class ApplicationTest {
   }
   
   @Test
-  public void addingTwoUsersAndCreatingDependencyCheckingChildrenOfUser() {
+  public void addingTwoNodesAndCreatingDependencyCheckingChildrenOfNode() {
     final String[] test = {
       "8",
       "1",
@@ -408,6 +430,8 @@ public class ApplicationTest {
       "2",
       "Aditya",
       "n",
+      "y",
+      "7",
       "1",
       "2",
       "y",
@@ -423,7 +447,7 @@ public class ApplicationTest {
   }
   
   @Test
-  public void addingTwoUsersAndCreatingDependencyCheckingAncestorOfUser() {
+  public void addingTwoNodesAndCreatingDependencyCheckingAncestorOfNode() {
     final String[] test = {
       "8",
       "1",
@@ -434,6 +458,8 @@ public class ApplicationTest {
       "2",
       "Aditya",
       "n",
+      "y",
+      "7",
       "1",
       "2",
       "y",
@@ -449,7 +475,7 @@ public class ApplicationTest {
   }
   
   @Test
-  public void addingTwoUsersAndCreatingDependencyCheckingDescendantsOfUser() {
+  public void addingTwoNodesAndCreatingDependencyCheckingDescendantsOfNode() {
     final String[] test = {
       "8",
       "1",
@@ -460,6 +486,8 @@ public class ApplicationTest {
       "2",
       "Aditya",
       "n",
+      "y",
+      "7",
       "1",
       "2",
       "y",
@@ -475,7 +503,7 @@ public class ApplicationTest {
   }
   
   @Test
-  public void addingUserAndThenDeletingUser() {
+  public void addingNodeAndThenDeletingNode() {
     final String[] test = {
       "8",
       "1",
@@ -489,12 +517,12 @@ public class ApplicationTest {
     provideInput(testString);
     
     Application.main(new String[0]);
-    final String expectedMessage = SuccessConstantsUtils.DELETED_USER;
+    final String expectedMessage = SuccessConstantsUtils.DELETED_NODE;
     assertTrue(getOutput().contains(expectedMessage));
   }
   
   @Test
-  public void addingUserAndThenDeletingUserButIdNotFound() {
+  public void addingNodeAndThenDeletingNodeButIdNotFound() {
     final String[] test = {
       "8",
       "1",
@@ -514,7 +542,7 @@ public class ApplicationTest {
   }
   
   @Test
-  public void addingTwoUsersAndCreatingDependencyThenDeletingDependency() {
+  public void addingTwoNodesAndCreatingDependencyThenDeletingDependency() {
     final String[] test = {
       "8",
       "1",
@@ -525,6 +553,8 @@ public class ApplicationTest {
       "2",
       "Aditya",
       "n",
+      "y",
+      "7",
       "1",
       "2",
       "y",
@@ -541,7 +571,7 @@ public class ApplicationTest {
   }
   
   @Test
-  public void addingTwoUsersAndCreatingDependencyThenDeletingDependencyButParentIdNotFound() {
+  public void addingTwoNodesAndCreatingDependencyThenDeletingDependencyButParentIdNotFound() {
     final String[] test = {
       "8",
       "1",
@@ -552,6 +582,8 @@ public class ApplicationTest {
       "2",
       "Aditya",
       "n",
+      "y",
+      "7",
       "1",
       "2",
       "y",
@@ -569,7 +601,7 @@ public class ApplicationTest {
   }
   
   @Test
-  public void addingTwoUsersThenDeletingDependencyButNoDependency() {
+  public void addingTwoNodesThenDeletingDependencyButNoDependency() {
     final String[] test = {
       "8",
       "1",
@@ -580,6 +612,8 @@ public class ApplicationTest {
       "2",
       "Aditya",
       "n",
+      "y",
+      "7",
       "1",
       "3",
       "y",
@@ -597,7 +631,7 @@ public class ApplicationTest {
   }
   
   @Test
-  public void addingTwoUsersAndCreatingDependencyThenDeletingDependencyButChildIdNotFound() {
+  public void addingTwoNodesAndCreatingDependencyThenDeletingDependencyButChildIdNotFound() {
     final String[] test = {
       "8",
       "1",
@@ -608,6 +642,8 @@ public class ApplicationTest {
       "2",
       "Aditya",
       "n",
+      "y",
+      "7",
       "1",
       "2",
       "y",
