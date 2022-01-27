@@ -46,7 +46,6 @@ public class InputParserImpl implements InputParser {
   @Override
   public int parseId(final String id) throws CustomException {
     try {
-      inputValidation.validateString(id);
       inputValidation.validateNumeric(id);
     } catch (CustomException exception) {
       logger.error(String.format(exception.getMessage(), StringConstantsUtils.ID, id),

@@ -112,12 +112,12 @@ public class MenuOptionsImpl implements MenuOptions {
     System.out.println(StringConstantsUtils.ADD_NODE_NAME);
     final String name = parser.parseString(scanner.nextLine(),
         StringConstantsUtils.NAME);
-    final Map<String, String> nodeDetails = new ConcurrentHashMap<>();
+    final Map<String, String> metadata = new ConcurrentHashMap<>();
     
     System.out.println(StringConstantsUtils.ADD_NODE_DETAILS_QUERY);
-    String addNodeDetails = parser.parseString(scanner.nextLine(),
+    String addMetaData = parser.parseString(scanner.nextLine(),
         StringConstantsUtils.QUERY);
-    while (addNodeDetails.equals(StringConstantsUtils.CONFIRMATION)) {
+    while (addMetaData.equals(StringConstantsUtils.CONFIRMATION)) {
       System.out.println(StringConstantsUtils.ENTER_KEY);
       final String key = parser.parseString(scanner.nextLine(),
           StringConstantsUtils.KEY);
@@ -125,13 +125,13 @@ public class MenuOptionsImpl implements MenuOptions {
       System.out.printf((StringConstantsUtils.ENTER_VALUE) + "%n", key);
       final String value = parser.parseString(scanner.nextLine(),
           StringConstantsUtils.VALUE);
-      nodeDetails.put(key, value);
+      metadata.put(key, value);
       
       System.out.println(StringConstantsUtils.ADD_NODE_DETAILS_QUERY);
-      addNodeDetails = parser.parseString(scanner.nextLine(),
+      addMetaData = parser.parseString(scanner.nextLine(),
           StringConstantsUtils.QUERY);
     }
-    final NodeEntity node = new NodeEntity(id, name, nodeDetails);
+    final NodeEntity node = new NodeEntity(id, name, metadata);
     graphOperations.createNode(node);
   }
   

@@ -12,7 +12,6 @@ import java.util.Objects;
 import java.util.PriorityQueue;
 import java.util.Queue;
 import java.util.Set;
-import java.util.concurrent.ConcurrentHashMap;
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 
@@ -44,7 +43,7 @@ public class GraphOperationsImpl implements GraphOperations {
   
   @Override
   public NodeEntity getNodeById(final int id) throws CustomException {
-    final NodeEntity node = nodes.getOrDefault(id, null);
+    final NodeEntity node = nodes.get(id);
     if (Objects.isNull(node)) {
       logger.error(String.format(ExceptionsConstantsUtils.INVALID_ID, id));
       throw new CustomException(String.format(ExceptionsConstantsUtils.INVALID_ID,
@@ -55,7 +54,7 @@ public class GraphOperationsImpl implements GraphOperations {
   
   @Override
   public boolean checkNodeExistById(final int id) {
-    final NodeEntity node = nodes.getOrDefault(id, null);
+    final NodeEntity node = nodes.get(id);
     return !Objects.isNull(node);
   }
   
@@ -136,18 +135,18 @@ public class GraphOperationsImpl implements GraphOperations {
     final NodeEntity node = getNodeById(id);
     final Set<Integer> ancestors = new HashSet<>();
     final Queue<NodeEntity> queue = new PriorityQueue<>();
-    final Map<Integer, Boolean> visited = new ConcurrentHashMap<>();
+    final Set<Integer> visited = new HashSet<>();
     queue.add(node);
-    visited.put(id, true);
+    visited.add(id);
     while (!queue.isEmpty()) {
       final NodeEntity currentNode = queue.poll();
       for (final Integer ancestor : currentNode.getParents()) {
-        if (visited.getOrDefault(ancestor, false)) {
+        if (visited.contains(ancestor)) {
           continue;
         }
-        visited.put(ancestor, true);
-        final NodeEntity tempNode = getNodeById(ancestor);
-        queue.add(tempNode);
+        visited.add(ancestor);
+        final NodeEntity ancestorNode = getNodeById(ancestor);
+        queue.add(ancestorNode);
         ancestors.add(ancestor);
       }
     }
@@ -159,18 +158,18 @@ public class GraphOperationsImpl implements GraphOperations {
     final NodeEntity node = getNodeById(id);
     final Set<Integer> descendants = new HashSet<>();
     final Queue<NodeEntity> queue = new PriorityQueue<>();
-    final Map<Integer, Boolean> visited = new ConcurrentHashMap<>();
+    final Set<Integer> visited = new HashSet<>();
     queue.add(node);
-    visited.put(id, true);
+    visited.add(id);
     while (!queue.isEmpty()) {
       final NodeEntity currentNode = queue.poll();
       for (final Integer descendant : currentNode.getChildren()) {
-        if (visited.getOrDefault(descendant, false)) {
+        if (visited.contains(descendant)) {
           continue;
         }
-        visited.put(descendant, true);
-        final NodeEntity tempNode = getNodeById(descendant);
-        queue.add(tempNode);
+        visited.add(descendant);
+        final NodeEntity descendantNode = getNodeById(descendant);
+        queue.add(descendantNode);
         descendants.add(descendant);
       }
     }

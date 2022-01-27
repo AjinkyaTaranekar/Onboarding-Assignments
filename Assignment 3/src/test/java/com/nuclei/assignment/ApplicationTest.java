@@ -14,6 +14,9 @@ import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
+/**
+ * The type Application test.
+ */
 public class ApplicationTest {
   private final InputStream systemIn = System.in;
   private final PrintStream systemOut = System.out;
@@ -21,6 +24,9 @@ public class ApplicationTest {
   private ByteArrayInputStream testIn;
   private ByteArrayOutputStream testOut;
   
+  /**
+   * Sets up output.
+   */
   @BeforeEach
   public void setUpOutput() {
     testOut = new ByteArrayOutputStream();
@@ -36,6 +42,9 @@ public class ApplicationTest {
     return testOut.toString();
   }
   
+  /**
+   * Restore system input output.
+   */
   @AfterEach
   public void restoreSystemInputOutput() {
     System.setIn(systemIn);
@@ -43,6 +52,9 @@ public class ApplicationTest {
   }
   
   
+  /**
+   * Creating node gives success.
+   */
   @Test
   public void creatingNodeGivesSuccess() {
     final String[] test = {
@@ -60,6 +72,9 @@ public class ApplicationTest {
   }
   
   
+  /**
+   * Adding two nodes with same roll number.
+   */
   @Test
   public void addingTwoNodesWithSameRollNumber() {
     final String[] test = {
@@ -82,6 +97,9 @@ public class ApplicationTest {
     assertTrue(getOutput().contains(expectedMessage));
   }
   
+  /**
+   * Adding node with empty name entry.
+   */
   @Test
   public void addingNodeWithEmptyNameEntry() {
     final String[] test = {
@@ -98,6 +116,9 @@ public class ApplicationTest {
     assertTrue(getOutput().contains(expectedMessage));
   }
   
+  /**
+   * Adding node with negative id.
+   */
   @Test
   public void addingNodeWithNegativeId() {
     final String[] test = {
@@ -112,6 +133,26 @@ public class ApplicationTest {
     final String expectedMessage =
         String.format(ExceptionsConstantsUtils.NEGATIVE_PARAMETER,
           StringConstantsUtils.ID, "-1");
+    assertTrue(getOutput().contains(expectedMessage));
+  }
+  
+  /**
+   * Adding node with decimal id.
+   */
+  @Test
+  public void addingNodeWithDecimalId() {
+    final String[] test = {
+      "8",
+      "1.5",
+      "Ajinkya"
+    };
+    final String testString = String.join("\n",test);
+    provideInput(testString);
+    
+    Application.main(new String[0]);
+    final String expectedMessage =
+        String.format(ExceptionsConstantsUtils.DECIMAL_PARAMETER,
+          StringConstantsUtils.ID, "1.5");
     assertTrue(getOutput().contains(expectedMessage));
   }
   
@@ -137,6 +178,9 @@ public class ApplicationTest {
     assertTrue(getOutput().contains(expectedMessage));
   }
   
+  /**
+   * Adding node with invalid details.
+   */
   @Test
   public void addingNodeWithInvalidDetails() {
     final String[] test = {
@@ -158,6 +202,9 @@ public class ApplicationTest {
     assertTrue(getOutput().contains(expectedMessage));
   }
   
+  /**
+   * Adding node with details.
+   */
   @Test
   public void addingNodeWithDetails() {
     final String[] test = {
@@ -177,6 +224,9 @@ public class ApplicationTest {
     assertTrue(getOutput().contains(expectedMessage));
   }
   
+  /**
+   * Adding node with character id.
+   */
   @Test
   public void addingNodeWithCharacterId() {
     final String[] test = {
@@ -194,6 +244,9 @@ public class ApplicationTest {
     assertTrue(getOutput().contains(expectedMessage));
   }
   
+  /**
+   * Invalid menu input.
+   */
   @Test
   public void invalidMenuInput() {
     final String[] test = {
@@ -209,6 +262,9 @@ public class ApplicationTest {
   }
   
   
+  /**
+   * Adding two nodes and creating dependency.
+   */
   @Test
   public void addingTwoNodesAndCreatingDependency() {
     final String[] test = {
@@ -234,6 +290,9 @@ public class ApplicationTest {
     assertTrue(getOutput().contains(expectedMessage));
   }
   
+  /**
+   * Adding two nodes and creating dependency but parent id not found.
+   */
   @Test
   public void addingTwoNodesAndCreatingDependencyButParentIdNotFound() {
     final String[] test = {
@@ -260,6 +319,9 @@ public class ApplicationTest {
     assertTrue(getOutput().contains(expectedMessage));
   }
   
+  /**
+   * Adding two nodes and creating dependency but child id not found.
+   */
   @Test
   public void addingTwoNodesAndCreatingDependencyButChildIdNotFound() {
     final String[] test = {
@@ -286,6 +348,9 @@ public class ApplicationTest {
     assertTrue(getOutput().contains(expectedMessage));
   }
   
+  /**
+   * Adding two nodes and creating dependency but parent child id same.
+   */
   @Test
   public void addingTwoNodesAndCreatingDependencyButParentChildIdSame() {
     final String[] test = {
@@ -312,6 +377,9 @@ public class ApplicationTest {
     assertTrue(getOutput().contains(expectedMessage));
   }
   
+  /**
+   * Adding two nodes and creating cyclic dependency.
+   */
   @Test
   public void addingTwoNodesAndCreatingCyclicDependency() {
     final String[] test = {
@@ -342,6 +410,9 @@ public class ApplicationTest {
     assertTrue(getOutput().contains(expectedMessage));
   }
   
+  /**
+   * Adding four nodes and creating cyclic dependency.
+   */
   @Test
   public void addingFourNodesAndCreatingCyclicDependency() {
     final String[] test = {
@@ -390,6 +461,9 @@ public class ApplicationTest {
     assertTrue(getOutput().contains(expectedMessage));
   }
   
+  /**
+   * Adding two nodes and creating dependency checking parent of node.
+   */
   @Test
   public void addingTwoNodesAndCreatingDependencyCheckingParentOfNode() {
     final String[] test = {
@@ -418,6 +492,9 @@ public class ApplicationTest {
     assertTrue(getOutput().contains(expectedMessage));
   }
   
+  /**
+   * Adding two nodes and creating dependency checking children of node.
+   */
   @Test
   public void addingTwoNodesAndCreatingDependencyCheckingChildrenOfNode() {
     final String[] test = {
@@ -446,6 +523,9 @@ public class ApplicationTest {
     assertTrue(getOutput().contains(expectedMessage));
   }
   
+  /**
+   * Adding two nodes and creating dependency checking ancestor of node.
+   */
   @Test
   public void addingTwoNodesAndCreatingDependencyCheckingAncestorOfNode() {
     final String[] test = {
@@ -474,6 +554,9 @@ public class ApplicationTest {
     assertTrue(getOutput().contains(expectedMessage));
   }
   
+  /**
+   * Adding two nodes and creating dependency checking descendants of node.
+   */
   @Test
   public void addingTwoNodesAndCreatingDependencyCheckingDescendantsOfNode() {
     final String[] test = {
@@ -502,6 +585,9 @@ public class ApplicationTest {
     assertTrue(getOutput().contains(expectedMessage));
   }
   
+  /**
+   * Adding node and then deleting node.
+   */
   @Test
   public void addingNodeAndThenDeletingNode() {
     final String[] test = {
@@ -521,6 +607,9 @@ public class ApplicationTest {
     assertTrue(getOutput().contains(expectedMessage));
   }
   
+  /**
+   * Adding node and then deleting node but id not found.
+   */
   @Test
   public void addingNodeAndThenDeletingNodeButIdNotFound() {
     final String[] test = {
@@ -541,6 +630,9 @@ public class ApplicationTest {
     assertTrue(getOutput().contains(expectedMessage));
   }
   
+  /**
+   * Adding two nodes and creating dependency then deleting dependency.
+   */
   @Test
   public void addingTwoNodesAndCreatingDependencyThenDeletingDependency() {
     final String[] test = {
@@ -570,6 +662,9 @@ public class ApplicationTest {
     assertTrue(getOutput().contains(expectedMessage));
   }
   
+  /**
+   * Adding two nodes and creating dependency then deleting dependency but parent id not found.
+   */
   @Test
   public void addingTwoNodesAndCreatingDependencyThenDeletingDependencyButParentIdNotFound() {
     final String[] test = {
@@ -600,6 +695,9 @@ public class ApplicationTest {
     assertTrue(getOutput().contains(expectedMessage));
   }
   
+  /**
+   * Adding two nodes then deleting dependency but no dependency.
+   */
   @Test
   public void addingTwoNodesThenDeletingDependencyButNoDependency() {
     final String[] test = {
@@ -630,6 +728,9 @@ public class ApplicationTest {
     assertTrue(getOutput().contains(expectedMessage));
   }
   
+  /**
+   * Adding two nodes and creating dependency then deleting dependency but child id not found.
+   */
   @Test
   public void addingTwoNodesAndCreatingDependencyThenDeletingDependencyButChildIdNotFound() {
     final String[] test = {

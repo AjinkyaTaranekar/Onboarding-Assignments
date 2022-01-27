@@ -117,6 +117,24 @@ public class GraphOperationsTest {
   }
   
   /**
+   * Create node when id exist.
+   */
+  @Test
+  void createNodeWhenIdExist() {
+    NodeEntity node = new NodeEntity(5, "a",
+        new ConcurrentHashMap<>());
+    final Exception exception = assertThrows(CustomException.class,
+        () -> graphOperations.createNode(node));
+  
+    final String expectedMessage =
+        String.format(ExceptionsConstantsUtils.ID_ALREADY_EXISTS,
+          5);
+    final String actualMessage = exception.getMessage();
+  
+    assertEquals(expectedMessage, actualMessage);
+  }
+  
+  /**
    * Create dependency.
    */
   @Test
@@ -124,6 +142,42 @@ public class GraphOperationsTest {
     int parentId = 4;
     int childId = 5;
     assertDoesNotThrow(() -> graphOperations.createDependency(parentId, childId));
+  }
+  
+  /**
+   * Create dependency when parent id does not exist.
+   */
+  @Test
+  void createDependencyWhenParentIdDoesNotExist() {
+    int parentId = 7;
+    int childId = 5;
+    final Exception exception = assertThrows(CustomException.class,
+        () -> graphOperations.createDependency(parentId, childId));
+    
+    final String expectedMessage =
+        String.format(ExceptionsConstantsUtils.INVALID_PARENT_ID,
+          parentId);
+    final String actualMessage = exception.getMessage();
+    
+    assertEquals(expectedMessage, actualMessage);
+  }
+  
+  /**
+   * Create dependency when child id does not exist.
+   */
+  @Test
+  void createDependencyWhenChildIdDoesNotExist() {
+    int parentId = 5;
+    int childId = 7;
+    final Exception exception = assertThrows(CustomException.class,
+        () -> graphOperations.createDependency(parentId, childId));
+    
+    final String expectedMessage =
+        String.format(ExceptionsConstantsUtils.INVALID_CHILD_ID,
+          childId);
+    final String actualMessage = exception.getMessage();
+    
+    assertEquals(expectedMessage, actualMessage);
   }
   
   /**

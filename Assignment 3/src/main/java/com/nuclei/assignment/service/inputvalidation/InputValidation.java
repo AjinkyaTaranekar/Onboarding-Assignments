@@ -23,13 +23,4 @@ public interface InputValidation {
    * @throws CustomException the custom exception
    */
   void validateNumeric(String id) throws CustomException;
-  
-  /**
-   * validate raw String details.
-   *
-   * @param details the details
-   * @throws CustomException the custom exception
-   */
-  void validateDetails(String... details) throws CustomException;
-  
 }

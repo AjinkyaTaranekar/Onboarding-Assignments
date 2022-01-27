@@ -25,9 +25,9 @@ public class NodeEntity implements Comparable<NodeEntity> {
   private Integer id;
   
   /**
-   * The Information.
+   * The metadata.
    */
-  private Map<String, String> information;
+  private Map<String, String> metadata;
   
   /**
    * The Parents.
@@ -42,23 +42,15 @@ public class NodeEntity implements Comparable<NodeEntity> {
   /**
    * Node Entity Constructor with id.
    *
-   * @param id the id
-   */
-  public NodeEntity(final Integer id) {
-    this.id = id;
-  }
-  
-  /**
-   * Node Entity Constructor with id.
-   *
-   * @param name the name
-   * @param id   the id
+   * @param id       the id
+   * @param name     the name
+   * @param metadata the metadata
    */
   public NodeEntity(final Integer id, final String name,
-                    final Map<String, String> information) {
+                    final Map<String, String> metadata) {
     this.id = id;
     this.name = name;
-    this.information = information;
+    this.metadata = metadata;
     this.parents = new HashSet<>();
     this.children = new HashSet<>();
   }
@@ -66,17 +58,6 @@ public class NodeEntity implements Comparable<NodeEntity> {
   @Override
   public int compareTo(final NodeEntity node) {
     return this.getId().compareTo(node.getId());
-  }
-  
-  @Override
-  public String toString() {
-    return "NodeEntity{"
-      + "name='" + name + '\''
-      + ", id=" + id
-      + ", information=" + information
-      + ", parents=" + parents
-      + ", children=" + children
-      + '}';
   }
   
 }
