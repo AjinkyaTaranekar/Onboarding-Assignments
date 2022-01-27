@@ -6,7 +6,6 @@ import com.nuclei.assignment.constants.StringConstantsUtils;
 import com.nuclei.assignment.entity.ItemEntity;
 import com.nuclei.assignment.enums.ItemType;
 import com.nuclei.assignment.exception.AttributeParseException;
-import com.nuclei.assignment.exception.DatabaseException;
 import com.nuclei.assignment.service.itemparser.ItemParser;
 import com.nuclei.assignment.service.itemparser.ItemParserImpl;
 import com.nuclei.assignment.service.tax.ItemTax;
@@ -30,11 +29,6 @@ public class DisplayItemsSynchronousThreadsImpl implements DisplayItemsSynchrono
   private final Log logger = LogFactory.getLog(DisplayItemsSynchronousThreadsImpl.class);
   
   /**
-   * The all items fetched from database boolean check.
-   */
-  private Boolean allItemsFetchedFromDatabase = false;
-  
-  /**
    * The item entities list.
    */
   private final List<ItemEntity> itemEntities = new ArrayList<>();
@@ -45,44 +39,76 @@ public class DisplayItemsSynchronousThreadsImpl implements DisplayItemsSynchrono
   private int numberOfItems;
   
   @Override
-  public void fetchItemDataFromRawData(final List<Map<String,String>> items)
-      throws DatabaseException {
-    try {
-      for (final Map<String, String> rawDataOfItem : items) {
-        synchronized (this) {
-          final ItemEntity item = createItemFromRawData(rawDataOfItem);
-          itemEntities.add(item);
-          notifyAll();
-          Thread.sleep(500);
-        }
-      }
-    } catch (Exception exception) {
-      logger.error(String.format(DatabaseConstantsUtils.EXCEPTION_WHILE_FETCHING_DATA,
-          exception.getMessage()));
-      throw new DatabaseException(String.format(
-          DatabaseConstantsUtils.EXCEPTION_WHILE_FETCHING_DATA, exception.getMessage()), exception);
+  public void displayItems(List<Map<String, String>> items) throws InterruptedException {
+    final List<Thread> threadPool = new ArrayList<>();
+    final int threadSize = Math.min(5, items.size());
+    final int itemsLength = items.size();
+    int start = 0;
+    int end = (int) Math.ceil((double) itemsLength / threadSize);
+    final int difference = end - start;
+  
+    for (int index = 0; index < threadSize; index++) {
+      threadPool.add(fetchItemDataFromRawDataThread(items, start, end));
+      start = end;
+      end += difference;
+      end = Math.min(end, itemsLength);
     }
-    allItemsFetchedFromDatabase = true;
+  
+    for (int index = 0; index < threadSize; index++) {
+      threadPool.add(calculateTaxForTheItemsThread(itemsLength));
+    }
+    for (final Thread thread : threadPool) {
+      thread.start();
+    }
+    for (final Thread thread : threadPool) {
+      thread.join();
+    }
+  }
+
+  private Thread fetchItemDataFromRawDataThread(final List<Map<String, String>> items,
+                                        final int start, final int end) {
+    return new Thread(() -> {
+      try {
+        for (final Map<String, String> rawDataOfItem : items.subList(start, end)) {
+          synchronized (this) {
+            final ItemEntity item = createItemFromRawData(rawDataOfItem);
+            itemEntities.add(item);
+            notifyAll();
+            //Thread.sleep(200);
+          }
+        }
+      } catch (Exception exception) {
+        logger.error(String.format(DatabaseConstantsUtils.EXCEPTION_WHILE_FETCHING_DATA,
+            exception.getMessage()));
+      }
+    });
   }
   
-  @Override
-  public void calculateTaxForTheItems() throws InterruptedException {
-    while (!(allItemsFetchedFromDatabase && itemEntities.isEmpty())) {
-      synchronized (this) {
-        if (itemEntities.isEmpty()) {
-          wait();
-        } else {
-          final ItemEntity itemEntity = itemEntities.remove(0);
-          numberOfItems += 1;
-          setTaxForTheNewItem(itemEntity);
-          printItemDetails(itemEntity);
-          notifyAll();
-          Thread.sleep(500);
+  private Thread calculateTaxForTheItemsThread(final int itemsLength) {
+    return new Thread(() -> {
+      try {
+        while (true) {
+          synchronized (this) {
+            if (numberOfItems == itemsLength) {
+              break;
+            }
+            if (itemEntities.isEmpty()) {
+              wait();
+            } else {
+              final ItemEntity itemEntity = itemEntities.remove(0);
+              numberOfItems += 1;
+              setTaxForTheNewItem(itemEntity);
+              printItemDetails(itemEntity);
+              notifyAll();
+              //Thread.sleep(200);
+            }
+          }
         }
+      } catch (InterruptedException exception) {
+        logger.error(String.format(DatabaseConstantsUtils.EXCEPTION_WHILE_FETCHING_DATA,
+            exception.getMessage()));
       }
-    }
-    System.out.println(String.format(DatabaseConstantsUtils.ITEMS_FETCHED,
-        numberOfItems));
+    });
   }
   
   private ItemEntity createItemFromRawData(Map<String, String> rawDataOfItem)

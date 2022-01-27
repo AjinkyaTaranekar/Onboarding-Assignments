@@ -91,34 +91,7 @@ public class ItemAdderImpl implements ItemAdder {
       final List<Map<String,String>> items = itemRepository.getAllItems();
       final DisplayItemsSynchronousThreads displayItems =
           new DisplayItemsSynchronousThreadsImpl();
-  
-      final Thread fetchItemsThread = new Thread(new Runnable() {
-        @Override
-        public void run() {
-          try {
-            displayItems.fetchItemDataFromRawData(items);
-          } catch (DatabaseException exception) {
-            logger.error(exception.getMessage(), exception);
-          }
-        }
-      });
-  
-      final Thread calculateTaxesForItemsFetched = new Thread(new Runnable() {
-        @Override
-        public void run() {
-          try {
-            displayItems.calculateTaxForTheItems();
-          } catch (InterruptedException exception) {
-            logger.error(exception.getMessage(), exception);
-          }
-        }
-      });
-  
-      fetchItemsThread.start();
-      calculateTaxesForItemsFetched.start();
-  
-      fetchItemsThread.join();
-      calculateTaxesForItemsFetched.join();
+      displayItems.displayItems(items);
     } catch (Exception exception) {
       logger.error(exception.getMessage(), exception);
     }

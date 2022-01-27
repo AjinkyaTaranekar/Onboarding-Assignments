@@ -5,7 +5,6 @@ import static org.junit.jupiter.api.Assertions.assertThrows;
 
 import com.nuclei.assignment.constants.ExceptionsConstantsUtils;
 import com.nuclei.assignment.exception.InputException;
-import com.nuclei.assignment.service.ItemValidationImpl;
 import org.junit.jupiter.api.Test;
 
 /**

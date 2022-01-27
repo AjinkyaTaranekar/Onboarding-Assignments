@@ -1,4 +1,4 @@
-package com.nuclei.assignment.service;
+package com.nuclei.assignment.service.itemvalidation;
 
 import com.nuclei.assignment.constants.ExceptionsConstantsUtils;
 import com.nuclei.assignment.exception.InputException;
