@@ -12,6 +12,8 @@ import java.util.Objects;
 import java.util.PriorityQueue;
 import java.util.Queue;
 import java.util.Set;
+import java.util.function.Function;
+
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 
@@ -132,48 +134,44 @@ public class GraphOperationsImpl implements GraphOperations {
   
   @Override
   public Set<Integer> getAllAncestors(final int id) throws CustomException {
-    final NodeEntity node = getNodeById(id);
-    final Set<Integer> ancestors = new HashSet<>();
-    final Queue<NodeEntity> queue = new PriorityQueue<>();
-    final Set<Integer> visited = new HashSet<>();
-    queue.add(node);
-    visited.add(id);
-    while (!queue.isEmpty()) {
-      final NodeEntity currentNode = queue.poll();
-      for (final Integer ancestor : currentNode.getParents()) {
-        if (visited.contains(ancestor)) {
-          continue;
-        }
-        visited.add(ancestor);
-        final NodeEntity ancestorNode = getNodeById(ancestor);
-        queue.add(ancestorNode);
-        ancestors.add(ancestor);
-      }
-    }
-    return ancestors;
+    return breadthFirstSearchAcrossGraph(id, NodeEntity::getParents);
   }
   
   @Override
   public Set<Integer> getAllDescendants(final int id) throws CustomException {
+    return breadthFirstSearchAcrossGraph(id, NodeEntity::getChildren);
+  }
+  
+  /**
+   * Breadth first search across graph set.
+   *
+   * @param id        the id
+   * @param searchDirection the searchDirection function is used to tell whether search 
+   *                  need to be done in parents or children
+   * @return the set
+   * @throws CustomException the custom exception
+   */
+  private Set<Integer> breadthFirstSearchAcrossGraph(final int id,
+      Function<NodeEntity, Set<Integer>> searchDirection) throws CustomException {
     final NodeEntity node = getNodeById(id);
-    final Set<Integer> descendants = new HashSet<>();
+    final Set<Integer> usersEncountered = new HashSet<>();
     final Queue<NodeEntity> queue = new PriorityQueue<>();
     final Set<Integer> visited = new HashSet<>();
     queue.add(node);
     visited.add(id);
     while (!queue.isEmpty()) {
       final NodeEntity currentNode = queue.poll();
-      for (final Integer descendant : currentNode.getChildren()) {
-        if (visited.contains(descendant)) {
+      for (final Integer neighbour : searchDirection.apply(currentNode)) {
+        if (visited.contains(neighbour)) {
           continue;
         }
-        visited.add(descendant);
-        final NodeEntity descendantNode = getNodeById(descendant);
-        queue.add(descendantNode);
-        descendants.add(descendant);
+        visited.add(neighbour);
+        final NodeEntity neighbourNode = getNodeById(neighbour);
+        queue.add(neighbourNode);
+        usersEncountered.add(neighbour);
       }
     }
-    return descendants;
+    return usersEncountered;
   }
   
   @Override
