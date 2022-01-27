@@ -38,10 +38,15 @@ public class DisplayItemsSynchronousThreadsImpl implements DisplayItemsSynchrono
    */
   private int numberOfItems;
   
+  /**
+   * Minimum thread count.
+   */
+  private static final int MIN_THREAD_COUNT = 5;
+  
   @Override
   public void displayItems(List<Map<String, String>> items) throws InterruptedException {
     final List<Thread> threadPool = new ArrayList<>();
-    final int threadSize = Math.min(5, items.size());
+    final int threadSize = Math.min(MIN_THREAD_COUNT, items.size());
     final int itemsLength = items.size();
     int start = 0;
     int end = (int) Math.ceil((double) itemsLength / threadSize);
