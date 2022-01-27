@@ -10,6 +10,8 @@ import com.nuclei.assignment.enums.ItemType;
 import com.nuclei.assignment.exception.AttributeParseException;
 import com.nuclei.assignment.exception.DatabaseException;
 import com.nuclei.assignment.exception.InputException;
+import com.nuclei.assignment.repository.ItemRepository;
+import com.nuclei.assignment.repository.ItemRepositoryImpl;
 import com.nuclei.assignment.service.displayitem.DisplayItemsSynchronousThreads;
 import com.nuclei.assignment.service.displayitem.DisplayItemsSynchronousThreadsImpl;
 import com.nuclei.assignment.service.itemparser.ItemParser;
@@ -36,19 +38,26 @@ public class ItemAdderImpl implements ItemAdder {
   private final Log logger = LogFactory.getLog(ItemAdderImpl.class);
   
   /**
-   * The Database operations.
+   * The Database Operations.
    */
-  private DatabaseOperations databaseOperations;
+  private final DatabaseOperations databaseOperations;
+  
+  /**
+   * The Item Repository.
+   */
+  private final ItemRepository itemRepository;
   
   /**
    * Instantiates a new Item adder.
    */
   public ItemAdderImpl() {
+    databaseOperations = new DatabaseOperationsImpl();
     try {
-      databaseOperations = new DatabaseOperationsImpl();
+      databaseOperations.createConnection();
     } catch (DatabaseException exception) {
       System.out.println(exception.getMessage());
     }
+    itemRepository = new ItemRepositoryImpl(databaseOperations);
   }
   
   @Override
@@ -79,7 +88,7 @@ public class ItemAdderImpl implements ItemAdder {
   @Override
   public void outputItemsWithTaxToUser() {
     try {
-      final List<Map<String,String>> items = databaseOperations.getAllItems();
+      final List<Map<String,String>> items = itemRepository.getAllItems();
       final DisplayItemsSynchronousThreads displayItems =
           new DisplayItemsSynchronousThreadsImpl();
   
@@ -170,7 +179,7 @@ public class ItemAdderImpl implements ItemAdder {
     }
     
     final ItemEntity item = parseItemPropertiesMapEntries(properties);
-    databaseOperations.saveItem(item);
+    itemRepository.saveItem(item);
   }
   
   private ItemEntity parseItemPropertiesMapEntries(final Map<String, String> properties)

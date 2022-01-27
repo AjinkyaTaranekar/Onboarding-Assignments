@@ -4,7 +4,7 @@ import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertThrows;
 
 import com.nuclei.assignment.constants.ExceptionsConstantsUtils;
-import com.nuclei.assignment.constants.FlagsConstantsUtils;
+import com.nuclei.assignment.constants.StringConstantsUtils;
 import com.nuclei.assignment.enums.ItemType;
 import com.nuclei.assignment.exception.AttributeParseException;
 import org.junit.jupiter.api.Test;
@@ -84,7 +84,8 @@ public class ItemParserTest {
     final Exception exception = assertThrows(AttributeParseException.class,
         () -> new ItemParserImpl().parseName(input));
     
-    final String expectedMessage = ExceptionsConstantsUtils.EMPTY_NAME;
+    final String expectedMessage = String.format(ExceptionsConstantsUtils.EMPTY_OR_NULL_PARAMETER,
+        StringConstantsUtils.NAME);
     final String actualMessage = exception.getMessage();
     
     assertEquals(expectedMessage, actualMessage);
@@ -101,7 +102,8 @@ public class ItemParserTest {
         () -> new ItemParserImpl().parsePrice(input));
     
     final String expectedMessage =
-        String.format(ExceptionsConstantsUtils.NEGATIVE_PRICE, input);
+        String.format(ExceptionsConstantsUtils.NEGATIVE_PARAMETER,
+          StringConstantsUtils.PRICE, input);
     final String actualMessage = exception.getMessage();
     
     assertEquals(expectedMessage, actualMessage);
@@ -118,7 +120,8 @@ public class ItemParserTest {
         () -> new ItemParserImpl().parsePrice(input));
     
     final String expectedMessage =
-        String.format(ExceptionsConstantsUtils.INVALID_PRICE, input);
+        String.format(ExceptionsConstantsUtils.CHARACTER_PARAMETER,
+          StringConstantsUtils.PRICE, input);
     final String actualMessage = exception.getMessage();
     
     assertEquals(expectedMessage, actualMessage);
@@ -134,7 +137,8 @@ public class ItemParserTest {
         () -> new ItemParserImpl().parseQuantity(input));
     
     final String expectedMessage =
-        String.format(ExceptionsConstantsUtils.NEGATIVE_QUANTITY, input);
+        String.format(ExceptionsConstantsUtils.NEGATIVE_PARAMETER,
+          StringConstantsUtils.QUANTITY, input);
     final String actualMessage = exception.getMessage();
     
     assertEquals(expectedMessage, actualMessage);
@@ -151,7 +155,8 @@ public class ItemParserTest {
         () -> new ItemParserImpl().parseQuantity(input));
     
     final String expectedMessage =
-        String.format(ExceptionsConstantsUtils.INVALID_QUANTITY, input);
+        String.format(ExceptionsConstantsUtils.CHARACTER_PARAMETER,
+          StringConstantsUtils.QUANTITY, input);
     final String actualMessage = exception.getMessage();
     
     assertEquals(expectedMessage, actualMessage);

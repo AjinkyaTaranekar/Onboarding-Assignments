@@ -1,8 +1,7 @@
 package com.nuclei.assignment.constants;
 
 /**
- * Constant Strings used in code to provide user a brief
- * of what to do during input.
+ * The type String constants utils.
  */
 public class StringConstantsUtils {
   
@@ -41,9 +40,24 @@ public class StringConstantsUtils {
   public static final String CONFIRMATION = "y";
   
   /**
-   * The constant SHOW_ITEM_LIST.
+   * The constant NAME.
    */
-  public static final String SHOW_ITEM_LIST = "Here is the list of items:";
+  public static final String NAME = "Name";
+  
+  /**
+   * The constant PRICE.
+   */
+  public static final String PRICE = "Price";
+  
+  /**
+   * The constant QUANTITY.
+   */
+  public static final String QUANTITY = "Quantity";
+  
+  /**
+   * The constant ITEM_TYPE.
+   */
+  public static final String ITEM_TYPE = "Item Type";
   
   /**
    * The constant SHOW_ITEM_LIST_INFO.

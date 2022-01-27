@@ -1,8 +1,12 @@
 package com.nuclei.assignment.service.itemparser;
 
 import com.nuclei.assignment.constants.ExceptionsConstantsUtils;
+import com.nuclei.assignment.constants.StringConstantsUtils;
 import com.nuclei.assignment.enums.ItemType;
 import com.nuclei.assignment.exception.AttributeParseException;
+import com.nuclei.assignment.exception.InputException;
+import com.nuclei.assignment.service.ItemValidation;
+import com.nuclei.assignment.service.ItemValidationImpl;
 import com.nuclei.assignment.service.itemadder.ItemAdderImpl;
 import java.util.Locale;
 import org.apache.commons.logging.Log;
@@ -13,39 +17,47 @@ import org.apache.commons.logging.LogFactory;
  * Item Parser Implementation containing method to parse different properties.
  */
 public class ItemParserImpl implements ItemParser {
+  /**
+   * The Item validation.
+   */
+  private final ItemValidation itemValidation;
   
   /**
    * The Logger.
    */
   private final Log logger = LogFactory.getLog(ItemAdderImpl.class);
   
+  /**
+   * Instantiates a new Item parser.
+   */
+  public ItemParserImpl() {
+    itemValidation = new ItemValidationImpl();
+  }
+  
   @Override
   public String parseName(final String name) throws AttributeParseException {
-    if (name.isEmpty()) {
-      logger.error(ExceptionsConstantsUtils.EMPTY_NAME, new Throwable().fillInStackTrace());
-      throw new AttributeParseException(ExceptionsConstantsUtils.EMPTY_NAME);
+    try {
+      itemValidation.validateString(name);
+    } catch (InputException exception) {
+      logger.error(String.format(exception.getMessage(), StringConstantsUtils.NAME),
+          exception);
+      throw new AttributeParseException(String.format(exception.getMessage(),
+          StringConstantsUtils.NAME), exception);
     }
     return name;
   }
   
   @Override
   public double parsePrice(final String price) throws AttributeParseException {
-    final double parsedPrice;
     try {
-      parsedPrice = Double.parseDouble(price);
-      if (parsedPrice < 0) {
-        logger.error(String.format(ExceptionsConstantsUtils.NEGATIVE_PRICE, price),
-            new Throwable().fillInStackTrace());
-        throw new AttributeParseException(
-            String.format(ExceptionsConstantsUtils.NEGATIVE_PRICE, price));
-      }
-    } catch (NumberFormatException exception) {
-      logger.error(String.format(ExceptionsConstantsUtils.INVALID_PRICE,
-          price), new Throwable().fillInStackTrace());
-      throw new AttributeParseException(
-          String.format(ExceptionsConstantsUtils.INVALID_PRICE, price), exception);
+      itemValidation.validateNumeric(price);
+    } catch (InputException exception) {
+      logger.error(String.format(exception.getMessage(),
+          StringConstantsUtils.PRICE, price), exception);
+      throw new AttributeParseException(String.format(exception.getMessage(),
+        StringConstantsUtils.PRICE, price), exception);
     }
-    return parsedPrice;
+    return Double.parseDouble(price);
   }
   
   @Override
@@ -65,24 +77,15 @@ public class ItemParserImpl implements ItemParser {
   
   @Override
   public double parseQuantity(final String quantity) throws AttributeParseException {
-    final double parsedQuantity;
     try {
-      parsedQuantity = Double.parseDouble(quantity);
-      if (parsedQuantity < 0) {
-        logger.error(
-            String.format(ExceptionsConstantsUtils.NEGATIVE_QUANTITY, quantity),
-            new Throwable().fillInStackTrace());
-        throw new AttributeParseException(
-            String.format(ExceptionsConstantsUtils.NEGATIVE_QUANTITY, quantity));
-      }
-    } catch (NumberFormatException exception) {
-      logger.error(
-          String.format(ExceptionsConstantsUtils.INVALID_QUANTITY,
-          quantity), new Throwable().fillInStackTrace());
-      throw new AttributeParseException(
-          String.format(ExceptionsConstantsUtils.INVALID_QUANTITY, quantity), exception);
+      itemValidation.validateNumeric(quantity);
+    } catch (InputException exception) {
+      logger.error(String.format(exception.getMessage(),
+          StringConstantsUtils.QUANTITY, quantity), exception);
+      throw new AttributeParseException(String.format(exception.getMessage(),
+          StringConstantsUtils.QUANTITY, quantity), exception);
     }
-    return parsedQuantity;
+    return Double.parseDouble(quantity);
   }
   
 }

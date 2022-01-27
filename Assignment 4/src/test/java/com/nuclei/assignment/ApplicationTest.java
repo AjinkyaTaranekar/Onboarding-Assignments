@@ -3,7 +3,7 @@ package com.nuclei.assignment;
 import static org.junit.jupiter.api.Assertions.assertTrue;
 
 import com.nuclei.assignment.constants.ExceptionsConstantsUtils;
-import com.nuclei.assignment.constants.FlagsConstantsUtils;
+import com.nuclei.assignment.constants.StringConstantsUtils;
 import java.io.ByteArrayInputStream;
 import java.io.ByteArrayOutputStream;
 import java.io.InputStream;
@@ -160,7 +160,8 @@ public class ApplicationTest {
     provideInput(addMoreItems);
   
     Application.main(item);
-    final String expectedMessage = ExceptionsConstantsUtils.EMPTY_NAME;
+    final String expectedMessage = String.format(ExceptionsConstantsUtils.EMPTY_OR_NULL_PARAMETER,
+        StringConstantsUtils.NAME);
     assertTrue(getOutput().contains(expectedMessage));
   }
   
@@ -198,7 +199,8 @@ public class ApplicationTest {
     
     Application.main(item);
     final String expectedMessage =
-        String.format(ExceptionsConstantsUtils.NEGATIVE_PRICE, -12);
+        String.format(ExceptionsConstantsUtils.NEGATIVE_PARAMETER,
+          StringConstantsUtils.PRICE, -12);
     assertTrue(getOutput().contains(expectedMessage));
   }
   
@@ -213,7 +215,8 @@ public class ApplicationTest {
   
     Application.main(item);
     final String expectedMessage =
-        String.format(ExceptionsConstantsUtils.INVALID_PRICE, "abc");
+        String.format(ExceptionsConstantsUtils.CHARACTER_PARAMETER,
+          StringConstantsUtils.PRICE, "abc");
     assertTrue(getOutput().contains(expectedMessage));
   }
   
@@ -228,7 +231,8 @@ public class ApplicationTest {
   
     Application.main(item);
     final String expectedMessage =
-        String.format(ExceptionsConstantsUtils.NEGATIVE_QUANTITY, -12);
+        String.format(ExceptionsConstantsUtils.NEGATIVE_PARAMETER,
+          StringConstantsUtils.QUANTITY, -12);
     assertTrue(getOutput().contains(expectedMessage));
   }
   
@@ -243,7 +247,8 @@ public class ApplicationTest {
   
     Application.main(item);
     final String expectedMessage =
-        String.format(ExceptionsConstantsUtils.INVALID_QUANTITY, "ab2");
+        String.format(ExceptionsConstantsUtils.CHARACTER_PARAMETER,
+          StringConstantsUtils.QUANTITY, "ab2");
     assertTrue(getOutput().contains(expectedMessage));
   }
   
@@ -259,22 +264,6 @@ public class ApplicationTest {
     Application.main(item);
     final String expectedMessage =
         String.format(ExceptionsConstantsUtils.INVALID_TYPE, "market");
-    assertTrue(getOutput().contains(expectedMessage));
-  }
-  
-  /**
-   * Check tax for raw item when item price is negative.
-   */
-  @Test
-  public void checkTaxForRawItemWhenItemPriceIsNegative() {
-    final String[] item = {"-name", "apple", "-type", "RAW", "-price",
-      "-12"};
-    final String addMoreItems = "n";
-    provideInput(addMoreItems);
-  
-    Application.main(item);
-    final String expectedMessage =
-        String.format(ExceptionsConstantsUtils.NEGATIVE_PRICE, "-12");
     assertTrue(getOutput().contains(expectedMessage));
   }
   

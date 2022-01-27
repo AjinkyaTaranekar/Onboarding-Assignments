@@ -11,11 +11,6 @@ import java.util.Arrays;
 public final class ExceptionsConstantsUtils {
   
   /**
-   * The constant NO_INPUT.
-   */
-  public static final String NO_INPUT = "No Input Given";
-  
-  /**
    * The constant INVALID_INPUT.
    */
   public static final String INVALID_INPUT = "Invalid Input Entry: %s";
@@ -45,45 +40,22 @@ public final class ExceptionsConstantsUtils {
       "Please, check no data present for some flag in : %s";
   
   /**
-   * The constant INVALID_INPUT_DATA_NOT_FLAG.
-   */
-  public static final String INVALID_INPUT_DATA_NOT_FLAG =
-      "Given data '%s' is a flag";
-  
-  /**
    * The constant INVALID_INPUT_DATA_NOT_NULL.
    */
-  public static final String INVALID_INPUT_DATA_NOT_NULL =
-      "Given %s data is null";
-  
-  /**
-   * The constant INVALID_NAME.
-   */
-  public static final String EMPTY_NAME = "Empty Item Name";
-  
-  /**
-   * The constant INVALID_PRICE.
-   */
-  public static final String INVALID_PRICE =
-      "Item Price couldn't be character: %s";
-  
-  /**
-   * The constant NEGATIVE_PRICE.
-   */
-  public static final String NEGATIVE_PRICE =
-      "Item Price couldn't be negative: %s";
+  public static final String EMPTY_OR_NULL_PARAMETER =
+      "Given %s data is null or empty";
   
   /**
    * The constant INVALID_QUANTITY.
    */
-  public static final String INVALID_QUANTITY =
-      "Item Quantity couldn't be character: %s";
+  public static final String CHARACTER_PARAMETER =
+      "Item %s couldn't be character: %s";
   
   /**
    * The constant NEGATIVE_QUANTITY.
    */
-  public static final String NEGATIVE_QUANTITY =
-      "Item Quantity couldn't be negative: %s";
+  public static final String NEGATIVE_PARAMETER =
+      "Item %s couldn't be negative: %s";
   
   /**
    * The constant INVALID_TYPE.

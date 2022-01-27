@@ -14,7 +14,7 @@ public interface DisplayItemsSynchronousThreads {
    * Fetch item data from result set.
    *
    * @param items the items
-   * @throws DatabaseException       the database exception
+   * @throws DatabaseException the database exception
    */
   void fetchItemDataFromRawData(List<Map<String,String>> items)
       throws DatabaseException;
