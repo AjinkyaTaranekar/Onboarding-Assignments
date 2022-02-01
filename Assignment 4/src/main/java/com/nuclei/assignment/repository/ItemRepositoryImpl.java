@@ -3,6 +3,7 @@ package com.nuclei.assignment.repository;
 import com.nuclei.assignment.connections.DatabaseOperations;
 import com.nuclei.assignment.constants.DatabaseConstantsUtils;
 import com.nuclei.assignment.constants.FlagsConstantsUtils;
+import com.nuclei.assignment.constants.StringConstantsUtils;
 import com.nuclei.assignment.entity.ItemEntity;
 import com.nuclei.assignment.exception.DatabaseException;
 
@@ -12,6 +13,7 @@ import java.sql.SQLException;
 import java.sql.Statement;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Locale;
 import java.util.Map;
 import java.util.concurrent.ConcurrentHashMap;
 
@@ -65,13 +67,13 @@ public class ItemRepositoryImpl implements ItemRepository {
       throws SQLException {
     final Map<String, String> item = new ConcurrentHashMap<>();
     item.put(FlagsConstantsUtils.NAME_FLAG,
-        resultSet.getString(FlagsConstantsUtils.NAME_FLAG.replace("-", "")));
+        resultSet.getString(StringConstantsUtils.NAME.toLowerCase(Locale.ROOT)));
     item.put(FlagsConstantsUtils.PRICE_FLAG,
-        resultSet.getString(FlagsConstantsUtils.PRICE_FLAG.replace("-", "")));
+        resultSet.getString(StringConstantsUtils.PRICE.toLowerCase(Locale.ROOT)));
     item.put(FlagsConstantsUtils.QUANTITY_FLAG,
-        resultSet.getString(FlagsConstantsUtils.QUANTITY_FLAG.replace("-", "")));
+        resultSet.getString(StringConstantsUtils.QUANTITY.toLowerCase(Locale.ROOT)));
     item.put(FlagsConstantsUtils.TYPE_FLAG,
-        resultSet.getString(FlagsConstantsUtils.TYPE_FLAG.replace("-", "")));
+        resultSet.getString(StringConstantsUtils.ITEM_TYPE.toLowerCase(Locale.ROOT)));
     return item;
   }
   

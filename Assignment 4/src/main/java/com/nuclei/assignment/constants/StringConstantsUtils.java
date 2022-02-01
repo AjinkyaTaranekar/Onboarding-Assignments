@@ -57,7 +57,7 @@ public class StringConstantsUtils {
   /**
    * The constant ITEM_TYPE.
    */
-  public static final String ITEM_TYPE = "Item Type";
+  public static final String ITEM_TYPE = "Type";
   
   /**
    * The constant SHOW_ITEM_LIST_INFO.
