@@ -7,6 +7,7 @@ import lombok.NoArgsConstructor;
 import lombok.Setter;
 
 import javax.persistence.*;
+import java.io.Serializable;
 
 /**
  * The type Inventory entity.
@@ -17,7 +18,7 @@ import javax.persistence.*;
 @NoArgsConstructor
 @AllArgsConstructor
 @Table(name = "inventory")
-public class InventoryEntity {
+public class InventoryEntity implements Serializable {
   
   @Id
   @GeneratedValue(strategy = GenerationType.AUTO)

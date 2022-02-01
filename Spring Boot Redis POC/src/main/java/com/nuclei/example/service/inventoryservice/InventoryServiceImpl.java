@@ -12,6 +12,9 @@ import com.nuclei.example.utils.UtilityImpl;
 import com.nuclei.example.validation.Validation;
 import com.nuclei.example.validation.ValidationImpl;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.cache.annotation.CacheEvict;
+import org.springframework.cache.annotation.CachePut;
+import org.springframework.cache.annotation.Cacheable;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -21,6 +24,7 @@ import java.util.List;
  */
 @Service
 public class InventoryServiceImpl implements InventoryService {
+  private static final String REDIS_CACHE_VALUE = "inventory";
   
   /**
    * The Tax service.
@@ -52,6 +56,7 @@ public class InventoryServiceImpl implements InventoryService {
   }
   
   @Override
+  @CachePut(value = REDIS_CACHE_VALUE, key = "#inventoryEntity.getId()")
   public InventoryEntity createInventory (InventoryEntity inventoryEntity) throws ValidationException {
     validateInventory(inventoryEntity);
     setTaxForTheNewInventory(inventoryEntity);
@@ -60,6 +65,7 @@ public class InventoryServiceImpl implements InventoryService {
   }
   
   @Override
+  @Cacheable(value = REDIS_CACHE_VALUE, key = "#id")
   public InventoryEntity getInventoryById (Integer id) throws ValidationException, InventoryException {
     validation.validateId(id);
     return inventoryRepo.findById(id).orElseThrow(() -> new InventoryException(
@@ -73,6 +79,8 @@ public class InventoryServiceImpl implements InventoryService {
   }
   
   @Override
+  @Cacheable(value = REDIS_CACHE_VALUE, key = "#inventoryEntity.getId()",
+      condition = "#result != null")
   public InventoryEntity updateInventory (Integer id, InventoryEntity inventoryEntity) throws ValidationException, InventoryException {
     InventoryEntity existingInventory = getInventoryById(id);
     utility.copyNotNullProperties(inventoryEntity, existingInventory);
@@ -80,6 +88,7 @@ public class InventoryServiceImpl implements InventoryService {
   }
   
   @Override
+  @CacheEvict(value = REDIS_CACHE_VALUE, key = "#id")
   public void deleteInventoryById (Integer id) throws InventoryException, ValidationException {
     InventoryEntity inventoryEntity = getInventoryById(id);
     inventoryRepo.delete(inventoryEntity);
