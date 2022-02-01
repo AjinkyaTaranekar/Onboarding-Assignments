@@ -60,7 +60,7 @@ public class InventoryServiceImpl implements InventoryService {
   }
   
   @Override
-  public InventoryEntity getInventoryById (Integer id) throws ValidationException, InventoryException {
+  public InventoryEntity getInventoryById (String id) throws ValidationException, InventoryException {
     validation.validateId(id);
     return inventoryRepo.findById(id).orElseThrow(() -> new InventoryException(
         String.format(ExceptionsConstantsUtils.ID_NOT_FOUND, id),
@@ -68,19 +68,24 @@ public class InventoryServiceImpl implements InventoryService {
   }
   
   @Override
-  public List<InventoryEntity> getAllInventory () {
-    return (List<InventoryEntity>) inventoryRepo.findAll();
+  public Iterable<InventoryEntity> getAllInventory () {
+    return inventoryRepo.findAll();
   }
   
   @Override
-  public InventoryEntity updateInventory (Integer id, InventoryEntity inventoryEntity) throws ValidationException, InventoryException {
+  public List<InventoryEntity> searchInInventory (final String query) {
+    return inventoryRepo.searchInInventory(query);
+  }
+  
+  @Override
+  public InventoryEntity updateInventory (String id, InventoryEntity inventoryEntity) throws ValidationException, InventoryException {
     InventoryEntity existingInventory = getInventoryById(id);
     utility.copyNotNullProperties(inventoryEntity, existingInventory);
     return inventoryRepo.save(existingInventory);
   }
   
   @Override
-  public void deleteInventoryById (Integer id) throws InventoryException, ValidationException {
+  public void deleteInventoryById (String id) throws InventoryException, ValidationException {
     InventoryEntity inventoryEntity = getInventoryById(id);
     inventoryRepo.delete(inventoryEntity);
   }

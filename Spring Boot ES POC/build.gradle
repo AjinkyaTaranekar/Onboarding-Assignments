@@ -16,9 +16,10 @@ repositories {
 }
 
 dependencies {
-    implementation 'org.springframework.boot:spring-boot-starter-data-jpa:2.6.3'
     implementation 'org.springframework.boot:spring-boot-starter-web:2.6.3'
-    implementation 'mysql:mysql-connector-java:8.0.25'
+
+    implementation 'org.springframework.data:spring-data-elasticsearch:4.3.1'
+
     implementation 'org.springframework.boot:spring-boot-devtools:2.6.3'
     testImplementation 'org.springframework.boot:spring-boot-starter-test:2.6.3'
     implementation 'org.apache.commons:commons-lang3:3.12.0'

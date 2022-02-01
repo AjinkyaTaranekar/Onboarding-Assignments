@@ -5,23 +5,21 @@ import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
-
-import javax.persistence.*;
+import org.springframework.data.annotation.Id;
+import org.springframework.data.elasticsearch.annotations.Document;
 
 /**
  * The type Inventory entity.
  */
-@Entity
 @Getter
 @Setter
 @NoArgsConstructor
 @AllArgsConstructor
-@Table(name = "inventory")
+@Document(indexName = "inventory")
 public class InventoryEntity {
   
   @Id
-  @GeneratedValue(strategy = GenerationType.AUTO)
-  private Integer id;
+  private String id;
   
   private String name;
   

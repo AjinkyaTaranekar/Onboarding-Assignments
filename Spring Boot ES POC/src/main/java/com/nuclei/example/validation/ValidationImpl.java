@@ -39,12 +39,12 @@ public class ValidationImpl implements Validation {
   }
   
   @Override
-  public void validateId (final Integer id) throws ValidationException {
+  public void validateId (final String id) throws ValidationException {
     try {
-      validateInteger(id);
+      validateString(id);
     } catch (ValidationException exception) {
       throw new ValidationException(String.format(exception.getMessage(),
-          StringConstantsUtils.ID, id), exception.getStatusCode(), exception);
+          StringConstantsUtils.ID), exception.getStatusCode(), exception);
     }
   }
   

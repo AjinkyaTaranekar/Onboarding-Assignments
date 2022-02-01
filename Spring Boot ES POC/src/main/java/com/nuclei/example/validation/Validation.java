@@ -22,7 +22,7 @@ public interface Validation {
    *
    * @throws ValidationException the validation exception
    */
-  void validateId (Integer id) throws ValidationException;
+  void validateId (String id) throws ValidationException;
   
   /**
    * Validate price.

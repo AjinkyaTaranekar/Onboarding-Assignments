@@ -12,6 +12,7 @@ import lombok.AllArgsConstructor;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.stream.Collectors;
 
@@ -55,7 +56,7 @@ public class InventoryController {
    * @throws InventoryException  the inventory exception
    */
   @GetMapping("/{id}")
-  public ResponseEntity<InventoryDTO> getInventoryById (@PathVariable Integer id) throws ValidationException, InventoryException {
+  public ResponseEntity<InventoryDTO> getInventoryById (@PathVariable String id) throws ValidationException, InventoryException {
     InventoryEntity inventoryEntity = inventoryService.getInventoryById(id);
     return ResponseEntity.ok(
         inventoryMapper.toDto(inventoryEntity)
@@ -69,7 +70,16 @@ public class InventoryController {
    */
   @GetMapping("/all")
   public List<InventoryDTO> getAllInventory () {
-    return inventoryService.getAllInventory().stream().map(
+    List<InventoryDTO> inventoryDTOS = new ArrayList<>();
+    for ( InventoryEntity inventoryEntity : inventoryService.getAllInventory()){
+      inventoryDTOS.add(inventoryMapper.toDto(inventoryEntity));
+    }
+    return inventoryDTOS;
+  }
+  
+  @GetMapping("/search")
+  public List<InventoryDTO> searchInInventory (@RequestParam String query) {
+    return inventoryService.searchInInventory(query).stream().map(
         inventoryMapper::toDto
     ).collect(Collectors.toList());
   }
@@ -86,7 +96,7 @@ public class InventoryController {
    * @throws ValidationException the validation exception
    */
   @PutMapping("/{id}")
-  public ResponseEntity<InventoryDTO> updateInventoryById (@PathVariable Integer id,
+  public ResponseEntity<InventoryDTO> updateInventoryById (@PathVariable String id,
                                                            @RequestBody CreateUpdateInventoryDTO createUpdateInventoryDTO) throws InventoryException, ValidationException {
     InventoryEntity inventoryEntity = inventoryMapper.toEntity(createUpdateInventoryDTO);
     inventoryEntity = inventoryService.updateInventory(id, inventoryEntity);
@@ -104,7 +114,7 @@ public class InventoryController {
    * @throws ValidationException the validation exception
    */
   @DeleteMapping("/{id}")
-  public void removeInventory (@PathVariable Integer id) throws InventoryException, ValidationException {
+  public void removeInventory (@PathVariable String id) throws InventoryException, ValidationException {
     inventoryService.deleteInventoryById(id);
   }
 }

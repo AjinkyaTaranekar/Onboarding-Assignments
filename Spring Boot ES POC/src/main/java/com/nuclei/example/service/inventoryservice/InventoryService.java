@@ -32,14 +32,16 @@ public interface InventoryService {
    * @throws ValidationException the validation exception
    * @throws InventoryException  the inventory exception
    */
-  InventoryEntity getInventoryById (Integer id) throws ValidationException, InventoryException;
+  InventoryEntity getInventoryById (String id) throws ValidationException, InventoryException;
   
   /**
    * Gets all inventory.
    *
    * @return the all inventory
    */
-  List<InventoryEntity> getAllInventory ();
+  Iterable<InventoryEntity> getAllInventory ();
+  
+  List<InventoryEntity> searchInInventory (String query);
   
   /**
    * Update inventory inventory entity.
@@ -52,7 +54,7 @@ public interface InventoryService {
    * @throws ValidationException the validation exception
    * @throws InventoryException  the inventory exception
    */
-  InventoryEntity updateInventory (Integer id, InventoryEntity inventoryEntity) throws ValidationException, InventoryException;
+  InventoryEntity updateInventory (String id, InventoryEntity inventoryEntity) throws ValidationException, InventoryException;
   
   /**
    * Delete inventory by id.
@@ -62,6 +64,6 @@ public interface InventoryService {
    * @throws InventoryException  the inventory exception
    * @throws ValidationException the validation exception
    */
-  void deleteInventoryById (Integer id) throws InventoryException, ValidationException;
+  void deleteInventoryById (String id) throws InventoryException, ValidationException;
   
 }
